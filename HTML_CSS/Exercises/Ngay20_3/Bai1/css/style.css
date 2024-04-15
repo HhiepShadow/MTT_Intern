@@ -1,0 +1,183 @@
+body {
+    background-color: rgb(222, 222, 222);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif, 'Roboto';
+}
+
+.header, .nav-bar, .main .content {
+    max-width: 980px;
+    margin: auto;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    height: 80px;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 150px;
+    height: 40px;
+    padding-left: 15px;
+    padding-top: 5px;
+}
+
+img {
+    width: 120px;
+}
+
+.width-box {
+    width: 250px;
+    height: 40px;
+    background-color: rgb(0, 94, 255);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 15px;
+    padding-top: 10px;
+    font-size: 18px;
+}
+
+.navigation {
+    background-color: black;
+    height: 40px;
+}
+
+.nav-bar {
+    display: flex;
+    height: 100%;
+}
+
+.nav-item {
+    list-style: none;
+    padding-left: 15px;
+    padding-top: 12px;
+    font-size: 14px;
+    padding-right: 15px;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-home {
+    list-style: none;
+    padding-left: 15px;
+    padding-top: 12px;
+    padding-right: 15px;
+    font-size: 14px;
+}
+
+.nav-home a {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-item:hover {
+    display: block;
+    background-color: rgba(128, 128, 128, 0.826); 
+}
+
+.main {
+    margin-top: 10px;
+    background-color: white;
+    max-width: 980px;
+    margin: 10px auto;
+    height: 530px;
+}
+
+.main .content {
+    padding: 15px;
+}
+
+.box-red {
+    display: flex;
+    justify-content: space-between;
+}
+
+.box-red-content {
+    width: 75%;
+    min-height: 370px;
+    background-color: red;
+    display: flex;
+    margin-right: 15px;
+}
+
+.left-side {
+    margin-left: 5px;
+    width: 65%;
+}
+
+.box-lightgrey {
+    height: 70%;
+    background-color: lightgray;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.box-darkgrey {
+    margin: 10px 10px 10px 50px;
+    width: 30%;
+    background-color: darkgray;
+}
+
+.list-blackbox {
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-right: -5px;
+    height: 30%;
+    width: 100%;
+}
+
+.item {
+    height: 100%;
+    width: 20%;
+    float: left;
+    margin-right: 20px;
+}
+
+.last-item {
+    margin-right: 0;
+}
+
+.box-black {
+    background-color: black;
+    min-height: 90px;
+}
+
+.list-pinkbox {
+    width: 25%;
+    /* background-color: pink;
+    height: 200px; */
+
+}
+
+.box-pink {
+    background-color: rgb(251, 153, 161);
+    height: 100px;
+    margin-bottom: 15px;
+}
+
+.list-purplebox {
+    margin-top: 20px;
+}
+
+.box-purple {
+    margin-left: 15px;
+    width: 23%;
+    height: 110px;
+    background-color: rgb(226, 2, 200);
+    float: left;
+}
+
+.first-item {
+    margin-left: 0;
+}
+
