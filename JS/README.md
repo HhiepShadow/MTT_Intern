@@ -15,4 +15,5 @@ This repository contains JavaScript fundamentals, exercises and projects focused
 - **Lesson 11**: Generators - Advanced Iteration
 - **Lesson 12**: Modules
 - **Lesson 13**: Miscellaneous
-- ==========================================================
+- ========================================================
+  
