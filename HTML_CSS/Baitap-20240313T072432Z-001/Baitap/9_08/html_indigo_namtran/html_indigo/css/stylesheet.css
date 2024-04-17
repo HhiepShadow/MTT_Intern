@@ -1,0 +1,298 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+    font-family: 'Roboto',Arial,sans-serif;
+	font-size:14px;
+	color:#333;
+	margin:0px;
+	background: #fff;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+img {
+	max-width:100%;
+	border:0;	
+}
+
+.mg-top-20{
+	margin-top:20px;	
+}
+
+.w-5{
+	width:5%;	
+}
+
+.w-90{
+	width:90%;	
+}
+
+.w-25{
+	width:25%;	
+}
+
+.pd-left-15{
+	padding-left:15px;	
+}
+
+.pd-right-15{
+	padding-right:15px;	
+}
+
+.clear { clear:both;}
+
+.container {
+	max-width:980px;
+	margin:auto;
+	width:100%;
+}
+
+.header {
+	width:100%;
+	float:left; 
+	min-height:100px;
+}
+
+.header .logo{
+	float:left;
+	width:200px;
+	margin-top:20px;
+}
+
+.header .navi{
+	float:right;	
+}
+
+.menu-top{
+	margin:0;
+	padding:0;
+	padding-top:40px;	
+}
+
+.header .navi .mennu-top{
+	float:left;	
+	width:100%;
+	margin:0px;
+	padding:0px;	
+}
+
+.header .navi .menu-top li {
+	float:left;
+	padding-left:10px;
+	padding-right:10px;
+	line-height: 60px;
+	list-style:none;
+	font-size:20px;
+	position:relative;
+}
+
+.header .navi .menu-top li a {
+	text-decoration:none;
+	color:#454545;
+	font-family: "Myriad Pro";	
+}
+
+.header .navi .menu-top li .menu-sub {
+	display:none;	
+	position:absolute;
+	width:300px;
+	min-height:250px;
+	top:40px;
+	left:0;
+	background-color:#ccc;
+	z-index:99;
+}
+
+.header .navi .menu-top li .menu-sub {
+	margin:0;
+	padding:0;	
+}
+
+.header .navi .menu-top li .menu-sub li{
+	float:left;
+	list-style:none;
+}
+
+.header .navi .menu-top li:hover .menu-sub{
+	display:block; 	
+}
+	
+
+
+
+.navi .menu-top li a:hover{
+	filter: opacity(0.5);	
+}
+
+.slider{
+	width:100%;
+	background-image:url('../images/background.jpg');	
+	padding-top:100px;	
+	padding-bottom:100px;
+	display:inline-block;
+}
+
+.slider .info {
+	width:42%;	
+	float:left;
+}
+
+.slider .info .info-header{
+	width:100%;
+	float:left;
+	font-size:37px;	
+	color: #ffffff;
+	margin:0;
+	padding:0;
+}
+
+.slider .info .info-checklist{
+	width:100%;
+    float:left;
+	margin:0;
+}
+
+.slider .info .info-checklist li{
+	width:100%;
+	float:left;
+	list-style-image: url('../images/check-icon.png');	
+	color:#ffffff;
+	font-size:24px;	
+	padding-bottom:10px;
+}
+
+.slider .info .info-CTA {
+	width:100%;
+	float:left;	
+}
+
+.slider .card-slider{
+	width: 50%;	
+	float:right;
+}
+
+.slider .card-slider .card-slider-big{
+	width:100%;	
+}
+
+
+card-slider-sub
+.slider .card-slider .row .mg-top-20 .item .w-25 .card-slider-sub{
+	width:100%;
+	padding-left:15px;
+	padding-right:15px;		
+}
+
+.slider .card-slider .card-slider-sub img{
+	width:94px;
+    height:59px;	
+}
+.slider .card-slider .item-icon {
+	width:10%;
+	float:left;
+	padding-left:15px;
+	padding-right:15px;	
+}
+
+.slider .card-slider .item-pic {
+	width:16%;
+	float:left;
+	padding-left:15px;
+	padding-right:15px;	
+}
+
+.box-support {
+	width:100%;
+	float:left;
+	background-color: #f4f4f4;
+	min-height:250px;
+	padding-top:30px;
+	padding-bottom:30px;
+}
+
+.row {
+	margin-left:-15px;
+	margin-right:-15px;	
+}
+
+.item{
+	float:left;
+}
+
+.box-support .box-support-col{
+	width:33.333333%;
+	float:left;
+	padding-left:15px;
+	padding-right:15px;	
+}
+
+.box-support .box-support-col .box-support-message{
+	width:100%;
+	min-height:400px;
+	float:left;
+	min-height:200px;		
+	background-color: #ffffff;
+	padding:10px;
+	text-align:center;
+}
+
+.box-support .box-support-col .box-support-message .support-icon{
+	min-height:68px;	
+}
+
+.box-support .box-support-col .box-support-message .text-header {
+	width:100%;
+	display:inline-block;
+	text-align:left;
+	color:#333;
+	font-size:16px;
+	padding:0px 30px;
+}
+
+.box-support .box-support-col .box-support-message .text-content {
+	font-size:13px;
+	color: #666666;
+	margin:0;
+	padding:0px 30px;
+	text-align:left;
+}
+
+.box-support .box-support-col .box-support-message .text-link {
+	text-align:left;
+	padding:10px 30px;
+}
+
+.box-support .box-support-col .box-support-message .text-link a {
+	font-size:16px;
+	font-weight:bold;
+	color:#ff931f;	
+	text-decoration:none;
+}
+
+.footer{
+	width:100%;
+	background-color:#6897b5;
+	min-height:100px;
+	padding-top:30px;
+	padding-bottom:30px;
+}
+
+.footer .logo2{
+	float:left;
+	width:150px;
+	height:50px;
+}
+
+.footer .logo2-note{
+    float:left;
+	font-size:12px;
+    color: #cddde7;
+    margin-left: 30px;;
+}
+
+
