@@ -1,0 +1,96 @@
+LESSON 2 - Fundamentals
+
+I. Hello, world!:
+1. Thẻ <script>:
+- Chương trình JS có thể được thêm vào gần nhất ở bất kỳ vị trí nào trong file HTM khi sử dụng thẻ <script>
+VD:
+<!DOCTYPE html>
+<html>
+    <body>
+        <p>Before the script...</p>
+        <script>
+            alert("Hello, World!");
+        </script>
+    </body>
+</html>
+
+2. Modern markup:
+- Thẻ <script> có 1 số các thuộc tính ít được sử dụng trong ngày nay nhưng vấn có thể được tìm thấy trong code cũ 
+a. Thuộc tính type: <script type=...>
+VD:
+<script type="text/javascript">
+
+b. Thuộc tính language:
+- Chỉ định ngôn ngữ của bản thảo
+- Không còn được sử dụng do JS là ngôn ngữ mặc định
+
+* Comment trước và sau scripts:
+- Trong 1 số cuốn sách ngày xưa, ta có thể nhìn thấy comment bên trong thẻ <script> như sau:
+<script type="text/javascript"><!--
+    ...
+//--></script>
+
+3. External scripts:
+- Nếu ta có rất nhiều mã JS, ta có thể đẩy nó thành các file riêng biệt
+- Các file scripts này được gắn vào HTML thông qua thuộc tính src 
+- Cú pháp:
+<script src="/path/to/script.js">
+
+- Ta cũng có thể gắn 1 đường dẫn URL:
+<script src="url_path">
+
+- Để gắn nhiều file scripts cùng lúc, ta có thể sử dụng nhiều thẻ <script>
+
+4. Chú ý:
+Khi thuộc tính src được thiết lập, phần script bên trong thẻ đó sẽ không có tác dụng 
+VD:
+<script src="file.js">
+  alert(1); // the content is ignored, because src is set
+</script>
+
+==> Khi này, để sử dụng cả 2, ta cần tách riêng 2 phần thành 2 thẻ <script> khác nhau:
+<script src="file.js"></script>
+<script>
+  alert(1);
+</script>
+
+II. Code structure:
+1. Statements - Câu lệnh:
+- Nếu ta có nhiều câu lệnh, các câu lệnh có thể được phân tách bởi dấu chấm phẩy(semicolon)
+VD:
+alert('Hello');
+alert('World');
+
+2. Semicolon - Dấu chấm phẩy:
+- Dấu chấm phẩy có thể được bỏ qua trong nhiều trường hợp khi ta ngắt dòng 
+VD:
+alert('Hello')
+alert('World')
+==> Trong gần như các trường hợp, ngắt dòng được ngụ ý là 1 dấu chấm phẩy
+==> Tuy nhiên không phải trong tất cả các trường hợp:
+VD:
+alert(3 +
+1
++ 2); // 6
+
+* Có 1 số trường hợp mà JS "fails" trong việc thừa nhận 1 dấu chấm phẩy mà nó thực sự cần
+VD:
+alert("Hello");
+
+[1, 2].forEach(alert);
+
+- Trong trường hợp này, ta cần bỏ dấu chấm phẩy
+
+3. Comments:
+- Có 2 cách để comment:
++ //
++ /**/
+Chú ý: Không nên sử dụng comments lồng nhau(nested)
+VD:
+/*
+  /* nested comment ?!? */
+*/
+alert( 'World' );
+
+III. Modern Mode - 'use strict'
+- 

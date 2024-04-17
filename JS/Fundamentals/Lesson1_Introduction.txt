@@ -1,0 +1,59 @@
+LESSON 1 - An Introduction 
+
+I. Introduction:
+- JS được tạo ra để "make web pages alive"
+- Các chương trình được viết trong ngôn ngữ này được gọi là các scripts(bản thảo)
+==> Chúng có thể được viết ngay trong 1 trang web HTML và chạy 1 cách tự động khi trang web đó khởi động
+- Các scripts được cung cấp và thực thi như plain text, không cần sự chuẩn bị đặc biệt hay biên dịch để chạy
+- Trong khía cạnh này, JS rất khác biệt với Java
+
+* Tại sao gọi là JavaScript:
+- Tên lúc đầu của JS là LiveScript
+- Tuy nhiên, Java lúc đó đang rất nổi tiếng, và người ta quyết định rằng việc chỉ định 1 ngôn ngữ mới như 1 "younger brother" của Java sẽ giúp ích
+- Nhưng khi phát triển, JS đã trở thành 1 ngôn ngữ độc lập hoàn toàn với đặc trưng riêng của nó được gọi là ECMAScript 
+==> Bây giờ, nó không có quan hệ gì Java 
+
+* Ngày nay, JS không chỉ thực thi được trên trình duyệt, mà cả trên máy chủ server, hay bất kỳ thiết bị nào có 1 chương trình đặc biệt
+được gọi là JavaScript engine(Bộ mã JS)
+
+* Trình duyệt có 1 bộ mã được nhúng bên trong được gọi là "JS Virtual Machine"(Máy ảo JS)
+- Các bộ mã đó có các tên khác nhau, ví dụ:
+    + V8 - trong Chrome, Opera và Edge
+    + SpiderMonkey - trong Firefox
+    + Chakra
+    + JavaScriptCore
+    + Nitro và SquirrelFish cho Safari, ...
+
+* Engine hoạt động như thế nào?
+- Engine JS vô cùng phức tạp, nhưng các bước tổng quát thì lại dễ hiểu:
+    + Engine đọc(parse) bản thảo script
+    + Sau đó nó sẽ biên dịch bản thảo này thành mã máy 
+    + Và rồi mã máy sẽ chạy với tốc độ rất nhanh
+- Engine áp dụng việc tối ưu hóa cho từng bước của quá trình 
+- Engine còn có thể quan sát bản thảo được biên dịch cũng như lúc nó chạy, phân tích luồng dữ liệu, và xa hơn nữa là tối ưu mã máy dựa 
+trên các hiểu biết này
+
+* JS trong trình duyệt có thể làm gì?
+- Thêm HTML vào trang web, thay đổi nội dung bên trong, điều chỉnh style
+- Tương tác với người dùng, như kích chuột, di chuyển con trỏ chuột, nhấn nút, ...
+- Gửi yêu cầu thông qua mạng tới 1 server, tải xuống và tải lên các tệp tin(AJAX - COMET)
+- Get/Set cookies, hỏi các câu hỏi tới người dùng, hiển thị các thông điệp
+- Lưu trữ dữ liệu bên phía client(Local Storage)
+
+II. Manuals and Specifications:
+
+III. Code Editors:
+- IDE (Integrated Development Environment):
+    + VSCode
+    + WebStorm
+- Lightweight editors:
+    + Sublime Text 
+    + Notepad++
+    + Vim/Emacs 
+
+IV. Developer console:
+1. Google Chrome:
+- F12 hoặc Cmd+Opt+J(Mac)
+
+2. Firefox, Edge, ...:
+- F12
