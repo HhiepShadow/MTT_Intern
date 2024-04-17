@@ -93,4 +93,11 @@ VD:
 alert( 'World' );
 
 III. Modern Mode - 'use strict'
-- 
+- Từ khi ES5 ra đời, JS đã được bổ sung thêm 1 số chức năng và điều chỉnh 1 số chức năng đã có
+- Do 1 số mã code sử dụng câu lệnh của các phiên bản trước nên có thể không hoạt động trơn tru như ban đầu
+==> Để giúp mã cũ có thể hoạt động, tất cả các mọi thứ phải được đặt ở chế độ mặc định của nó
+==> Ta cần kích hoạt điều đó bằng 1 câu lệnh đặc biệt: 'use strict' hoặc "use strict"
+
+1. "use strict":
+- Được đặt ở dòng đầu tiên của 1 file script
+- Khi này, tất cả mã của script sẽ hoạt động theo hướng "modern" way
