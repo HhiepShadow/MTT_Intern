@@ -1,0 +1,199 @@
+III. Variables - Biến:
+- 1 biến là 1 "kho lưu trữ được đặt tên" dành cho dữ liệu
+1. Khai báo 1 biến:
+- Để tạo ra 1 biến trong JS, ta sử dụng từ khóa let
+- Cú pháp:
+let var_name;
+VD: let message;
+
+- Gán giá trị cho biến đó:
+VD: let message = "Hello";
+    alert(message);
+
+- Ta cũng có thể khai bảo nhiều biến cùng lúc trên 1 dòng:
+Cú pháp:
+let var1 = value1, var2 = value2, ...;
+VD:
+let user = 'John', age = 25, message = 'Hello';
+
+- Tuy nhiên cách khai báo nhiều biến trên cùng 1 dòng không được khuyến khích
+Để có thể dễ dàng đọc code, ta hãy khai báo từng biến 1 trên từng dòng
+VD:
+let user = 'John';
+let age = 25;
+let message = 'Hello';
+
+- Cách khai báo khác:
+VD1:
+let user = 'John',
+  age = 25,
+  message = 'Hello';
+VD2:
+let user = 'John'
+  , age = 25
+  , message = 'Hello';
+
+2. Sử dụng từ khóa var thay vì let:
+- Trong các mã JS ngày xưa, ta có thể thấy từ khóa var thay vì let:
+VD:
+var message = "Hello";
+
+3. 1 số lưu ý:
+- Không khai báo lại 1 biến khi đã khai báo rồi
+VD:
+let message = "This";
+
+// repeated 'let' leads to an error
+let message = "That"; // SyntaxError: 'message' has already been declared
+
+4. Hằng số:
+- Sử dụng từ khóa const để khai báo 1 hằng số(không thể thay đổi giá trị) 
+- Cú pháp:
+const PI = 3.1415;
+- Khi ta khai báo 1 hằng số, tên của hằng số nên là chữ in hoa
+VD:
+const COLOR_RED = "#F00";
+const COLOR_GREEN = "#0F0";
+const COLOR_BLUE = "#00F";
+const COLOR_ORANGE = "#FF7F00";
+
+IV. Kiểu dữ liệu:
+- 1 giá trị trong JS luôn là 1 kiểu dữ liệu nhất định như 1 string(chuỗi) hay 1 số
+- Có tất cả 8 kiểu dữ liệu trong JavaScript 
+- Ta có thể gán bất kỳ kiểu dữ liệu nào cho 1 biến 
+VD:
+// no error
+let message = "hello";
+message = 123456;
+
+==> Ta gọi đây là kiểu dữ liệu động
+
+1. Number:
+- Kiểu số bao gồm cả số nguyên(integer) và số thực chấm(float)
+- Có nhiều phép tính với số như nhân(*), chia(/), cộng(+), trừ(-) và nhiều hơn nữa
+- Bên cạnh các số thông thường, ta cũng có cả các giá trị số đặc biệt như:
+    + Infinity
+    + -Infinity
+    + NaN
+(1) Infinity:
+- Là dương vô cực, là giá trị lớn hơn bất kỳ số nào
+- Ta có thể lấy ra giá trị này khi tính phép chia cho 0
+VD:
+alert( 1 / 0 ); // Infinity
+- Hoặc ta có thể lấy ra giá trị đó 1 cách trực tiếp
+VD:
+alert(Infinity); // Infinity
+
+(2) NaN - Not a Number:
+- Biểu diễn cho phép tính lỗi 
+- Đây là kết quả của 1 phép toán không chính xác hoặc không xác định
+VD:
+alert( "not a number" / 2 ); // NaN, such division is erroneous
+
+- Bất kỳ phép toán nào có chứa NaN đều trả về NaN
+VD:
+alert( NaN + 1 ); // NaN
+alert( 3 * NaN ); // NaN
+alert( "not a number" / 2 - 1 ); // NaN
+
+2. BigInt:
+- Trong JS, kiểu number không thể biểu diễn được 1 giá trị nguyên lớn hơn (2^53-1) = 9007199254740991
+hoặc nhỏ hơn -(2^53-1) cho giá trị âm
+- Nói 1 cách chính xác hơn, kiểu number có thể lưu giá trị số nguyên lớn hơn(lên đến 1.797*10^308), nhưng nằm ngoài vùng an toàn của 
+phạm vi số nguyên an toàn là (2^53-1) 
+VD: 2 số sau có giá trị bằng nhau:
+console.log(9007199254740991 + 1); // 9007199254740992
+console.log(9007199254740991 + 2); // 9007199254740992
+
+==> Vậy có thể nói, tất cả số nguyên lớn hơn 2^53-1 đều không thể lưu trữ trong kiểu number
+==> Để có thể lưu trữ các giá trị cực lớn này, ta cần sử dụng BigInt 
+- Cú pháp: Thêm chữ 'n' vào cuối số nguyên đó
+const bigInt = 1234567890123456789012345678901234567890n;
+
+3. String:
+- 1 String trong JS phải được bao quanh bởi dấu nháy 
+VD:
+let str = "Hello";
+let str2 = 'Single quotes are ok too';
+let phrase = `can embed another ${str}`;
+- Có 3 kiểu dấu nháy:
+    + Nháy kép: ""
+    + Nháy đơn: ''
+    + Nháy ngược: ``
+- 2 dấu nháy kép và nháy đơn là giống nhau 
+- Dấu nháy ngược được gọi là dấu nháy "mở rộng chức năng"(extended functionality):
++ Cho phép ta nhúng các biến hoặc các biểu thức vào 1 string được đóng gói bên dấu ${...}
+VD:
+let name = "John";
+
+// embed a variable
+alert( `Hello, ${name}!` ); // Hello, John!
+
+// embed an expression
+alert( `the result is ${1 + 2}` ); // the result is 3
+
+Chú ý: Chỉ có nháy ngược mới có khả năng này, 2 dấu nháy còn lại không có chức năng này
+VD:
+alert( "the result is ${1 + 2}" ); // the result is ${1 + 2} (double quotes do nothing)
+
+4. Boolean(Kiểu logic):
+- Kiểu boolean có 2 giá trị: + true
+                             + false
+- Kiểu dữ liệu này thường được sử dụng để lưu giá trị yes/no:
++ true có nghĩa yes/correct
++ false có nghĩa no/incorrect
+VD:
+let nameFieldChecked = true;
+let ageFieldChecked = true;
+
+- Giá trị boolean cũng có thể được tạo ra từ kết quả của phép so sánh:
+VD:
+let isGreater = 4 > 1; // true 
+
+5. null:
+- Giá trị đặc biệt null được gán khi 1 biến không thuộc vào bất kỳ kiểu dữ liệu nào 
+VD:
+let age = null;
+
+- Trong JS, null không phải là 1 tham chiếu đến 1 đối tượng không tồn tại hay 1 con trỏ null như các ngôn ngữ khác
+- Đây chỉ là 1 giá trị đặc biệt mà biểu diễn rằng "không có gì"(nothing), "rỗng"(empty) hay "giá trị không xác định"(value unknown)
+
+6. undefined:
+- Giá trị đặc biệt undefined có ý nghĩa là giá trị không được gán 
+- Nếu 1 biến được khai báo nhưng không được gán giá trị thì giá trị của nó là undefined
+VD:
+let age;
+alert(age); // undefined
+- Ta cũng có thể gán cho 1 biến giá trị undefined
+VD:
+let age = 30;
+age = undefined;
+alert(age); // undefined
+==> Không khuyến nghị sử dụng cách này 
+
+Chú ý: Thông thường, ta sử dụng giá trị:
+    + null để gán giá trị trống hoặc không xác định cho 1 biến 
+    + undefined để gán giá trị ban đầu mặc định cho 1 biến chưa được gán 
+
+7. Object - Symbol
+
+8. Toán tử typeof:
+- Giúp trả về kiểu dữ liệu của 1 toán hạng
+VD:
+typeof undefined // "undefined"
+
+typeof 0 // "number"
+
+typeof 10n // "bigint"
+
+typeof true // "boolean"
+
+typeof "foo" // "string"
+
+typeof Symbol("id") // "symbol"
+
+typeof Math // "object"  (1)
+
+typeof null // "object"  (2)
+
+typeof alert // "function"  (3)

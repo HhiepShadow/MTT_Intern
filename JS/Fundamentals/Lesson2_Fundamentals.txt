@@ -99,5 +99,79 @@ III. Modern Mode - 'use strict'
 ==> Ta cần kích hoạt điều đó bằng 1 câu lệnh đặc biệt: 'use strict' hoặc "use strict"
 
 1. "use strict":
-- Được đặt ở dòng đầu tiên của 1 file script
+- Được đặt ở dòng đầu tiên của 1 file script hoặc đầu của 1 hàm
 - Khi này, tất cả mã của script sẽ hoạt động theo hướng "modern" way
+- Thông thường, ta đặt "use strict" ở đầu file để toàn bộ mã trong script hoạt động strict mode 
+- Nếu ta không đặt "use strict" ở đầu file script thì đoạn mã từ sau phần "use strict" sẽ hoạt động theo strict mode
+- Tác dụng:
+  + Giúp dễ dàng viết mã JS an toàn
+  + Biến đổi những mã được chấp chận trước đây thành lỗi
+  + Trong JS thông thường, khi gõ nhầm tên biến sẽ tạo ra 1 biến toàn cục mới
+  ==> Trong strict mode sẽ ném ra 1 lỗi 
+  + Bất kỳ việc gán giá trị cho 1 biến hoặc thuộc tính không thể ghi(non-writable), hay thuộc tính chỉ đọc(getter only hoặc read-only getter), hay 
+  thuộc tính không tồn tại, ... đều sẽ ném ra lỗi 
+
+- Những trường hợp sau không được phép khi sử dụng "use strict":
+(1) Sử dụng biến hay đối tượng mà chưa khai báo:
+VD:
++ Biến:
+"use strict"
+x = 3.14; // Cause an error
+
++ Đối tượng:
+"use strict"
+x = {
+  p1: 10,
+  p2: 20
+};  // Cause an error
+
+(2) Xóa biến, đối tượng hoặc 1 hàm:
+VD:
++ Biến:
+"use strict";
+let x = 3.14;
+delete x; // Cause an error
+
++ Hàm:
+"use strict";
+function x(p1, p2){};
+delete x; // Cause an error 
+
+(3) Trùng tên tham số trong 1 hàm:
+VD:
+"use strict";
+function x(p1, p1) {};  // Cause an error
+
+(4) Hệ bát phân(Octal):
+VD:
+"use strict";
+let x = 010;  // Cause an error
+
+(5) Ký tự thoát hệ bát phân:
+VD:
+"use strict";
+let x = "\010"; // Cause an error
+
+(6) Gán giá trị cho thuộc tính chỉ đọc:
+VD:
+"use strict"
+const obj = {};
+Object.defineProperty(
+  obj, 
+  "x", 
+  {
+    value: 0,
+    writable: false
+  }
+);
+
+obj.x = 3.14; // Cause an error
+
+(7) Các keyword không được sử dụng làm tên biến và gán giá trị:
+VD: eval, arguments, public, ... 
+
+* Chúng ta có nên sử dụng "use strict" không?
+- Các phiên bản JS mới nhất hiện nay hỗ trợ lớp(classes) và modules là các cấu trúc ngôn ngữ nâng cao và 
+đã được kích hoạt "use strict" 1 cách tự động
+  ==> Ta không cần thêm "use strict"
+

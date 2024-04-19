@@ -1,0 +1,33 @@
+V. Interaction: alert, prompt, confirm
+1. alert:
+- Hàm alert() được sử dụng để hiển thị 1 thông điệp và chờ người dùng ấn nút OK 
+VD:
+alert("Hello");
+
+==> 1 cửa sổ nhỏ xuất hiện với thông điệp được gọi là 1 modal window
++ Từ modal có nghĩa là người dùng không thể tương tác với phần còn lại của trang web cho tới khi họ nhấn nút OK của modal window
+
+2. prompt:
+- Cú pháp:
+result = prompt(title, [default]);
+
+- Hiển thị 1 modal window với 1 thông điệp, 1 input field để nhập thông tin cho người dùng và 2 nút OK/Cancel
+trong đó:
++ title là tiêu đề được hiển thị
++ default là tham số thứ 2 tùy chọn(optional), là giá trị được khởi tạo cho input field 
+
+VD:
+let age = prompt('How old are you?', 100);
+alert(`You are ${age} years old!`);
+
+3. confirm:
+- Cú pháp:
+result = confirm(question);
+- Hiển thị 1 modal window với 1 câu hỏi question và 2 nút OK/Cancel
+- Giá trị: + true nếu OK
+           + false nếu Cancel
+VD:
+let isBoss = confirm("Are you the boss?");
+
+alert( isBoss ); // true if OK is pressed
+
