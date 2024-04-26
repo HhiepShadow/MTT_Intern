@@ -1,0 +1,66 @@
+COMPARISONS:
+I. So sánh chuỗi:
+- Khi so sánh các chuỗi với nhau, JS sẽ sử dụng cơ chế theo thứ tự bảng chữ cái
+VD:
+alert( 'Z' > 'A' ); // true
+alert( 'Glow' > 'Glee' ); // true
+alert( 'Bee' > 'Be' ); // true
+
+* Thuật toán so sánh 2 chuỗi:
+- Duyệt vòng lặp từ ký tự đầu đến ký tự cuối của 2 chuỗi 
+- Nếu ký tự đang duyệt của chuỗi 1 lớn hơn (hoặc nhỏ hơn) ký tự của chuỗi 2 thì dừng thuật toán và trả về kết quả
+- Nếu 2 chuỗi khác độ dài nhau mà chuỗi có độ dài nhỏ hơn có các ký tự bằng vs chuỗi có độ dài hơn
+==> Chuỗi có độ dài lớn hơn sẽ lớn hơn
+
+II. So sánh 2 kiểu dữ liệu khác nhau:
+- Khi so sánh 2 kiểu giá trị khác nhau, JS sẽ biến đổi giá trị thành các số
+VD:
+alert( '2' > 1 ); // true, string '2' becomes a number 2
+alert( '01' == 1 ); // true, string '01' becomes a number 1
+
+- Với giá trị boolean:
+    + true = 1
+    + false = 0
+VD:
+alert( true == 1 ); // true
+alert( false == 0 ); // true
+alert(true > false); // true
+
+III. So sánh nghiêm ngặt (Strict equality):
+- So sánh thông thường == có 1 số vấn đề:
++ Không thể phân biệt 0 và false
+VD:
+alert(0 == false); // true
+
++ Không thể phân biệt chuỗi rỗng với false:
+VD:
+alert('' == false); // true
+
+==> Sử dụng toán tử so sánh nghiêm ngặt === (3 dấu bằng) để kiểm tra sự cân bằng mà không chuyển đổi kiểu dữ liệu 
+VD:
+alert(0 === false); // false
+
+Chú ý: Ta cũng có thể sử dụng toán tử !== (so sánh sự nghiêm ngặt không cân bằng) để thay thế != 
+
+IV. So sánh với null và undefined:
+- Khi so sánh 2 giá trị null và undefined:
+VD:
+alert( null === undefined ); // false
+alert( null == undefined ); // true
+
+- So sánh 2 giá trị khác nhau: 0 và null
+VD:
+alert( null > 0 );  // (1) false
+alert( null == 0 ); // (2) false
+alert( null >= 0 ); // (3) true
+
+Giải thích:
++ TH1: khi này null sẽ được chuyển đổi thành 0 => false
++ TH2: khi sử dụng null được chuyển đổi kiểu dữ liệu 1 cách tự động
+       tuy nhiên, null chỉ = null hoặc undefined
+       ==> false
+
+- So sánh 0 và undefined:
+alert( undefined > 0 ); // false (1)
+alert( undefined < 0 ); // false (2)
+alert( undefined == 0 ); // false (3)

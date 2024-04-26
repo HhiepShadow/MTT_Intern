@@ -1,0 +1,73 @@
+TYPE CONVERSION - CHUYỂN ĐỔI KIỂU DỮ LIỆU
+- Trong đa số các trường hợp, các toán tử và hàm sẽ tự động chuyển đổi giá trị được cung cấp cho chúng thành kiểu dữ liệu đúng 
+VD: Hàm alert() tự động chuyển đổi bất kỳ kiểu dữ liệu nào thành 1 chuỗi string để hiển thị nó
+
+- Tuy nhiên, vẫn có nhiều trường hợp mà ta cần phải chuyển đổi 1 giá trị thành kiểu dữ liệu đúng
+
+1. Chuyển đổi thành kiểu dữ liệu String:
+- Ta cần chuyển thành kiểu dữ liệu String khi ta cần 1 dạng string của 1 giá trị
+VD: 
+alert(value) sẽ hiển thị giá trị value
+
+- Ta có thể sử dụng hàm String(value) để chuyển đổi 1 giá trị thành 1 string
+VD:
+let value = true;
+alert(typeof value); // boolean
+
+value = String(value); // "true"
+alert(typeof value); // string
+
+Chú ý:
+null => String(null) = "null"
+
+2. Chuyển đổi thành kiểu dữ liệu số Number:
+- Chuyển đổi kiểu dữ liệu số là các hàm toán học và các biểu thức được thực hiện 1 cách tự động
+VD: Khi sử dụng toán tử chia cho các giá trị không phải là số (non-numbers)
+alert("6" / "2");
+
+- Ta có thể sử dụng hàm Number(value) để chuyển 1 giá trị value hợp lệ thành 1 số
+VD:
+let str = "123";
+alert(typeof str); // string
+
+let num = Number(str); // 123
+alert(typeof num); // number 
+
+Chú ý: Giá trị khi truyền vào hàm Number() phải là giá trị hợp lệ để hàm có thể chuyển đổi được thành số
+VD:
+let age = Number("a string");
+alert(age); // NaN
+
+* Các quy luật chuyển đổi số:
+(1) undefined => null
+(2) null => 0
+(3) true => 1
+    false => 0
+(4) string:
++ Các khoảng trắng (bao gồm cả dấu cách, tabs '\t', xuống dòng '\n', ...) từ đầu cho đến cuối chuỗi đều sẽ được loại bỏ
++ String rỗng => 0
++ Lỗi chuyển đổi => NaN
+VD:
+alert( Number("   123   ") ); // 123
+alert( Number("123z") );      // NaN (error reading a number at "z")
+alert( Number(true) );        // 1
+alert( Number(false) );       // 0
+
+3. Chuyển đổi thành kiểu Boolean:
+- Sử dụng hàm Boolean(value) để chuyển đổi 1 giá trị thành giá Boolean
+- Các quy tắc chuyển đổi:
+    + Các giá trị rỗng như:
+        . 0
+        . "0"
+        . String rỗng
+        . null
+        . undefined
+        . NaN
+        . false
+    ==> false
+
+    + Các giá trị khác => true
+Chú ý:
+alert( Boolean("0") ); // true
+alert( Boolean(" ") ); // spaces, also true (any non-empty string is true)
+

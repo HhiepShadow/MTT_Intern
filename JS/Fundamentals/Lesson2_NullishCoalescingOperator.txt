@@ -1,0 +1,52 @@
+NULLISH COALESCING OPERATOR ??
+- Toán tử Nullish được sử dụng để lựa chọn giá trị mặc định trong trường hợp 1 giá trị là null hoặc undefined
+- Cú pháp:
+a ?? b 
+trong đó:
++ a là giá trị được kiểm tra
++ b là giá trị mặc định được trả về nếu a là null hoặc undefined
+
+- Cách thức hoạt động:
++ Nếu a khác null hoặc undefined, trả về giá trị của a 
++ Nếu a là null hoặc undefined, trả về giá trị của b
+
+- Phép toán tương đương:
+result  = (a !== null && a !== undefined) ? a : b;
+
+* Các ví dụ:
+(1) 
+let user;
+alert(user ?? "Anonymous"); // Anonymous (user is undefined)
+
+(2)
+let user = "John";
+alert(user ?? "Anonymous"); // John (user is not null/undefined)
+
+(3) Sử dụng chuỗi các toán tử Nullish:
+let firstName = null;
+let lastName = null;
+let nickName = "Supercoder";
+
+// shows the first defined value:
+alert(firstName ?? lastName ?? nickName ?? "Anonymous"); // Supercoder
+
+* Quyền ưu tiên của toán tử Nullish:
+- Độ ưu tiên của nullish ?? giống với || 
+==> Cấp độ 3 theo MDN
+
+VD:
+(1)
+let height = null;
+let width = null;
+
+// important: use parentheses
+let area = (height ?? 100) * (width ?? 50);
+
+alert(area); // 5000
+
+(2)
+// without parentheses
+let area = height ?? 100 * width ?? 50; // 0
+
+// ...works this way (not what we want):
+let area = height ?? (100 * width) ?? 50; // 0

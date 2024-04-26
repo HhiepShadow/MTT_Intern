@@ -1,0 +1,74 @@
+BASIC OPERATORS AND MATHS
+I. Thuật ngữ "unary", "binary", "operand":
+1. Nối chuỗi với binary +
+- Ta có thể sử dụng dấu + để nối các chuỗi với nhau
+TH1: Nối 2 chuỗi với nhau
+VD:
+let s = "my" + "string";
+alert(s); // mystring
+
+TH2: Nối 1 chuỗi với 1 hay nhiều số
+VD:
++ Nối 1 chuỗi với 1 số:
+alert('1' + 2); // "12"
+alert(2 + '1'); // "21"
+
++ Nối 1 chuỗi với nhiều số:
+alert(1 + 2 + '3'); // "33" and not "123"
+alert(1 + '3' + 2); // "132" 
+alert('1' + 2 + 2); // "122" and not "14"
+
+Chú ý: Chỉ có toán tử cộng + mới có tác dụng trong chuỗi, các toán tử còn lại sẽ tự động chuyển đổi chuỗi thành giá trị số
+VD:
+alert(6 - '2'); // 4
+alert('6' / '2'); // 3
+
+2. Chuyển đổi kiểu số unary +
+- Dấu cộng + xuất hiện trong 2 kiểu:
+    + Binary
+    + Unary 
+- Dấu cộng unary được áp dụng với giá trị đơn không gây ảnh hưởng đến các giá trị số 
+Nhưng 1 toán hạng không phải là số thì unary sẽ biến đổi nó thành 1 số
+VD:
+// No effect on numbers
+let x = 1;
+alert( +x ); // 1
+
+let y = -2;
+alert( +y ); // -2
+
+// Converts non-numbers
+alert( +true ); // 1
+alert( +"" );   // 0
+
+let apples = "2";
+let oranges = "3";
+
+// both values converted to numbers before the binary plus
+alert( +apples + +oranges ); // 5let apples = "2";
+let oranges = "3";
+
+// both values converted to numbers before the binary plus
+alert( +apples + +oranges ); // 5
+
+II. Phép gán:
+- Ta có thể sử dụng phép gán trong phép gán
+VD:
+let a = 1;
+let b = 2;
+
+let c = 3 - (a = b + 1);
+
+alert( a ); // 3
+alert( c ); // 0
+
+==> Khi này, (a = b + 1) sẽ <==> a = 2 + 1 = 3
+
+- Chuỗi gán:
+let a, b, c;
+
+a = b = c = 2 + 2;
+
+alert( a ); // 4
+alert( b ); // 4
+alert( c ); // 4

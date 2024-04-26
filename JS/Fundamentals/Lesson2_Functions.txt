@@ -1,0 +1,40 @@
+FUNCTIONS - HÀM
+- Cú pháp:
++ Khởi tạo hàm:
+function nameFunction(param1, param2, ..., paramN){
+    // body
+}
+
++ Gọi hàm: nameFunction(value1, value2, ..., valueN);
+
+
+VD:
+function showMsg(){
+    alert("Hello everyone!");
+}
+
+showMsg();
+
+1. Biến cục bộ:
+- 1 biến được khai báo bên trong hàm và chỉ có thể sử dụng được bên trong hàm đó
+VD:
+function showMsg(){
+    let msg = "Hello, World!";
+    alert(msg);
+}
+
+showMsg(); // Hello, World!
+alert(msg); // Error 
+
+2. Biến ngoài hàm:
+- 1 hàm có thể truy cập được những biến ở ngoài hàm 
+VD:
+let userName = 'John';
+
+function showMessage() {
+  let message = 'Hello, ' + userName;
+  alert(message);
+}
+
+showMessage(); // Hello, John
+
