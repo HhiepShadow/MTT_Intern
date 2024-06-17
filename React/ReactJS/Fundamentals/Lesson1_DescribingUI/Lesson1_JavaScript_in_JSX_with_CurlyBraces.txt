@@ -1,0 +1,18 @@
+JavaScript trong JSX với cặp dấu ngoặc kép
+- JSX cho phép ta viết mã đánh dấu giống HTML bên trong file JS, cho phép giữ nguyên logic và nội dung bên trong cùng 1 nơi
+- Đôi lúc, ta sẽ muốn thêm logic JS hoặc tham chiếu tới 1 thuộc tính động vào trong mã đánh dấu
+==> Trong trường hợp này, ta có thể sử dụng cặp dấu ngoặc kép trong JSX để có thể sử dụng mã JS 
+
+1. Thêm chuỗi với dấu nháy:
+VD:
+export default function Avatar() {
+  return (
+    <img
+      className="avatar"
+      src="https://i.imgur.com/7vQD0fPs.jpg"
+      alt="Gregorio Y. Zara"
+    />
+  );
+}
+
+2. 

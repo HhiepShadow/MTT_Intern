@@ -1,0 +1,152 @@
+I. Component đầu tiên:
+- Ứng dụng React được xây dựng từ các phần UI được gọi là component 
+- 1 React Component là 1 hàm JS mà ta có thể thêm mã HTML
+- Component có thể là nhỏ như 1 Button, hoặc lớn như toàn bộ 1 trang web
+VD:
+* App.jsx:
+function Profile() {
+    return (
+        <img 
+            src="https://i.imgur.com/MK3eW3As.jpg"
+            alt="Katherine Johnson"
+        />
+    )
+}
+
+export default function Gallery(){
+    return (
+        <section>
+            <h1>Amazing scientists</h1>
+            {for(let i = 0; i < 3; i++){
+                <Profile />
+            }}
+        </section>
+    )
+}
+
+II. Viết mã đánh dấu markup với JSX:
+- Mỗi React Component là 1 hàm JS mà có thể chứa mã đánh dấu mà React sẽ render vào browser
+- Các React component sử dụng 1 cú pháp mở rộng được gọi là JSX để biểu diễn mã đánh dấu
+- JSX rất giống HTML, nhưng nó có 1 ít ràng buộc và có thể hiển thị dữ liệu động
+
+- Nếu ta gán mã HTML vào 1 React Component, nó sẽ không phải bao giờ cũng hoạt động 
+VD:
+export default function TodoList() {
+  return (
+    // This doesn't quite work!
+    <h1>Hedy Lamarr's Todos</h1>
+    <img
+      src="https://i.imgur.com/yXOvdOSs.jpg"
+      alt="Hedy Lamarr"
+      class="photo"
+    >
+    <ul>
+      <li>Invent new traffic lights
+      <li>Rehearse a movie scene
+      <li>Improve spectrum technology
+    </ul>
+  );
+}
+
+==> Error:
+/src/App.js: Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>? (5:4)
+
+  3 |     // This doesn't quite work!
+  4 |     <h1>Hedy Lamarr's Todos</h1>
+> 5 |     <img
+    |     ^
+  6 |       src="https://i.imgur.com/yXOvdOSs.jpg"
+  7 |       alt="Hedy Lamarr"
+  8 |       class="photo"
+
+==> Yêu cầu ta phải có 1 thẻ wrap toàn bộ component 
+
+==> Sửa: 
+export default function TodoList() {
+  return (
+    <>
+      <h1>Hedy Lamarr's Todos</h1>
+      <img
+        src="https://i.imgur.com/yXOvdOSs.jpg"
+        alt="Hedy Lamarr"
+        className="photo"
+      />
+      <ul>
+        <li>Invent new traffic lights</li>
+        <li>Rehearse a movie scene</li>
+        <li>Improve spectrum technology</li>
+      </ul>
+    </>
+  );
+}
+
+Chú ý: Ta có thể sử dụng https://transform.tools/html-to-jsx để biến đổi mã HTML thành mã JSX
+
+III. JS trong JSX với cặp dấu ngoặc nhọn {}:
+- JSX cho phép ta viết mã đánh dấu giống HTML trong file JS, giúp giữ nguyên logic và nội dung hiển thị trong cùng 1 nơi
+- Đôi lúc, ta sẽ muốn thêm 1 ít logic JS hoặc tham chiếu 1 thuộc tính động vào trong mã đánh dấu
+==> Trong trường hợp này, ta có thể sử dụng cặp dấu ngoặc nhọn bên trong JSX để viết mã JS:
+VD:
+const person = {
+  name: 'Gregorio Y. Zara',
+  theme: {
+    backgroundColor: 'black',
+    color: 'pink'
+  }
+};
+
+export default function TodoList() {
+  return (
+    <div style={person.theme}>
+      <h1>{person.name}'s Todos</h1>
+      <img
+        className="avatar"
+        src="https://i.imgur.com/7vQD0fPs.jpg"
+        alt="Gregorio Y. Zara"
+      />
+      <ul>
+        <li>Improve the videophone</li>
+        <li>Prepare aeronautics lectures</li>
+        <li>Work on the alcohol-fuelled engine</li>
+      </ul>
+    </div>
+  );
+}
+
+IV. Điều kiện để render:
+- Các component sẽ cần hiển thị các thứ khác nhau phụ thuộc vào các điều kiện khác nhau 
+- Trong React, ta có thể điều kiện hóa việc render JSX sử dụng cú pháp JS như:
+    + câu lệnh if 
+    + &&
+    + ? :
+VD: Sử dụng &&
+* App.jsx:
+function Item({ name, isPacked }) {
+  return (
+    <li className="item">
+      {name} {isPacked && '✔'}
+    </li>
+  );
+}
+
+export default function PackingList() {
+  return (
+    <section>
+      <h1>Sally Ride's Packing List</h1>
+      <ul>
+        <Item
+          isPacked={true}
+          name="Space suit"
+        />
+        <Item
+          isPacked={true}
+          name="Helmet with a golden leaf"
+        />
+        <Item
+          isPacked={false}
+          name="Photo of Tam"
+        />
+      </ul>
+    </section>
+  );
+}
