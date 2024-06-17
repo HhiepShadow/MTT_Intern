@@ -1,0 +1,103 @@
+THAM CHIẾU VÀ COPY ĐỐI TƯỢNG:
+I. Tham chiếu - References:
+- Là 1 khái niệm liên quan đến cách biến và giá trị được lưu trữ và thao tác trong bộ nhớ
+- Có 2 kiểu tham chiếu trong JS:
+
+1. Tham chiếu với kiểu dữ liệu nguyên thủy:
+- Các kiểu dữ liệu nguyên thủy là các kiểu khác đối tượng như numbers, strings, hay booleans, etc.
+- 1 trọng các đặc điểm khác biệt giữa đối tượng và kiểu dữ liệu nguyên thủy, đó là đối tượng được lưu trữ và sao chép bởi "tham chiếu"
+
+VD: Kiểu dữ liệu nguyên thủy như string
+let msg = "Hello!";
+let phrase = msg; // "Hello!"
+
+Chú ý: Tuy nhiên, khi tham chiếu biến phrase tới biến msg, thì khi đổi giá trị của biến msg hay biến phrase thì sẽ không ảnh hưởng tới biến còn lại
+VD:
+let msg = "Hello!";
+let phrase = msg; // "Hello!"
+phrase = "World";
+alert(msg); // "Hello!"
+msg = "Yes";
+alert(phrase); // "World"
+
+2. Tham chiếu với đối tượng:
+- Đối tượng khác với kiểu dữ liệu nguyên thủy ở điểm trên
+- Nếu ta thay đổi biến tham chiếu, thì biến được tham chiếu cũng sẽ bị ảnh hưởng và thay đổi
+VD:
+let user = {
+    name: "John"
+};
+let admin = user; // Copy the reference 
+admin.name = "Peter";
+console.log(user.name); // Peter 
+
+II. So sánh tham chiếu:
+- 2 đối tượng chỉ bằng nhau khi chúng cùng là 1 đối tượng 
+VD:
+let a = {};
+let b = a;
+
+alert(a == b); // true, do 2 biến đều cùng tham chiếu tới 1 đối tượng
+alert(a === b); // true
+
+- 2 đối tượng mà không cùng tham chiếu tới 1 đối tượng thì sẽ không bằng nhau ở bất kỳ trường hợp nào
+VD:
+let a = {};
+let b = {};
+alert(a == b); // false
+
+III. Nhân bản và hợp nhất - Clone and Merge:
+1. Nhân bản - Clone:
+- Cloning là 1 cách để ta tạo ra 1 phiên bản mới của đối tượng mà khi thay đổi giá trị của đối tượng nhân bản thì giá trị của bản gốc sẽ không thay đổi
+VD:
+let user = {
+    name: "John",
+    age: 30
+};
+
+let clone = {};
+
+for (let key in user){
+    clone[key] = user[key];
+}
+
+clone.name = "Peter";
+alert(user.name); // John
+
+2. Sử dụng Object.assign():
+- Cú pháp:
+Object.assign(target, ...sources)
+
+trong đó:
+    + target: đối tượng mà ta muốn gán hoặc ghép
+    + sources: các objects sẽ được sử dụng để ghép
+VD:
+let obj1 = { a: 1, b: 2 };
+let obj2 = { b: 3, c: 4 };
+let mergedObj = Object.assign({}, obj1, obj2);
+
+console.log(mergedObj); // Output: { a: 1, b: 3, c: 4 }
+
+3. Clone lồng nhau:
+- Các thuộc tính cũng có thể tham chiếu tới đối tượng khác
+VD:
+let user = {
+    name: "John",
+    sizes: {
+        height: 182,
+        width: 50
+    }
+};
+
+alert(user.sizes.height); // 182
+
+- Tuy nhiên, ta không thể copy clone.sizes = user.sizes vì user.sizes là 1 đối tượng, và phải được copy bởi tham chiếu
+==> clone và user sẽ chia sẻ cùng thuộc tính sizes
+VD:
+let clone = Object.assign({}, user);
+
+alert(user.sizes === clone.sizes); // true
+
+user.sizes.width = 60;
+alert(clone.sizes.width); // 60
+

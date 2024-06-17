@@ -1,0 +1,22 @@
+DATE TIME:
+- Giúp lưu trữ thời gian, ngày giờ và cung cấp các phương thức để quản lý date/time 
+* Các phương thức:
+(1) new Date(): trả về 1 đối tượng Date với thời gian hiện tại
+(2) new Date(miliseconds): trả về đối tượng Date với thời gian là tổng số mili giây tính từ 1/1/1970 + miliseconds
+(3) new Date(datestring): trả về đối tượng Date với thời gian là datestring (sử dụng Date.parse)
+
+(4) date.getFullYear(): trả về năm của date 
+(5) date.getMonth(): trả về tháng (từ 0 -> 11)
+(6) date.getDate(): trả về ngày 1 -> 31
+(7) date.getHours():
+    date.getMinutes():
+    date.getSeconds():
+    date.getMiliseconds():
+    date.getDay(): trả về thứ trong tuần (với 0 là chủ nhật, 6 là thứ 7)
+
+(8) date.getTime(): trả về số giây tính từ 1/1/1970 đến date 
+(9) date.setFullYear(year, [month], [date])
+(10) date.setMonth(month, [date])
+(11) date.setDate(date)
+(12) date.setHours(hour, [minute], [second], [milisecond])
+(13) date.setTime(miliseconds)

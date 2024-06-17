@@ -1,0 +1,49 @@
+* Duyệt qua tất cả các key của 1 đối tượng:
+- Cú pháp:
+for (key in object){
+    // executes the body for each key among object properties
+}
+
+VD:
+let user = {
+    name: "John",
+    age: 30,
+    isAdmin: true
+};
+
+for (let key in user){
+    // keys:
+    alert(key);
+    // values for the keys:
+    alert(user[key]);
+}
+
+Chú ý: Khi sử dụng for.in để duyệt qua các key của object, các key sẽ được sắp xếp theo thứ tự đặc biệt:
+    + Nếu key là chuỗi có thể chuyển đổi thành số nguyên thì sẽ sắp xếp 
+    + Ngược lại, các key sẽ sắp xếp theo thứ tự lúc khởi tạo
+VD:
+let codes = {
+  "49": "Germany",
+  "41": "Switzerland",
+  "44": "Great Britain",
+  // ..,
+  "1": "USA"
+};
+
+for (let code in codes) {
+  alert(code); // 1, 41, 44, 49
+}
+
+==> Để các thuộc tính số nguyên vẫn giữ nguyên vị trí mà ta khởi tạo lúc đầu, ta có thể thêm dấu cộng + vào trước tên thuộc tính đó:
+VD:
+let codes = {
+  "+49": "Germany",
+  "+41": "Switzerland",
+  "+44": "Great Britain",
+  // ..,
+  "+1": "USA"
+};
+
+for (let code in codes) {
+  alert( +code ); // 49, 41, 44, 1
+}

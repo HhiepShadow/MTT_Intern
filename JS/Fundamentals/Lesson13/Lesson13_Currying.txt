@@ -1,0 +1,26 @@
+CURRYING:
+- Currying là 1 kỹ thuật trong lập trình hướng chức năng cho phép chuyển đổi 1 hàm nhiều tham số thành 1 chuỗi các hàm chỉ có 1 tham số
+VD:
+function curry(f) {
+    return function(a) {
+        return function(b) {
+            return f(a, b);
+        };
+    };
+}
+
+function sum(a, b){
+    return a + b;
+}
+
+let curriedSum = curry(sum);
+
+console.log(curriedSum(1)(2)); // 3
+
+==> Giải thích:
++ Kết quả của curry(f) là 1 hàm bao bọc function(a)
++ Khi nó được gọi (giả sử curriedSum(1)), tham số được lưu vào Lexical Environment, và 1 hàm bao bọc mới dược trả về đó là function(b)
++ Và rồi hàm bao bọc mới được gọi với tham số là 2, nó sẽ truyền vào hàm sum() thông thường
+
+* Tại sao lại sử dụng Currying?
+- 

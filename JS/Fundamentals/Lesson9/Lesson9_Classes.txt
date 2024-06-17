@@ -1,0 +1,52 @@
+CLASS - LỚP
+I. Class:
+- Cú pháp:
+class MyClass {
+    constructor(){
+        ...
+    }
+
+    method1(){
+        ...
+    }
+
+    method2(){
+        ...
+    }
+    ...
+}
+
+- Khởi tạo đối tượng:
+let myObj = new MyClass();
+
+Chú ý: typeof MyClass = function
+
+II. Getter/Setter:
+- Sử dụng hàm get/set
+- Cú pháp:
++ Getter: get property()
++ Setter: set property(arg)
+VD:
+class User {
+    constructor(name){
+        this.name = name;
+    }
+
+    // Dấu gạch dưới thể hiện propery là private
+    get name(){
+        return this._name;
+    }
+
+    set name(value){
+        if(value.length < 4) {
+            console.log("Name is too short");
+            return;
+        }
+        this._name = value;
+    }
+}
+
+let user = new User("John");
+console.log(user.name);
+user = new User(""); // Name is too short 
+

@@ -1,0 +1,84 @@
+I. Hàm async:
+- async là 1 từ khóa đứng trước hàm để thể hiện rằng hàm đó sẽ trả về 1 Promise 
+- Các giá trị bên trong trong hàm sẽ được promise resolved 1 cách tự động
+VD:
+async function f(){
+    return 1;
+}
+
+f().then(alert); // 1
+
+==> Tương đương:
+async function f(){
+    return Promise.resolve(1);
+}
+
+f().then(alert);
+
+II. await:
+- Từ khóa await được sử dụng bên trong các hàm async
+- Khi await được sử dụng 1 Promise, nó sẽ dừng thực thi hàm và đợi cho đến khi Promise đó hoàn thành 
+- Khi Promise hoàn thành, giá trị của nó sẽ được trả về và gán cho biến được await
+- Cú pháp:
+let value = await promise;
+
+VD:
+async function f() {
+
+  let promise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve("done!"), 1000)
+  });
+
+  let result = await promise; // wait until the promise resolves (*)
+
+  alert(result); // "done!"
+}
+
+f(); 
+
+* So sánh giữa Promise chaining và Async/Await:
+(1) Promise chaining:
+fetch('/article/promise-chaining/user.json')
+  .then(response => response.json())
+  .then(user => fetch(`https://api.github.com/users/${user.name}`))
+  .then(response => response.json())
+  .then(githubUser => new Promise(function(resolve, reject) { // (*)
+    let img = document.createElement('img');
+    img.src = githubUser.avatar_url;
+    img.className = "promise-avatar-example";
+    document.body.append(img);
+
+    setTimeout(() => {
+      img.remove();
+      resolve(githubUser); // (**)
+    }, 3000);
+  }))
+  // triggers after 3 seconds
+  .then(githubUser => alert(`Finished showing ${githubUser.name}`));
+
+(2) Async/Await:
+async function showAvatar() {
+
+  // read our JSON
+  let response = await fetch('/article/promise-chaining/user.json');
+  let user = await response.json();
+
+  // read github user
+  let githubResponse = await fetch(`https://api.github.com/users/${user.name}`);
+  let githubUser = await githubResponse.json();
+
+  // show the avatar
+  let img = document.createElement('img');
+  img.src = githubUser.avatar_url;
+  img.className = "promise-avatar-example";
+  document.body.append(img);
+
+  // wait 3 seconds
+  await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+
+  img.remove();
+
+  return githubUser;
+}
+
+showAvatar();

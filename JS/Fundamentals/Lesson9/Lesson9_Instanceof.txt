@@ -1,0 +1,17 @@
+INSTANCE OF:
+- Giúp kiểm tra xem 1 đối tượng có thuộc về 1 lớp cụ thể không 
+- Cú pháp:
+obj instanceof Class 
+
+VD:
+class Rabbit {
+    ...
+}
+
+let rabbit = new Rabbit();
+console.log(rabbit instanceof Rabbit); // true
+
+* instanceof cũng có thể áp dụng với hàm tạo:
+function Rabbit(){}
+
+console.log(new Rabbit() instanceof Rabbit); // true

@@ -1,0 +1,109 @@
+JSON:
+I. JSON stringify:
+- Cú pháp:
+JSON.stringify(value, replacer, space)
+trong đó:
+    + value: giá trị JS cần được chuyển đổi thành chuỗi JSON 
+    + replacer: hàm lọc hoặc mảng các tên thuộc tính 
+    + space: 1 chuỗi hoặc số dùng để thụt lề và tạo dòng trong chuỗi JSON kết quả
+VD:
+const person = {
+  name: 'John Doe',
+  age: 30,
+  email: 'john@example.com'
+};
+
+// Chuyển đổi đối tượng thành chuỗi JSON
+const personJSON = JSON.stringify(person);
+console.log(personJSON);
+// Output: {"name":"John Doe","age":30,"email":"john@example.com"}
+
+// Chuyển đổi với thụt lề
+const prettyJSON = JSON.stringify(person, null, 2);
+console.log(prettyJSON);
+/*
+Output:
+{
+  "name": "John Doe",
+  "age": 30,
+  "email": "john@example.com"
+}
+*/
+
+// Sử dụng replacer để chỉ bao gồm 'name' và 'age'
+const filteredJSON = JSON.stringify(person, ['name', 'age']);
+console.log(filteredJSON);
+// Output: {"name":"John Doe","age":30}
+
+II. toJSON():
+- Là 1 phương thức tùy chỉnh cho phép ta định nghĩa cách 1 đối tượng được chuyển đổi thành JSON khi sử dụng JSON.stringify()
+VD:
++ Không sử dụng toJSON():
+let room = {
+  number: 23
+};
+
+let meetup = {
+  title: "Conference",
+  date: new Date(Date.UTC(2017, 0, 1)),
+  room
+};
+
+alert( JSON.stringify(meetup) );
+/*
+  {
+    "title":"Conference",
+    "date":"2017-01-01T00:00:00.000Z", 
+    "room": {"number":23}               
+  }
+*/
+
++ Sử dụng toJSON():
+let room = {
+  number: 23,
+  toJSON() {
+    return this.number;
+  }
+};
+
+let meetup = {
+  title: "Conference",
+  room
+};
+
+alert( JSON.stringify(room) ); // 23
+
+alert( JSON.stringify(meetup) );
+/*
+  {
+    "title":"Conference",
+    "room": 23
+  }
+*/
+
+III. JSON.parse():
+- Giúp giải mã 1 chuỗi JSON
+- Cú pháp:
+let value = JSON.parse(string[, reviver])
+trong đó:
+    + reviver: hàm lọc được gọi cho mỗi cặp K-V trong chuỗi JSOn để chuyển đổi các giá trị trong quá trình phân tích cú pháp
+
+VD:
+javascript
+Copy
+const personJSON = '{"name":"John Doe","age":30,"email":"john@example.com"}';
+
+// Chuyển đổi chuỗi JSON thành đối tượng JavaScript
+const person = JSON.parse(personJSON);
+console.log(person);
+// Output: { name: 'John Doe', age: 30, email: 'john@example.com' }
+
+// Sử dụng reviver để chuyển đổi 'age' thành số
+const personWithNumber = JSON.parse(personJSON, (key, value) => {
+  if (key === 'age') {
+    return Number(value);
+  }
+  return value;
+});
+console.log(personWithNumber);
+// Output: { name: 'John Doe', age: 30, email: 'john@example.com' }

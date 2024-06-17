@@ -1,0 +1,32 @@
+CHAPTER 3: CODE QUALITY
+I. Debug:
+
+II. Lệnh "debugger" - Điểm dừng:
+- Điểm dừng (breakpoints) là 1 vị trí của phần mã mà tại đó sẽ dừng thực thi chương trình để kiểm tra trạng thái của các biến, theo dõi luồng thực thi 
+hoặc tìm lỗi 
+- "debugger" là 1 từ khóa được dùng để dừng thực thi chương trình tại 1 điểm dừng nào đó và chuyển quyền kiểm soát cho bộ gỡ lỗi (debugger) của trình duyệt hoặc môi trường chạy JS khác
+VD:
+function hello(name) {
+  let phrase = `Hello, ${name}!`;
+
+  debugger;  // <-- the debugger stops here
+
+  say(phrase);
+}
+
+III. Chế độ dừng:
+- Trong console của Chrome, ta có thể kiểm tra rất nhiều thứ của mã nguồn mà ta vừa viết 
+VD:
+function hello(name){
+    let phrase = `Hello, ${name}!`;
+    say(phrase);
+}
+
+function say(phrase){
+    alert(`** ${phrase} **`);
+}
+
+==> Khi này, trong Chrome có 1 số các thông số sau:
+(1) Watch: hiển thị các giá trị hiện tại của bất kỳ biểu thức nào
+
+(2) Call Stack: theo dõi các hàm và phương thức được gọi trong quá trình thực thi chương trình 

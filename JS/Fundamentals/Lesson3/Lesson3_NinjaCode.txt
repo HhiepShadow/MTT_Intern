@@ -1,0 +1,12 @@
+I. Gạch dưới _:
+- Dấu gạch dưới được sử dụng trong tên biến hoặc tên hàm dùng để thể hiện 1 số ý nghĩa cụ thể
+(1) Biến ẩn danh (underscore variable):
+- Được sử dụng để đại diện cho 1 biến ẩn danh hoặc 1 biến không được sử dụng
+VD:
+_ = 10;
+
+(2) Ký tự đặc biệt:
+- Được sử dụng để thể hiện các ký tự đặc biệt như thay thế dấu cách 
+VD:
+let full_name = "John Doe";
+

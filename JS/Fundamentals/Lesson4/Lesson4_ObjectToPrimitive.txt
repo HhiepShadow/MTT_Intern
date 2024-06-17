@@ -1,0 +1,63 @@
+OBJECT TO PRIMITIVE CONVERSION
+- Khi 1 đối tượng được sử dụng ở 1 context mà giá trị nguyên thủy được mong đợi thì xảy ra quá trình chuyển đổi đối tượng thành giá trị nguyên thủy
+
+* Có 3 cách để chuyển đổi:
+(1) Default conversion:
+- Khi 1 đối tượng được sử dụng ở 1 context mà 1 giá trị nguyên thủy mong đợi, JS sẽ thực hiện chuyển đổi mặc định
+- Trong chuyển đổi mặc định, JS sẽ gọi phương thức toString() hoặc valueOf() của đối tượng đó
+- Nếu cả 2 phương thức này đều không trả về giá trị nguyên thủy, sẽ ném ra lỗi TypeError
+
+- toString() và valueOf() là hai phương thức quan trọng trong JavaScript được sử dụng để chuyển đổi một đối tượng thành giá trị nguyên thủy. Tuy nhiên, chúng có một số khác biệt:
+    + Mục đích:
+        toString() - Mục đích chính là chuyển đổi một đối tượng thành một chuỗi. Phương thức này trả về chuỗi thể hiện của đối tượng.
+        valueOf() - Mục đích chính là chuyển đổi một đối tượng thành một giá trị nguyên thủy (primitive value). Phương thức này trả về giá trị nguyên thủy của đối tượng.
+    + Trả về:
+        toString() - Trả về một chuỗi.
+        valueOf() - Trả về một giá trị nguyên thủy (number, string, boolean, undefined, null).
+    + Ưu tiên trong chuyển đổi mặc định:
+        Khi xảy ra chuyển đổi mặc định, JavaScript sẽ ưu tiên sử dụng valueOf() trước toString().
+        Nếu valueOf() không trả về giá trị nguyên thủy, thì JavaScript sẽ sử dụng toString().
+VD:
+const obj = {
+  value: 42,
+  toString() {
+    return 'object';
+  },
+  valueOf() {
+    return this.value;
+  }
+};
+
+console.log(obj + 10); // Output: 52 (uses valueOf())
+console.log(String(obj)); // Output: "42" (uses valueOf())
+console.log(obj.toString()); // Output: "object" (uses toString())
+
+(2) Explicit conversion:
+- Sử dụng các hàm chuyển đổi thành giá trị nguyên thủy như String(), Number(), hay Boolean()
+VD:
+// Default conversion
+const obj = { toString() { return 'hello'; } };
+console.log(obj + ' world'); // Output: "hello world"
+
+// Explicit conversion
+console.log(String(obj)); // Output: "hello"
+console.log(Number(obj)); // Output: 0
+
+(3) Sử dụng Symbol.toPrimitive:
+- Cú pháp:
+const obj = {
+    [Symbol.primitive](){
+        return value;
+    }
+}
+VD:
+const obj = {
+  value: 42,
+  [Symbol.primitive]() {
+    return this.value;
+  }
+};
+
+console.log(+obj); // Output: 42
+console.log(String(obj)); // Output: "42"
+console.log(Boolean(obj)); // Output: true

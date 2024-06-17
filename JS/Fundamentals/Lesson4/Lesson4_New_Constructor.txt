@@ -1,0 +1,31 @@
+I. Hàm constructor:
+- Là hàm dùng để khởi tạo 1 đối tượng nhưng không cần khai báo 1 class
+- Có 2 quy ước:
+    + Tên có chữ cái đầu viết hoa
+    + Được thực thi duy nhất bằng cách dùng toán tử new
+VD:
+function User(name){
+    this.name = name;
+    this.isAdmin = false;
+}
+
+let user = new User("Jack");
+alert(user.name); // Jack
+alert(user.isAdmin); // false 
+
+==> Khi 1 hàm được thực thi bằng new, nó sẽ tuân theo các bước sau:
+(1) 1 đối tượng rỗng mới được tạo ra và gán cho this
+(2) Phần body của hàm được thực thi
+    Thông thường nó sẽ điều chỉnh this, và gán thuộc tính mới cho this
+(3) Giá trị this được trả về
+
+function User(name){
+    // this = {}; // Ngầm hiểu
+    // Thêm thuộc tính mới cho this 
+    this.name = name;
+    this.isAdmin = false;
+
+    // return this; // Ngầm hiểu
+}
+
+

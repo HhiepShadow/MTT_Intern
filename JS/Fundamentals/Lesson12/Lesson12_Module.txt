@@ -1,0 +1,87 @@
+MODULE:
+I. Module:
+- Module là 1 cách tổ chức và quản lý code bằng cách chia code thành các phần nhỏ có thể tái sử dụng
+- Modules cho phép ta chia code thành các phần độc lập
+- Module thực chất là 1 file, 1 script
+
+1. export/import:
+a. export:
+- Từ khóa export giúp ta xuất (export) các giá trị biến, hàm, lớp, ... khỏi 1 Module
+- Cú pháp:
++ Named exports:
+VD:
+export const add = (a, b) => a + b;
+export const substract = (a, b) => a - b;
+
++ Default exports:
+const math = {
+    add: (a, b) => a + b,
+    substract: (a, b) => a - b
+};
+export default math;
+
+b. import:
+- Từ khóa import giúp ta nhập (import) các giá trị, biến, hàm, lớp, ... vào 1 module từ 1 module khác
+- Cú pháp:
++ Named imports:
+import { add, substract } from './math';
+console.log(add(2, 3)); // 5
+console.log(substract(3, 6)); // -3
+
++ Default imports:
+import math from './math';
+console.log(math.add(2, 3)); // 5
+console.log(math.substract(3, 6)); // -3
+
+Chú ý:
+    + Tên được export và import phải trùng khớp
+    + Có thể export và import nhiều giá trị cùng lúc
+    + Có thể đổi tên khi import bằng cách sử dụng as
+    + Khi import 1 module, nó sẽ được tải lần đầu tiên khi được sử dụng
+
+2. Thuộc tính core module:
+- Khi ta đặt thuộc tính type cho thẻ <script>:
+    type="module"
+thì module đó sẽ hoạt động ở chế độ strict mode 
+VD:
+<script type="module">
+    a = 5; // Error 
+</script>
+
+- Trong 1 module, this sẽ là undefined:
+VD:
+<script>
+  alert(this); // window
+</script>
+
+<script type="module">
+  alert(this); // undefined
+</script>
+
+3. as:
+- Ta có thể sử dụng as để import các giá trị nhưng ở dạng tên khác
+- Cú pháp:
+import { someFunc as myFunc } from './module.js';
+
+4. Dynamic import:
+- Là 1 tính năng cho phép import các modules chỉ khi cần thiết thay vì tải tất cả modules 1 lần khi ứng dụng khởi chạy
+- Điều này giúp cải thiện hiệu suất và thời gian tải trang
+- Cú pháp:
+import('module-path')
+    .then(module => {
+
+    })
+    .catch(err => {
+
+    });
+VD:
+const button = document.getElementById('myButton');
+button.addEventListener('click', () => {
+  import('./moduleA.js')
+    .then(moduleA => {
+      moduleA.doSomething();
+    })
+    .catch(error => {
+      console.error('Lỗi khi tải module:', error);
+    });
+});

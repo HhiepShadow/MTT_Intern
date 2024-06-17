@@ -1,0 +1,57 @@
+CHƯƠNG 4: OBJECTS - ĐỐI TƯỢNG
+I. Objects:
+- Cú pháp:
+let obj = {
+    key1: value1,
+    key2: value2, 
+    ...
+    keyN: valueN
+};
+
+let obj = new Object();
+VD:
+let user = {     // an object
+  name: "John",  // by key "name" store value "John"
+  age: 30        // by key "age" store value 30
+};
+
+* Thêm cặp K-V cho object:
+- Cú pháp: obj.keyK = valueK;
+VD:
+user.isAdmin = true;
+
+* Xóa 1 thuộc tính trong Object:
+- Cú pháp: delete obj.keyK;
+
+* 2 cách truy cập thuộc tính:
+(1) obj.keyK:
+Tuy nhiên nếu sử dụng cách này để truy cập thuộc tính thì ta không thể truy cập vào các thuộc tính có key là string mà chứa các ký tự đặc biệt như dấu cách
+VD: user.like birds = true; // Error
+
+(2) obj['keyK']:
+VD: 
+let user = {};
+user['like birds'] = true;
+alert(user['like birds'])
+
+* Tính toán key trong run-time(thời gian chạy) hoặc phụ thuộc vào đầu vào của người dùng:
+VD:
+let user = {
+  name: "John",
+  age: 30
+};
+
+let key = prompt("What do you want to know about the user?", "name");
+
+alert(user[key]);
+
+* Trong object, việc đặt tên cho key không có bất kỳ ràng buộc nào với từ khóa:
+VD:
+let obj = {
+  for: 1,
+  let: 2,
+  return: 3
+};
+
+alert( obj.for + obj.let + obj.return );  // 6
+

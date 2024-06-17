@@ -1,0 +1,71 @@
+PRIVATE - PROTECTED
+I. Protected:
+- Cú pháp của protected được ký hiệu bằng dấu gạch dưới
+VD:
+class CoffeeMachine {
+  _waterAmount = 0;
+
+  set waterAmount(value) {
+    if (value < 0) {
+      value = 0;
+    }
+    this._waterAmount = value;
+  }
+
+  get waterAmount() {
+    return this._waterAmount;
+  }
+
+  constructor(power) {
+    this._power = power;
+  }
+
+}
+
+// create the coffee machine
+let coffeeMachine = new CoffeeMachine(100);
+
+// add water
+coffeeMachine.waterAmount = -10; // _waterAmount will become 0, not -10
+
+* Thuộc tính chỉ đọc (Read-Only):
+- Để tạo thuộc tính read-only, ta cần thuộc tính đó là protected và không được khởi tạo thuộc tính bên trong lớp mà chỉ được set bên trong hàm constructor
+VD:
+class CoffeeMachine {
+    ...
+    constructor(power){
+        this._power = power;
+    }
+
+    get power(){
+        return this._power;
+    }
+}
+
+let coffeeMachine = new CoffeeMachine(100);
+coffeeMachine.power = 25; // Error
+
+II. Private:
+- Sử dụng ký hiệu # để đánh dấu thuộc tính và phương thức private 
+VD:
+class CoffeeMachine {
+  #waterLimit = 200;
+
+  #fixWaterAmount(value) {
+    if (value < 0) return 0;
+    if (value > this.#waterLimit) return this.#waterLimit;
+  }
+
+  setWaterAmount(value) {
+    this.#waterLimit = this.#fixWaterAmount(value);
+  }
+
+}
+
+let coffeeMachine = new CoffeeMachine();
+
+// can't access privates from outside of the class
+coffeeMachine.#fixWaterAmount(123); // Error
+coffeeMachine.#waterLimit = 1000; // Error
+
+Chú ý: Private chỉ có thể được truy cập trong constructor và get/set 

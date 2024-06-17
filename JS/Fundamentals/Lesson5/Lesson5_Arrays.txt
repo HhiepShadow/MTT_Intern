@@ -1,0 +1,47 @@
+* Các phương thức của Array:
+(1) new Array():
+- Cú pháp:
++ new Array(length): khởi tạo mảng rỗng với kích thước length
++ new Array(item1, item2, ...): khởi tạo mảng với các phần tử 
+
+(2) arr.splice():
+- Xóa hoặc thêm phần tử
+- Cú pháp:
+arr.splice(start, deleteCount[, item1, item2, ...])
+trong đó:
+    + start: vị trí bắt đầu thay đổi mảng 
+    + deleteCount: số lượng phần tử bị xóa 
+    + item1, item2, ...: các phần tử mới được thêm vào
+
+(3) arr.slice([start], [end]):
+- Trả về 1 mảng mới có vị trí từ start đến (end - 1)
+- start và end đều có thể là giá trị âm (< 0)
+
+(4) arr.concat(arg1, arg2, ...):
+- Tạo ra 1 mảng mới là kết quả của việc ghép các mảng arr với arg1, arg2, ... với nhau
+
+(5) Duyệt mảng:
+- Sử dụng forEach()
+- Cú pháp:
+arr.forEach(function(item, index, array){
+    // ... 
+});
+
+(6) arr.indexOf(item, from): tìm vị trí của phần tử item đầu tiên bắt đầu từ vị trí from 
+(7) arr.lastIndexOf(item, from): tìm vị trí của phần tử item cuối cùng bắt đầu từ vị trí from 
+(8) arr.includes(item, from): kiểm tra xem arr có chứa phần tử item không bắt đầu từ vị trí from 
+
+(9) 
+arr.find(function(item, index, array){
+
+});
+- Trả về phần tử đầu tiên thỏa mãn điều kiện của hàm callback trong find 
+
+(10)
+arr.filter(function(item, index, array){
+
+});
+- Trả về mảng chứa những phần tử thỏa mãn điều kiện trong hàm callback
+
+(11) arr.sort([fn]): sắp xếp mảng theo điều kiện của hàm fn 
+

@@ -1,0 +1,62 @@
+I. Luồng phát triển 1 phần mềm:
+- Quá trình phát triển 1 phần mềm thường đi theo hướng như sau:
+(1) Thông số kỹ thuật ban đầu được viết cùng với các bài test các hàm 
+(2) Triển khai ban đầu được tạo ra
+(3) Để kiểm tra xem nó có hoạt động hay không, ta sử dụng 1 framework để test là Mocha để chạy các thông số kỹ thuật
+    Khi các chức năng không được thực hiện, lỗi sẽ được hiển thị và ta cần sửa lại chúng để mọi thứ có thể hoạt động
+(4)  Ta đã có những triển khai ban đầu với 1 số test 
+(5) Ta thêm các trường hợp về thông số kỹ thuật, có thể chưa được hỗ trợ triển khai và các test sẽ trở nên bị lỗi 
+(6) Quay lại bước 3, cập nhật các triển khai cho tới khi các test không gây ra lỗi
+(7) Lặp lại từ bước 3 đến 6 cho tới khi chức năng được hoàn thành
+
+II. Mocha:
+- Mocha là 1 framework testing của JS được sử dụng để viết và chạy các bộ kiểm thử đơn vị(unit tests) và kiểm thử tích hợp 
+(integration tests) cho ứng dụng JS hoặc thư viện
+- Mocha cung cấp 1 cú pháp dễ đọc và mạnh mẽ để xây dựng các bộ kiểm thử
+* Cài đặt:
+    npm install mocha 
+
+* Các phương thức:
+(1) describe(name, function(){
+
+}); 
+- Tạo ra 1 khối kiểm thử (test suite) và nhóm các ca kiểm thử liên quan lại với nhau
+- Trong đó:
+    + name: tên khối kiểm thử
+    + function(): 1 hàm chứa các ca kiểm thử và mã kiểm thử
+
+(2) it(name, function(){
+
+});
+- Xác định 1 ca kiểm thử (test case) cụ thể trong khối kiểm thử
+- Trong đó:
+    + name: tên ca kiểm thử 
+    + function(): hàm chứa mã kiểm thử 
+
+(3) before(function(){});
+    after(function(){});
+    beforeEach(function(){});
+    afterEach(function(){});
+- Thiết lập và dọn dẹp các điều kiện trước và sau khi chạy các ca kiểm thử
+- before và after được chạy trước và sau khối kiểm thử
+- beforeEach và afterEach được chạy trước và sau mỗi ca kiểm thử 
+
+(4) it.skip(name, function(){})
+    it.only(name, function(){})
+- Bỏ qua hoặc chỉ chạy một số ca kiểm thử cụ thể
+- skip bỏ qua ca kiểm thử 
+  only chỉ chạy ca kiểm thử đó
+
+* BDD - Behavior Driven Development:
+- Là phương pháp phát triển phần mềm tập trung vào việc xác định và mô tả hành vi của hệ thống thông qua việc sử dụng ngôn ngữ gần gũi với ngôn ngữ tự nhiên
+- BDD bao gồm 3 phần được kết hợp với nhau:
+    + test
+    + documentation
+    + examples
+
+III. Chai:
+- 
+* Cài đặt:
+    npm install chai 
+
+* 

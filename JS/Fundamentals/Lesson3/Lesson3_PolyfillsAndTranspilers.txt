@@ -1,0 +1,12 @@
+I. Transpilers:
+- Transpilers (Bộ chuyển mã) là 1 công cụ hoặc chương trình để chuyển đổi mã nguồn từ 1 ngôn ngữ lập trình 
+sang ngôn ngữ khác mà có cùng mục tiêu hoạt động
+VD: Trước 2020, JS chưa có toán tử nullish coalescing ??
+==> Khi 1 người dùng sử dụng bản trình duyệt lỗi thời, nó có thể gây ra lỗi để hiểu code như:
+    height = height ?? 100;
+==> Transpiler sẽ giúp phân tích code và viết lại height ?? 100 thành:
+    (height !== undefined && height !== null) ? height : 100;
+
+II. Polyfills:
+- Là các mã JS được sử dụng để cung cấp các API mà không được hỗ trợ hoặc không được triển khai 
+trong 1 trình duyệt hoặc môi trường thực thi JS cụ thể

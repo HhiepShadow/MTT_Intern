@@ -1,0 +1,119 @@
+XỬ LÝ LỖI:
+I. try-catch:
+- Cú pháp:
+try {
+    ...
+}catch(err) {
+    // Error Handling
+}
+
+VD:
+try {
+    console.log('Start to try');
+    x; // Error, variable is not defined
+}catch(err) {
+    console.log('Error has occured');
+}
+
+Chú ý: 
++ try-catch chỉ hoạt động với lỗi runtime, chứ không hoạt động với lỗi cú pháp
++ try-catch không hoạt động với hàm bất đồng bộ như setTimeout, setInterval, fetch hay Promise
+VD:
+try {
+  setTimeout(function() {
+    noSuchVariable; // script will die here
+  }, 1000);
+} catch (err) {
+  alert( "won't work" );
+}
+
+==> Giải quyết: cho try-catch vào trong hàm bất đồng bộ
+setTimeout(function() {
+  try {
+    noSuchVariable; // try...catch handles the error!
+  } catch {
+    alert( "error is caught here!" );
+  }
+}, 1000);
+
+II. Đối tượng error:
+try{
+    // ...
+}catch(err){
+    // ...
+}
+
+==> Đối tượng err gồm 3 thuộc tính chính:
++ name 
++ message
++ stack
+
+III. Ném ra lỗi:
+- Cú pháp:
++ Sử dụng toán tử throw: 
+    throw <error object>
++ Khởi tạo đối tượng Error:
+    let error = new ErrorType(message);
+trong đó ErrorType là các built-in constructors như Error, SyntaxError, ReferenceError
+
+III. Tùy chỉnh lớp Error và mở rộng:
+- Với các lỗi: 
+    + Về network, ta có thể cần lớp HttpError, 
+    + Về cơ sở dữ liệu, DbError,
+    + Hay NotFoundError với lỗi không tìm thấy
+==> Tạo lớp lỗi mới kế thừa các built-in Error 
+
+- Cú pháp:
+class CustomError extends Error {
+    constructor(message){
+        super(message);
+        this.name = "Custom Error";
+    }
+}
+
+VD:
+class ValidationError extends Error {
+  constructor(message) {
+    super(message); // (1)
+    this.name = "ValidationError"; // (2)
+  }
+}
+
+function test() {
+  throw new ValidationError("Whoops!");
+}
+
+try {
+  test();
+} catch(err) {
+  alert(err.message); // Whoops!
+  alert(err.name); // ValidationError
+  alert(err.stack); // a list of nested calls with line numbers for each
+}
+
+function readUser(json) {
+  let user = JSON.parse(json);
+
+  if (!user.age) {
+    throw new ValidationError("No field: age");
+  }
+  if (!user.name) {
+    throw new ValidationError("No field: name");
+  }
+
+  return user;
+}
+
+// Working example with try..catch
+
+try {
+  let user = readUser('{ "age": 25 }');
+} catch (err) {
+  if (err instanceof ValidationError) {
+    alert("Invalid data: " + err.message); // Invalid data: No field: name
+  } else if (err instanceof SyntaxError) { // (*)
+    alert("JSON Syntax Error: " + err.message);
+  } else {
+    throw err; // unknown error, rethrow it (**)
+  }
+}

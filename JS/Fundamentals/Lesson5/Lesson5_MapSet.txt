@@ -1,0 +1,76 @@
+MAP - SET:
+I. Map:
+- Map là 1 tập hợp các cặp dữ liệu key-value giống như Object
+* Các phương thức:
+(1) new Map(): khởi tạo 1 Map
+(2) map.set(key, value): thêm 1 cặp K-V 
+(3) map.get(key): lấy ra value từ key 
+(4) map.has(key): kiểm tra xem key có tồn tại trong map không 
+(5) map.delete(key): xóa key-value bởi key
+(6) map.clear(): xóa toàn bộ map 
+(7) map.size: kích thước hiện tại của map
+
+(8) map.keys(): duyệt qua các keys 
+
+(9) map.values(): duyệt qua các values 
+
+(10) map.entries(): duyệt qua các cặp K-V 
+
+* Map từ Object:
+(1) new Map(object): tạo 1 map từ 1 object 
++ Tạo map từ 1 mảng các mảng 2 giá trị
+VD:
+// array of [key, value] pairs
+let map = new Map([
+  ['1',  'str1'],
+  [1,    'num1'],
+  [true, 'bool1']
+]);
+
+alert( map.get('1') ); // str1
+
++ Tạo map từ Object bằng cách sử dụng Object.entries():
+VD:
+let obj = {
+    name: "John",
+    age: 30
+};
+
+let map = new Map(Object.entries(obj));
+console.log(map.get('name'));
+
+* Object từ Map:
+- Ta cũng có thể tạo Object từ 1 Map 
+VD1:
+let prices = Object.fromEntries([
+  ['banana', 1],
+  ['orange', 2],
+  ['meat', 4]
+]);
+
+// now prices = { banana: 1, orange: 2, meat: 4 }
+
+alert(prices.orange); // 2
+
+VD2:
+let map = new Map();
+map.set('banana', 1);
+map.set('orange', 2);
+map.set('meat', 4);
+
+let obj = Object.fromEntries(map.entries()); // make a plain object (*)
+
+// done!
+// obj = { banana: 1, orange: 2, meat: 4 }
+
+alert(obj.orange); // 2
+
+II. Set:
+- Set là 1 tập hợp các giá trị mà chỉ xuất hiện 1 lần
+* Các phương thức:
+(1) new Set([iterable]): tạo Set từ 1 đối tượng iterable (thường là mảng)
+(2) set.add(value): thêm 1 phần tử 
+(3) set.delete(value): xóa 1 phần tử 
+(4) set.has(value): kiểm tra xem set có chứa value không 
+(5) set.clear(): xóa toàn bộ set
+(6) set.size: kích thước của set

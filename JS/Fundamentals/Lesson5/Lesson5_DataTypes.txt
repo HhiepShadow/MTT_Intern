@@ -1,0 +1,39 @@
+I. Kiểu số:
+- Thông thường, kiểu số trong JS là 64-bit theo định dạng IEEE-754
+- BigInt có thể chứa số từ -(2^53 - 1) đến (2^53 - 1)
+
+* Các cách để viết 1 số:
+- Giả sử, ta cần viết số 1 tỷ (9 chữ số 0):
+- Thông thường, ta sẽ viết:
+let billion = 1000000000;
+
+==> Ta có thể sử dụng dấu cách dưới làm dấu phân cách:
+let billion = 1_000_000_000;
+
+- Ta cũng có sử dụng ký tự e để thay thế cho số chữ số 0 đằng sau
+VD:
+let billion = 1e9; // e = 10^
+let x = 7.3e9 // 7_300_000_000
+
+- Số thập phân có nhiều chữ số 0:
+VD:
+let msc = 1e-6; // 0.000001
+
+* Số thập lục phân, nhị phân, và bát phân:
+(1) Hệ thập lục phân:
+- Sử dụng 0x
+VD:
+console.log(0xff); // 255
+
+(2) Hệ nhị phân:
+- Sử dụng 0b
+VD:
+console.log(0b11111111); // 255
+
+(3) Hệ bát phân:
+- Sử dụng 0o
+VD:
+console.log(0o377); // 3.8^2 + 7.8 + 7 = 255
+
+* Tính toán không chính xác:
+- 

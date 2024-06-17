@@ -1,0 +1,77 @@
+I. Phương thức của đối tượng:
+VD1:
+let user = {
+    name: "John",
+    age: 30
+};
+
+user.sayHi = function(){
+    alert("Hello!");
+}
+
+user.sayHi(); // Hello!
+
+VD2: Cách khác để tạo phương thức của đối tượng:
+let user = {
+    // ...
+};
+
+function sayHi(){
+    alert("Hello!");
+}
+
+user.sayHi = sayHi;
+user.sayHi(); // Hello!
+
+VD3: Cú pháp viết tắt phương thức:
+let user = {
+    sayHi: function(){
+        alert("Hello!");
+    }
+};
+
+let user = {
+    sayHi(){
+        alert("Hello!");
+    }
+};
+
+==> 2 cách đều giống nhau 
+
+II. Từ khóa this:
+- Từ khóa this là 1 keyword được sử dụng để tham chiếu đến ngữ cảnh (context) hiện tại của 1 function hoặc 1 object đang được gọi
+- this luôn tham chiếu đến đối tượng mà phương thức đang được gọi từ đó hoặc đối tượng mà hàm được gọi từ đó
+- Giá trị của this được xác định dựa trên cách hàm được gọi, không phải dựa trên cách hàm được định nghĩa
+* Các trường hợp của this:
+(1) this trong phương thức của đối tượng:
+- this sẽ tham chiếu đến đối tượng chứa phương thức đó
+VD:
+const user = {
+    name: 'John',
+    greet(){
+        console.log(`Hello, my name is ${this.name}`);
+    }
+};
+
+user.greet(); // Hello, my name is John 
+
+(2) Trong hàm thông thường:
+- this sẽ tham chiếu đến toàn cục (global) hoặc undefined (strict mode)
+VD:
+function greet(){
+    console.log(`Hello, my name is ${this.name}`);
+}
+
+greet(); // Hello, my name is undefined
+
+(3) Trong hàm arrow: 
+- this sẽ tham chiếu đến ngữ cảnh chứa hàm arrow (tham chiếu đến global - toàn cục)
+VD:
+const user = {
+    name: 'John',
+    greet: () => {
+        console.log(`Hello, my name is ${this.name}`);
+    }
+}
+
+user.greet(); // Hello, my name is undefined

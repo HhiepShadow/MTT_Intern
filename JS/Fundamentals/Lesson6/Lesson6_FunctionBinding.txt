@@ -1,0 +1,64 @@
+FUNCTION BINDING - RÀNG BUỘC HÀM
+- Trong JS, function binding là 1 quá trình liên kết 1 hàm với 1 giá trị this cụ thể
+==> Điều này rất hữu ích khi ta muốn sử dụng 1 hàm trong 1 context khác với context ban đầu của nó
+
+* Xét trường hợp bị mất ngữ cảnh this:
+- Nếu 1 phương thức được tới 1 nơi khác biệt so với đối tượng thì this sẽ bị mất (không hiểu ngữ cảnh)
+VD:
+let user = {
+    firstName: 'John',
+    sayHi(){
+        console.log(`Hello ${this.firstName}`);
+    }
+};
+
+setTimeout(user.sayHi, 1000); // Hello undefined
+
+==> Ta có thể thấy rằng đầu ra không hiển thị "John" của this.firstName mà lại là undefined
+==> Đó là do setTimeout đã lấy ra hàm user.sayHi tách biệt với đối tượng user 
+Tức là:
+let f = user.sayHi;
+setTimeout(f, 1000); // mất ngữ cảnh
+
+- Hàm setTimeout() có chút khác biệt: 
+    + Nó set this=window cho các hàm gọi trong nó 
+==> this.firstName là window.firstName
+
+==> Các cách để giải quyết vấn đề này:
+
+1. Sử dụng 1 wrapper function:
+VD:
+let user = {
+    firstName: "John",
+    sayHi(){
+        console.log(`Hello ${this.firstName}`);
+    }
+};
+
+setTimeout(function(){
+    user.sayHi();
+}, 1000); // Hello John 
+
+<==> setTimeout(() => user.sayHi(), 1000);
+
+==> Tuy nhiên khi thay đổi phương thức sayHi() thì hàm callback trong setTimeout cũng sẽ thay đổi theo
+==> Sử dụng bind 
+
+2. Sử dụng bind:
+- Để tạo ra 1 bản sao mới của 1 hàm với giá trị this đã được ràng buộc (bound)
+- Cú pháp:
+func.bind(thisArg[, arg1, [, arg2[, ...]]])
+trong đó:
+    + func: hàm được ràng buộc 
+    + thisArg: là giá trị của this mà ta muốn gán cho hàm mới
+    + arg1, arg2, ...: là các tham số tùy chọn mà ta muốn gán sẵn cho hàm mới
+==> Trả về 1 bản sao mới của hàm với giá trị this đã được ràng buộc và các tham số tùy chọn đã được gán sẵn
+VD:
+const user = {
+    firstName: "John",
+    sayHi() {
+        console.log(`Hello ${name}`);
+    }
+}
+
+const sayHi = user.sayHi.bind(user);

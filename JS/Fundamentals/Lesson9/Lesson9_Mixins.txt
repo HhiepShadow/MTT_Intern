@@ -1,0 +1,21 @@
+MIXIN:
+- Mix-in là 1 mấu thiết kế cho phép tái sử dụng các phương thức và thuộc tính giữa các lớp hoặc đối tượng không có quan hệ kế thừa 
+I. Ví dụ cho Mix-in:
+- Cách đơn giản nhất để triển khai 1 Mix-in là tạo 1 object với các phương thức và kết hợp chúng với nguyên mẫu (prototype) của bất kỳ lớp nào
+VD:
+let Mixin = {
+    sayHi(){
+        ...
+    }
+    sayBye(){
+        ...
+    }
+};
+
+class User {
+    constructor(name){
+        this.name = name;
+    }
+}
+
+Object.assign(User.prototype, Mixin);

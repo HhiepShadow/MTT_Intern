@@ -1,0 +1,22 @@
+- Kiểu Symbol là kiểu dữ liệu nguyên thủy mới của ES6 - 2015
+- Được sử dụng để tạo ra các giá trị duy nhất và không thể bị trùng lặp
+
+* Đặc điểm:
+- Duy nhất: mỗi khi gọi Symbol(), nó sẽ tạo ra 1 giá trị mới và duy nhất, ngay cả khi các tham số truyền vào giống nhau 
+- Không thể trùng lặp: ngay cả khi chúng được tạo ra các nơi khác nhau trong đoạn mã
+- Không thể chuyển đổi kiểu dữ liệu: Các giá trị Symbol không thể chuyển đổi sang các kiểu dữ liệu khác như string, number, hay boolean
+
+* Cú pháp:
+(1) Tạo 1 Symbol mới:
+const mySymbol = Symbol();
+
+(2) Tạo 1 Symbol với mô tả:
+const mySymbolWithDescription = Symbol("My Symbol");
+
+* Sử dụng:
+// Sử dụng Symbol làm khóa đối tượng:
+const obj = {
+    [mySymbol]: 'Value associated with the symbol'
+};
+
+console.log(obj[mySymbol]);

@@ -1,0 +1,21 @@
+STATIC:
+- Giúp định nghĩa các thuộc tính và phương thức thuộc về lớp chứ không phải thể hiện của lớp đó
+
+VD:
+class User {
+    static staticMethod(){
+        console.log(this === User);
+    }
+}
+
+User.staticMethod(); // true
+
+Chú ý: Ta cũng có thể tạo phương thức static sau khi định nghĩa lớp
+VD:
+class User {}
+User.staticMethod = function(){
+    console.log(this === User);
+}
+
+User.staticMethod(); // true 
+
