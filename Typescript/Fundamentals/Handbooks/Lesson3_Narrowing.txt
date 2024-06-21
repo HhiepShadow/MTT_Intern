@@ -1,0 +1,15 @@
+NARROWING:
+
+- Narrowing là quá trình thu hẹp hoặc giới hạn phạm vi của 1 kiểu dữ liệu 
+
+1. typeof:
+- Toán tử typeof giúp trả về kiểu dữ liệu 1 biến 
+- Bao gồm:
+    + "string"
+    + "number"
+    + "bigint"
+    + "boolean"
+    + "symbol"
+    + "undefined"
+    + "object"
+    + "function"

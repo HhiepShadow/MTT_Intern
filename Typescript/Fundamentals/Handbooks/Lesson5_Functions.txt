@@ -1,0 +1,139 @@
+MORE ON FUNCTIONS:
+
+I. Kiểu biểu thức hàm:
+- 1 cách dễ dàng nhất để mô tả 1 hàm đó là với kiểu biểu thức hàm
+- Tương đương với hàm arrow
+VD:
+function greeter(fn: (a: string) => void) {
+  fn("Hello, World");
+}
+ 
+function printToConsole(s: string) {
+  console.log(s);
+}
+ 
+greeter(printToConsole);
+
+trong đó: (a: string) => void là 1 hàm có 1 tham số là a kiểu string và không trả về giá trị nào 
+
+==> Ta cũng có thể sử dụng type để định nghĩa kiểu dữ liệu hàm:
+type GreetFunction = (a: string) => void;
+
+function greeter(fn: GreetFunction) {
+    ...
+}
+
+II. Call Signature:
+- Là 1 phần của định nghĩa 1 hàm, interface hoặc type
+- Mô tả cấu trúc của 1 hàm, bao gồm các tham số và kiểu dữ liệu trả về 
+- Cú pháp:
+(param1: data_type1, param2, data_type2, ...): return_type => {
+    ...
+}
+
+VD:
+type DescribableFunction = {
+  description: string;
+  (someArg: number): boolean;
+};
+function doSomething(fn: DescribableFunction) {
+  console.log(fn.description + " returned " + fn(6));
+}
+ 
+function myFunc(someArg: number) {
+  return someArg > 3;
+}
+myFunc.description = "default description";
+ 
+doSomething(myFunc);
+
+III. Construct Signatures:
+- Hàm JS cũng có thể được khởi tạo bằng toán tử new 
+- TS gọi đó là các hàm tạo (constructor) bởi chúng thường được sử dụng để tạo đối tượng mới
+- Cú pháp:
+new (param1: data_type1, param2, data_type2, ...): return_type
+VD:
+class Person {
+  name: string;
+  age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+}
+
+// Construct signature của class Person
+type PersonConstructor = new (name: string, age: number) => Person;
+
+// Sử dụng construct signature
+const createPerson: PersonConstructor = (name, age) => new Person(name, age);
+const john = createPerson("John", 30); // { name: "John", age: 30 }
+
+IV. Generic Functions - Hàm generic:
+- Là 1 hàm có thể hoạt động với nhiều kiểu dữ liệu khác nhau, được chỉ định bởi các tham số kiểu 
+- Cú pháp: 
+function func<ParamType>(param1: ParamType, param2: ParamType, ...): ReturnType {
+    ...
+}
+
+VD:
+function firstElement<Type>(arr: Type[]): Type | undefined {
+  return arr[0];
+}
+
+// s is of type 'string'
+const s = firstElement(["a", "b", "c"]);
+// n is of type 'number'
+const n = firstElement([1, 2, 3]);
+// u is of type undefined
+const u = firstElement([]);
+
+* Ràng buộc với generic:
+- Tạo các ràng buộc vào các tham số generic để đảm bảo tính đúng đắn của code 
+- Cú pháp:
+function func<T extends SomeInterface>(arg: T): void {
+    ...
+}
+
+VD:
+function longest<Type extends { length: number }>(a: Type, b: Type) {
+    return (a.length >= b.length) ? a : b;
+}
+
+* Làm việc với giá trị ràng buộc:
+function minimumLength<Type extends { length: number }>(
+  obj: Type,
+  minimum: number
+): Type {
+  if (obj.length >= minimum) {
+    return obj;
+  } else {
+    return { length: minimum };
+Type '{ length: number; }' is not assignable to type 'Type'.
+  '{ length: number; }' is assignable to the constraint of type 'Type', but 'Type' could be instantiated with a different subtype of constraint '{ length: number; }'.
+  }
+}
+
+==> Do Type bị ràng buộc với { length: number } và hàm trả về Type hoặc giá trị khớp với sự ràng buộc 
+
+V. Mô hình các tham số với ?:
+- Nếu ta muốn 1 tham số khi gọi hàm có thể được gán hay không, ta có thể sử dụng ? để biến đổi tham số đó thành tự chọn
+VD:
+function f(x?: number) {
+  // ...
+}
+f(); // OK
+f(10); // OK
+
+VI. Overloading hàm:
+- Là tính năng cho phép định nghĩa nhiều phiên bản của cùng 1 hàm, với mỗi phiên bản có các tham số khác nhau 
+- Khi gọi hàm, TS sẽ chọn phiên bản phù hợp nhất với các tham số được cung cấp 
+- Cú pháp:
+function functionName(parameter1: type1, parameter2: type2): returnType;
+function functionName(parameter1: type3, parameter2: type4): returnType;
+// implementation of the function
+function functionName(parameter1: any, parameter2: any): returnType {
+  // function logic
+}
+

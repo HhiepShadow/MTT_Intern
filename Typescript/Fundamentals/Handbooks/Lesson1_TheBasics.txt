@@ -1,0 +1,45 @@
+THE BASICS:
+
+* Trình biên dịch tsc:
+- Cài đặt:
+    npm install -g typescript 
+
+- Sử dụng trình biên dịch tsc:
+    tsc.cmd Lesson1.ts 
+==> Tạo ra 1 file .js có nội dung khá giống với file .ts 
+
+* Giả sử, ta tạo 1 hàm greet:
+function greet(person, date){
+    console.log(`Hello ${person}, today is ${date}`);
+}
+
+greet("Brendan"); // Expected 2 arguments, but got 1
+
+==> Xảy ra lỗi: TS thông báo rằng ta đang truyền thiếu 1 tham số vào hàm greet
+Với JS, ta chỉ viết JS cơ bản và không kiểm tra kiểu dữ liệu thì mã chúng ta vẫn chạy như bình thường do JS có cơ chế tự động gán
+
+* Phát ra lỗi (Emit on error):
+- Cú pháp:
+    tsc --noEmitOnError <file>.ts 
+trong đó: --noEmitOnError là tham số được sử dụng để kiểm soát hành vi của compiler khi có lỗi xảy ra 
+
+==> Khi này, trình biên dịch sẽ không tạo ra bất kỳ file output nào nếu có bất kỳ lỗi nào được phát hiện trong quá trình biên dịch
+
+==> Lợi ích:
+    + Tránh tạo ra tệp đầu ra lỗi
+    + Tập trung vào sửa lỗi 
+    + Tăng cường quy trình tích hợp liên tục (CI - Continuous Integration)
+
+* Downleveling - Hạ cấp:
+- Từ đoạn mã:
+`Hello ${person}, today is ${date.toDateString()}!`;
+
+==> TS chuyển đổi đoạn mã này từ ES6 về ES5 hoặc ES3"
+"Hello ".concat(person, ", today is ").concat(date.toDateString(), "!");
+
+==> Được gọi là Downleveling
+- TS theo mặc định sẽ nhắm tới mục tiêu ES3 
+
+* Theo dõi sự thay đổi liên tục với flag watch:
+- Cú pháp:
+    tsc.cmd <file>.ts -w

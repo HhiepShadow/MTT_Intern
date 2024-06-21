@@ -1,0 +1,132 @@
+OBJECTS:
+
+- Trong JS, cách cơ bản để ta nhóm và truyền dữ liệu là thông qua các đối tượng 
+- Trong TS, ta cũng có kiểu đối tượng 
+
+* Đối tượng có thể là ẩn danh:
+function greet(person: {
+    name: string, 
+    age: number
+}) {
+    return "Hello " + person.name;
+}
+
+==> Ta cũng có thể nhóm đối tượng thành 1 interface:
+interface Person {
+    name: string; 
+    age: number;
+};
+
+function greet(person: Person) {
+    return "Hello " + person.name;
+}
+
+==> Cũng có thể sử dụng type:
+type Person {
+    name: string;
+    age: number;
+};
+
+function greet(person: Person) {
+    return "Hello " + person.name;
+}
+
+I. Thay đổi thuộc tính:
+1. Thuộc tính tùy chọn:
+- Sử dụng dấu ? vào cuối tên của thuộc tính để biến đổi thuộc tính đó 
+VD:
+interface PaintOptions = {
+    shape: Shape;
+    xPos?: number;
+    yPos?: number;
+};
+
+function paintShape(opts: PaintOptions){
+    ...
+}
+
+const shape = getShape();
+paintShape({ shape });
+paintShape({ shape, xPos: 100 });
+paintShape({ shape, yPos: 200});
+paintShape({ shape, xPos: 100, yPos: 200});
+
+==> xPos và yPos là các thuộc tính tùy chọn
+==> Ta có thể lựa chọn việc cung cấp giá trị cho chúng hoặc không, thì mỗi lần gọi hàm paintShape đều thỏa mãn 
+==> Tương đương:
+function paintShape(opts: PaintOptions) {
+    let xPos = opts.xPos === undefined ? 0 : opts.xPos;
+    let yPos = opts.yPos === undefined ? 0 : opts.yPos;
+}
+
+2. Thuộc tính readonly:
+- Thuộc tính cũng có thể được đánh dấu là readonly - thuộc tính chỉ đọc 
+- Ta chỉ có thể sử dụng nó chứ không thể thay đổi giá trị của nó 
+- Cú pháp:
+readonly prop_name: <data_type>;
+
+VD:
+function doSomething(obj: SomeType) {
+  // We can read from 'obj.prop'.
+  console.log(`prop has the value '${obj.prop}'.`);
+ 
+  // But we can't re-assign it.
+  obj.prop = "hello";
+Cannot assign to 'prop' because it is a read-only property.
+}
+
+3. Index Signatures:
+- Đôi lúc ta không biết tất cả các tên của các thuộc tính trong 1 kiểu dữ liệu object, nhưng ta có biết hình thù của các giá trị thuộc kiểu đó
+==> Sử dụng index signatures để mô tả các loại dữ liệu có thể
+
+- Index Signatures cho phép ta định nghĩa cách 1 interface hoặc type xử lý các thuộc tính không xác định trước
+- Cú pháp:
+interface MyInterface {
+    [key: keyType]: valueType;
+}
+
+trong đó:
+    + keyType: kiểu dữ liệu của tên thuộc tính (thường là string hoặc number)
+    + valueType: kiểu dữ liệu cho giá trị thuộc tính 
+VD:
+interface Person {
+    name: string;
+    age?: number;
+    [key: string]: any;
+}
+
+const person: Person = {
+    name: "John",
+    age: 30,
+    email: "john30@gmail.com"
+}
+
+- Tuy Index Signatures rất mạnh nhưng nó cũng yêu cầu 1 đặc điểm, đó là tất cả các thuộc tính của interface phải có kiểu dữ liệu thuộc Index Signatures
+VD:
+interface NumberDictionary {
+  [index: string]: number;
+ 
+  length: number; // ok
+  name: string;
+Property 'name' of type 'string' is not assignable to 'string' index type 'number'.
+}
+
+II. Extends:
+- Từ khóa extends được sử dụng cho interface để tạo ra kiểu dữ liệu mới dựa trên các kiểu dữ liệu hiện có 
+- Cú pháp:
+interface SubInterface extends MainInterface {
+    ...
+}
+
+III. Kiểu Intersection:
+- Kiểu giao là 1 cách để kết hợp nhiều kiểu dữ liệu thành 1 kiểu 
+- Được biểu diễn bằng toán tử &
+VD:
+interface Colorful {
+  color: string;
+}
+interface Circle {
+  radius: number;
+}
+ 
+type ColorfulCircle = Colorful & Circle;

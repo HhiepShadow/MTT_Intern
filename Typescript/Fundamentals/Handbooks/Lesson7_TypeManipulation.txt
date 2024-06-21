@@ -1,0 +1,56 @@
+I. Generics:
+- Kiểu Generic là 1 tính năng giúp ta tạo ra các kiểu dữ liệu có thể hoạt động với nhiều kiểu dữ liệu khác nhau 
+- Cú pháp:
+function myFunc<T>(param: T): T {
+    return param;
+}
+
+trong đó: T là 1 Generic Type Parameter, có thể là bất kỳ kiểu dữ liệu nào 
+==> Khi gọi hàm myFunc, ta không cần phải chỉ định kiểu dữ liệu của T mà TS sẽ tự động suy luận nó 
+VD:
+const res1 = myFunc(42);
+const res2 = myFunc("Hello World");
+
+- Tuy nhiên, ta nên định nghĩa cho kiểu dữ liệu T mỗi khi gọi hàm myFunc:
+const res = myFunc<number>(42);
+
+* Làm việc với Generic:
+Giả sử ta có hàm identity:
+function identity<Type>(arg: Type): Type {
+    return arg;
+}
+
+- Nếu ta muốn hiển thị độ dài của arg (length) thì sao?
+VD:
+function loggingIdentity<Type>(arg: Type): Type {
+  console.log(arg.length);
+Property 'length' does not exist on type 'Type'.
+  return arg;
+}
+
+==> Xảy ra lỗi bì ta đang sử dụng thuộc tính length của arg nhưng arg hiện không có length 
+
+==> 1 cách sửa:
+function loggingIdentity<Type>(arg: Type[]): Type[] {
+  console.log(arg.length);
+  return arg;
+}
+
+hoặc:
+function loggingIdentity<Type>(arg: Array<Type): Array<Type> {
+    console.log(arg.length);
+    return arg;
+}
+
+==> Cách thứ 2: Ta có thể extends Type với 1 interface có chứa thuộc tính length:
+VD:
+interface Lengthwise {
+    length: number;
+}
+
+function loggingIdentity<Type extends Lengthwise>(arg: Type): Type {
+    console.log(arg.length);
+    return arg;
+}
+
+

@@ -1,0 +1,51 @@
+DATA TYPES:
+
+I. Các dạng dữ liệu nguyên thủy:
+- Có 3 kiểu dữ liệu nguyên thủy:
+    + string 
+    + number (int, float)
+    + boolean
+
+II. Mảng:
+- Cú pháp của mảng: 
+    <data_type>[]
+VD: number[]
+    string[]
+
+- Ta có thể sử dụng:
+    Array<number> để khai báo 1 mảng 
+
+III. any:
+- Là 1 kiểu dữ liệu đặc biệt cho phép sử dụng bất cứ khi nào ta không muốn 1 giá trị cụ thể gây ra lỗi đánh máy
+- Khi 1 biến thuộc kiểu any, ta có thể gán truy cập bất kỳ thuộc tính nào của nó (các thuộc tính này cũng sẽ có kiểu any)
+
+VD:
+let obj: any = { x: 0 };
+// None of the following lines of code will throw compiler errors.
+// Using `any` disables all further type checking, and it is assumed
+// you know the environment better than TypeScript.
+obj.foo();
+obj();
+obj.bar = 100;
+obj = "hello";
+const n: number = obj;
+
+IV. Gán chú thích về kiểu dữ liệu cho 1 biến:
+- Cú pháp:
+let myVar: <data_type> = <value>;
+
+Tuy nhiên, ta có thể gán trực tiếp 1 giá trị cho biến đó mà không cần chỉ định kiểu dữ liệu:
+let myName = "Alice";
+
+==> Khi này, myName sẽ có kiểu string (ép kiểu) và không được gán cho giá trị khác với kiểu đó 
+
+V. Truyền tham số vào hàm:
+- Cú pháp hàm:
+function func(param1: <data_type1>, param2: <data_type2>): <return_type> {
+    ...
+}
+
+VI. Union:
+- Union là 1 kiểu dữ liệu linh hoạt, cho phép 1 biến lưu trữ giá trị 1 trong nhiều kiểu dữ liệu khác nhau 
+- Cú pháp:
+let myUnion: <type_1> | <type_2> | <type_3> = <value>;
