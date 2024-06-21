@@ -1,0 +1,70 @@
+UTILITY TYPES:
+
+I. Partial<T>:
+- Tạo ra kiểu dữ liệu mới trong đó tất cả các thuộc tính của kiểu T thành optional
+VD:
+type Person = {
+    name: string;
+    age: number;
+}
+
+type PartialPerson = Partial<Person>;
+
+const partialPerson: PartialPerson = {
+    name: "John"
+};
+
+II. Readonly<T>:
+- Tạo kiểu dữ liệu mới, trong đó các thuộc tính của T là readonly (chỉ đọc)
+VD:
+type ReadonlyPerson = Readonly<Person>;
+
+const readonlyPerson: ReadonlyPerson = {
+    name: "John",
+    age: 30
+};
+
+III. Record<K, V>:
+- Tạo kiểu dữ liệu mới trong đó:
+    + Các thuộc tính của K trở thành khóa
+    + Các giá trị của kiểu T 
+
+IV. Pick<T, K>:
+- Tạo ra kiểu dữ liệu mới trong đó chỉ chọn 1 số thuộc tính cụ thể từ kiểu T
+VD:
+interface Person {
+    name: string;
+    age: number;
+    address: string;
+}
+
+const pickedPerson: Pick<Person, "name" | "age"> = {
+    name: "John",
+    age: 30
+};
+
+V. Omit<T, K>:
+- Tạo kiểu dữ liệu mới trong đó loại bỏ 1 số thuộc tính từ kiểu T 
+VD:
+const omitPerson: Omit<Person, "address"> = {
+    name: "John",
+    age: 30
+};
+
+VI. Exclude<T, U>:
+- Tạo 1 kiểu dữ liệu trong đó loại bỏ các giá trị của U khỏi T 
+VD:
+type Numbers = 1 | 2 | 3 | 4 | 5;
+const even: Exclude<Numbers, 1 | 3 | 5> = 2;
+
+VII. Required<T>:
+- Tạo kiểu dữ liệu mới trong đó tất cả các thuộc tính của T là bắt buộc 
+
+VIII. Parameters<T>:
+- Tạo kiểu dữ liệu của các tham số trong hàm T 
+VD:
+function add(a: number, b: number): number {
+    return a + b;
+}
+
+const params: Parameters<typeof add> = [5, 10];
