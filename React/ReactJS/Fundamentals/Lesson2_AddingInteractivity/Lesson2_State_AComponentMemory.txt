@@ -1,0 +1,97 @@
+STATE:
+
+- Các component thường cần thay đổi kết quả hiển thị trên màn hình do sự tương tác
+- 1 số tình huống như:
+    + Nhập vào biểu mẫu thì cần phải cập nhật lại trường đầu vào
+    + Nhấn nút "Next" trong 1 dây chuyền các ảnh sẽ thay đổi ảnh nào được hiển thị
+    + Nhấn nút "Buy" sẽ thêm 1 sản phẩm vào giỏ hàng
+==> Các component cần phải ghi nhớ những thứ này: 
+    + Giá trị hiện tại của form đầu vào
+    + Ảnh hiện tại
+    + Giỏ hàng
+==> Trong React, loại bộ nhớ dành riêng cho component được gọi là state (trạng thái)
+
+1. Khi 1 biến thông thường là không đủ:
+- Giả sử, ta có 1 component render 1 hình ảnh.
+  Khi nhấn nút "Next" thì sẽ hiển thị hình ảnh tiếp theo bằng cách thay đổi index lên 1, 2, ...
+  Tuy nhiên, cách này sẽ không hoạt động:
+  import { sculptureList } from './data.js';
+
+export default function Gallery() {
+  let index = 0;
+
+  function handleClick() {
+    index = index + 1;
+  }
+
+  let sculpture = sculptureList[index];
+  return (
+    <>
+      <button onClick={handleClick}>
+        Next
+      </button>
+      <h2>
+        <i>{sculpture.name} </i> 
+        by {sculpture.artist}
+      </h2>
+      <h3>  
+        ({index + 1} of {sculptureList.length})
+      </h3>
+      <img 
+        src={sculpture.url} 
+        alt={sculpture.alt}
+      />
+      <p>
+        {sculpture.description}
+      </p>
+    </>
+  );
+}
+
+==> Event handler handleClick() đang cập nhật cho biến index. Tuy nhiên có 2 thứ đã ngăn chặn điều này:
+    + Các biến local không tồn tại giữa các lần render: Khi React render component này lần thứ hai, nó sẽ render lại từ đầu 
+    -> Nó không quan tâm đến bất kỳ sự thay đổi nào của biến cục bộ local
+    + Thay đổi của biến cục bộ sẽ không tự động render lại: React không thể nhận ra nó cần render lại component với dữ liệu mới
+
+==> Để cập nhật component với dữ liệu mới, 2 thứ cần xảy ra:
+    + Giữ lại được dữ liệu giữa các lần render
+    + Tự động kích hoạt React để render component với dữ liệu mới 
+
+2. useState():
+- Cung cấp 2 thứ trên:
++ 1 biến state để lưu trữ dữ liệu mỗi lần render 
++ 1 hàm setter state để cập nhật dữ liệu và kích hoạt React để render lại component
+
+- Cú pháp:
++ Thêm useState vào component:
+import {useState} from 'react';
+
++ Tạo useState:
+const [index, setIndex] = useState(0);
+
+VD:
+App.jsx:
+import {useState} from 'react';
+import {sculptureList} from './data.js';
+
+export default function Gallery(){
+    const [index, setIndex] = useState(0);
+
+    function handleClick(){
+        setIndex(index + 1);
+    }
+
+    let sculpture = sculptureList[index];
+
+    return (
+        <>
+            <button onClick={handleClick}>
+                Next
+            </button>
+            <h2>
+                <i>{sculpture.name}</i>
+                by {sculpture.artist}
+            </h2>
+        </>
+    )
+}

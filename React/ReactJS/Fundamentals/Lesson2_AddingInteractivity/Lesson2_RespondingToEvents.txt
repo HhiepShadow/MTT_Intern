@@ -1,0 +1,158 @@
+RESPONDING TO EVENTS:
+
+- React cho phép ta thêm event handler cho JSX của bạn 
+- Event handlers(hàm xử lý sự kiện) là các hàm tự tạo sẽ được tự động thực hiện để phản hồi tới các tương tác của người dùng như nhấn(click), di chuột(hover), 
+focus vào form input, ...
+
+1. Thêm event handler:
+- Để thêm 1 event handler, ta phải định nghĩa 1 hàm và truyền nó như 1 prop tới phần mở rộng của thẻ JSX 
+- Ví dụ sau là 1 nút không thể làm gì hết:
+export default function Button() {
+    return (
+        <button>
+            Can't do anything
+        </button>
+    );
+}
+
+- Ta có thể hiển thị 1 thông báo khi 1 người dùng nhấn vào bằng 3 bước sau:
+(1) Định nghĩa 1 hàm handleClick() bên trong component Button
+(2) Triển khai logic bên trong hàm đó (giả sử alert để hiển thị thông báo)
+(3) Thêm onClick={handleClick} vào thẻ <button> JSX 
+
+export default function Button(){
+    function handleClick(){
+        alert('You clicked me!');
+    }
+
+    return (
+        <button onClick={handleClick}>
+            Click me
+        </button>
+    );
+}
+
+==> Ta định nghĩa hàm handleClick và truyền nó như 1 prop tới thẻ <button>
+==> handleClick là 1 event handler 
+==> Hàm event handler là:
+    + Được định nghĩa bên trong các component 
+    + Có tên bắt đầu bằng handle, đằng sau là tên của event
+- Theo quy ước trên, nó thường đặt tên là:
+    handle + event_name
+VD: onClick={handleClick}
+    onMouseEnter={handleMouseEnter}
+
+* Ngoài ra, ta có thể định nghĩa 1 trình xử lý sự kiện inline trong JSX:
+VD:
+<button onClick={function handleClick(){
+    alert('Clicked me');
+}}>
+
+==> Chính xác hơn là dùng hàm arrow:
+<button onClick={() => {
+    alert('Clicked me');
+}}>
+
+Chú ý:
+(1) Hàm được truyền vào event handler là được truyền vào chứ không phải được gọi:
++ Đúng:
+<button onClick={handleClick}>
+
++ Sai:
+<button onClick={handleClick()}>
+
+(2) Khi ta viết code inline, cũng sẽ có lỗi tương tự:
++ Đúng:
+<button onClick={() => alert('...')}>
+
++ Sai:
+<button onClick={alert('...')}>
+
+2. Event propagation:
+- Là quá trình truyền event từ 1 phần tử DOM đến các phần tử DOM khác theo 1 hướng nhất định 
+- Có 2 giai đoạn chính trong propagation:
+    + Capture phase(giai đoạn bắt): 
+        . event được truyền từ phần tử cao nhất(window) xuống đến phần tử mục tiêu
+        . các event listener được áp dụng ở các phần tử cha sẽ được gọi trước khi event đến phần tử mục tiêu
+    + Bubble phase(giai đoạn nổi bọt):
+        . Sau khi event đến phần tử mục tiêu, nó sẽ "nổi bọt" trở lại lên các phần tử cha
+        . các event listener được áp dụng ở các phần tử cha sẽ được gọi sau khi event đã đến phần tử mục tiêu
+VD:
+export default function Toolbar() {
+  return (
+    <div className="Toolbar" onClick={() => {
+      alert('You clicked on the toolbar!');
+    }}>
+      <button onClick={() => alert('Playing!')}>
+        Play Movie
+      </button>
+      <button onClick={() => alert('Uploading!')}>
+        Upload Image
+      </button>
+    </div>
+  );
+}
+
+==> Khi này, nếu ta nhấn vào 1 button thì cũng sẽ thực thi event của div onClick
+
+Chú ý: Tất cả các event trong React đều có propagation trừ onScroll
+
+3. Xóa bỏ propagation:
+- Các event handler nhận 1 đối tượng event làm tham số duy nhất
+- Theo quy ước, nó được gọi là e 
+==> Ta có thể sử dụng object này để đọc các thông tin về event
+- Đối tượng event này cũng cho phép ta dừng propagation
+==> Nếu ta muốn ngăn chặn 1 event có thể được kích hoạt bởi component cha của nó, ta phải gọi e.stopPropagation():
+
+function Button({ onClick, children }) {
+  return (
+    <button onClick={e => {
+      e.stopPropagation();
+      onClick();
+    }}>
+      {children}
+    </button>
+  );
+}
+
+export default function Toolbar() {
+  return (
+    <div className="Toolbar" onClick={() => {
+      alert('You clicked on the toolbar!');
+    }}>
+      <Button onClick={() => alert('Playing!')}>
+        Play Movie
+      </Button>
+      <Button onClick={() => alert('Uploading!')}>
+        Upload Image
+      </Button>
+    </div>
+  );
+}
+
+4. Ngăn chặn hành vi mặc định (prevent default behaviour):
+- 1 số event trình duyệt có các hành vi mặc định được liên kết với chúng 
+VD:
+export default function Signup() {
+  return (
+    <form onSubmit={() => alert('Submitting!')}>
+      <input />
+      <button>Send</button>
+    </form>
+  );
+}
+
+==> Theo mặc định, sự kiện submit của <form> sẽ reload lại toàn bộ trang khi nhấn nút Send
+
+==> Ta có thể sử dụng e.preventDefault() cho đối tượng event để chặn tình huống này:
+export default function Signup() {
+  return (
+    <form onSubmit={e => {
+      e.preventDefault();
+      alert('Submitting!');
+    }}>
+      <input />
+      <button>Send</button>
+    </form>
+  );
+}

@@ -1,0 +1,123 @@
+RENDERING LISTS:
+
+- Ta thường xuyên phải hiển thị nhiều component giống nhau từ 1 collection
+- Ta có thể sử dụng các phương thức của mảng trong JS để thao tác với 1 mảng các dữ liệu
+==> Sử dụng filter() và map() với React để lọc và biến đổi mảng dữ liệu đó thành 1 mảng các component
+
+1. Rendering dữ liệu từ 1 mảng:
+- Giả sử, ta có danh sách ul chứa các nội dung sau:
+<ul>
+  <li>Creola Katherine Johnson: mathematician</li>
+  <li>Mario José Molina-Pasquel Henríquez: chemist</li>
+  <li>Mohammad Abdus Salam: physicist</li>
+  <li>Percy Lavon Julian: chemist</li>
+  <li>Subrahmanyan Chandrasekhar: astrophysicist</li>
+</ul>
+
+==> Sự khác biệt giữa các phần tử trong danh sách này chính là dữ liệu (hay nội dung) của chúng
+- Ta sẽ thường xuyên phải hiển thị 1 số component giống nhau như này và chỉ khác dữ liệu khi xây dựng giao diện
+Từ các danh sách các bài đăng cho đến thư viện các bức ảnh
+==> Trong trường hợp này, ta sẽ lưu trữ dữ liệu trong các mảng và đối tượng JS và sử dụng các phương thức như filter() hay map() để render ra danh sách các component từ chúng 
+
+VD:
+(1) Đẩy toàn bộ dữ liệu vào 1 mảng:
+const people = [
+  'Creola Katherine Johnson: mathematician',
+  'Mario José Molina-Pasquel Henríquez: chemist',
+  'Mohammad Abdus Salam: physicist',
+  'Percy Lavon Julian: chemist',
+  'Subrahmanyan Chandrasekhar: astrophysicist'
+];
+
+(2) Ánh xạ (map) mảng people thành 1 mảng chứa các JSX node, là listItems:
+const listItems = people.map(person => <li>{person}</li>);
+
+(3) Trả về listItems từ component được bao bọc trong <ul>:
+return <ul>{listItems}</ul>
+
+==> Kết quả:
+const people = [
+  'Creola Katherine Johnson: mathematician',
+  'Mario José Molina-Pasquel Henríquez: chemist',
+  'Mohammad Abdus Salam: physicist',
+  'Percy Lavon Julian: chemist',
+  'Subrahmanyan Chandrasekhar: astrophysicist'
+];
+
+export default function List() {
+  const listItems = people.map(person =>
+    <li>{person}</li>
+  );
+  return <ul>{listItems}</ul>;
+}
+
+2. Filtering mảng các item:
+- Giả sử, ta có 1 mảng dữ liệu ở dạng đối tượng:
+const people = [{
+  id: 0,
+  name: 'Creola Katherine Johnson',
+  profession: 'mathematician',
+}, {
+  id: 1,
+  name: 'Mario José Molina-Pasquel Henríquez',
+  profession: 'chemist',
+}, {
+  id: 2,
+  name: 'Mohammad Abdus Salam',
+  profession: 'physicist',
+}, {
+  id: 3,
+  name: 'Percy Lavon Julian',
+  profession: 'chemist',  
+}, {
+  id: 4,
+  name: 'Subrahmanyan Chandrasekhar',
+  profession: 'astrophysicist',
+}];
+
+- Giả sử, ta chỉ muốn hiển thị các giáo sư là 'chemist'(hóa học)
+==> Ta có thể sử dụng phương thức filter() để trả về những giáo sư có tiêu chí này
+
+(1) Tạo 1 mảng mới chemists bằng cách sử dụng phương thức filter():
+const chemists = people.filter(person => 
+    person.profession === 'chemist
+);
+
+(2) Ánh xạ qua mảng chemists:
+const listItems = chemists.map(person =>
+    <li>
+        <img 
+            src={getImageUrl(person)}
+            alt={person.name}
+        />
+        <p>
+            <b>{person.name}:</b>
+            {' ' + person.profession + ' '}
+        </p>
+    </li>
+);
+
+(3) Trả về listItems cho component:
+return <ul>{listItems}</ul>
+
+Chú ý:
++ Hàm arrow ngầm hiểu sẽ trả về biểu thức đằng sau => nên ta không cần phải sử dụng câu lệnh return:
+const listItems = chemists.map(person =>
+  <li>...</li> // Implicit return!
+);
+
++ Tuy nhiên, ta bắt buộc phải return nếu đằng sau => là cặp ngoặc nhọn {}:
+const listItems = chemists.map(person => { // Curly brace
+  return <li>...</li>;
+});
+
+3. Giữ cho các phần tử của list theo thứ tự bằng cách sử dụng key:
+- Ta cần thêm cho mỗi phần tử của mảng 1 key (có thể là 1 string hoặc 1 số xác định duy nhất nó so với các phần tử khác của mảng):
+    <li key={person.id}>...</li>
+
+Chú ý: Các phần tử JSX bên trong hàm map() luôn phải có keys
+- Key(khóa) sẽ thông báo cho React rằng mỗi component tương ứng với mục nào để nó có thể khớp với chúng sau này
+- Điều này là rất quan trọng nếu các mục trong mảng của bạn có thể thay đổi vị trí(ví dụ do sắp xếp, bị chèn vào hoặc bị xóa)
+- Sự lựa chọn tốt key sẽ giúp React suy ra chính xác điều gì đã xảy ra và thực hiện các cập nhật chính xác cho cây DOM 
+
+

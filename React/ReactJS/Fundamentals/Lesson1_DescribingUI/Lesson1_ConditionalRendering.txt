@@ -1,0 +1,109 @@
+CONDITIONAL RENDERING
+
+- Các component sẽ thường xuyên phải cập nhật lại việc hiển thị phụ thuộc vào các điều kiện khác nhau
+- Trong React, ta có thể điều kiện hóa việc render JSX sử dụng cú pháp JS như câu lệnh if, toán tử && và ? :
+
+1. Trả về JSX có điều kiện (if):
+- Giả sử, ta có 1 component PackingList render nhiều component Item mà được đánh dấu là đóng gói hay chưa
+VD:
+App.jsx:
+function Item({name, isPacked}) {
+    return (
+        <li className="item">{name}</li>
+    );
+}
+
+export default function PackingList() {
+    return (
+        <>
+            <h1>Sally Ride's Packing List</h1>
+            <ul>
+                <Item 
+                    isPacked={true} 
+                    name="Space suit" 
+                />
+                <Item 
+                    isPacked={true} 
+                    name="Helmet with a golden leaf" 
+                />
+                <Item 
+                    isPacked={false} 
+                    name="Photo of Tam" 
+                />
+            </ul>
+        </>
+    )
+}
+
+* 1 số component Item có thuộc tính isPacked được set là true thay vì false
+==> Ta có thể thêm dấu tích ✔ để đóng gói các item nếu isPacked={true}
+VD:
+if (isPacked) {
+  return <li className="item">{name} ✔</li>;
+}
+return <li className="item">{name}</li>;
+
+2. Sử dụng toán tử điều kiện 3 ngôi (? :):
+- JS có 1 cú pháp ngắn gọn để viết biểu thức có điều kiện, đó là toán tử 3 ngôi 
+- Thay vì ta phải viết:
+if (isPacked) {
+  return <li className="item">{name} ✔</li>;
+}
+return <li className="item">{name}</li>;
+
+==> Ta có thể rút gọn:
+return (
+    <li className="item">
+        {isPacked ? name + ' ✔' : name} 
+    </li>
+);
+
+- Giả sử, ta muốn gói văn bản của 1 phần tử item vào trong 1 thẻ HTML khác, ví dụ như <del> để gạch bỏ nó 
+==> Ta có thể thêm nhiều dòng mới và dấu ngoặc đơn hơn để có thể lồng nhiều mã JSX trong từng trường hợp
+VD:
+function Item({name, isPacked}) {
+    return (
+        <li className="item">
+            {isPacked ? (
+                <del>
+                    {name + ' ✔'}
+                </del>
+            ) : (
+                name
+            )}
+        </li>
+    );
+}
+
+export default function PackingList() {
+  return (
+    <section>
+      <h1>Sally Ride's Packing List</h1>
+      <ul>
+        <Item 
+          isPacked={true} 
+          name="Space suit" 
+        />
+        <Item 
+          isPacked={true} 
+          name="Helmet with a golden leaf" 
+        />
+        <Item 
+          isPacked={false} 
+          name="Photo of Tam" 
+        />
+      </ul>
+    </section>
+  );
+}
+
+3. Toán tử AND &&:
+- 1 cách phổ biến và ngắn gọn khác mà ta có thể sử dụng đó là toán tử AND &&
+- Trong React component, nó thường xuất hiện khi ta muốn render 1 số đoạn mã JSX trong điều kiện true, hoặc không render gì trong các trường hợp còn lại 
+- Với &&, ta có thể điều kiện hóa render dấu ✔ khi isPacked là true
+VD:
+return (
+    <li className="item">
+        {name} {isPacked && '✔'}
+    </li>
+)

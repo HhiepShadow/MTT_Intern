@@ -150,3 +150,30 @@ export default function PackingList() {
     </section>
   );
 }
+
+V. Lồng ghép nhau và tổ chức các Component:
+- Component là các hàm thông thường trong JS, nên ta có thể đặt nhiều component trong cùng 1 file 
+- Điều này sẽ trở nên thuận lợi khi các component có kích thước nhỏ hoặc các component có mối quan hệ khăng khít với nhau 
+- Nếu file quá dầy đặc, ta có thể tách các component thành 1 file riêng biệt 
+- Ở ví dụ trên, Component Profile được render bên trong Gallery (có thể là nhiều lần)
+==> Gallery là component cha, render từng Profile (là component con)
+
+Chú ý: Component có thể render component khác, tuy nhiên, ta không được bao giờ lồng các định nghĩa Component với nhau 
+VD:
+export default function Gallery() {
+  // 🔴 Never define a component inside another component!
+  function Profile() {
+    // ...
+  }
+  // ...
+}
+
+==> Sửa:
+export default function Gallery() {
+  // ...
+}
+
+// ✅ Declare components at the top level
+function Profile() {
+  // ...
+}

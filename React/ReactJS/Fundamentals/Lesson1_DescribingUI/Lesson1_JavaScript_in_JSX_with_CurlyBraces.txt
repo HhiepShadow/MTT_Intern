@@ -15,4 +15,83 @@ export default function Avatar() {
   );
 }
 
-2. 
+2. Sử dụng cặp dấu ngoặc nhọn để nhúng mã JS:
+- JSX là 1 cách đặc biệt để viết mã JS 
+- Sử dụng dấu {} để viết mã JS 
+VD:
+export default function TodoList() {
+  const name = "Gregorio Y.Zara";
+
+  return (
+    <h1>{name}'s To Do List </h1>
+  );
+}
+
+* Sử dụng {} ở đâu?
+- Ta chỉ có thể sử dụng {} trong 2 cách:
+  + Text trực tiếp trong thẻ JSX 
+  VD: <h1>{name}'s To Do List</h1>
+  + Giá trị cho thuộc tính của 1 thẻ:
+  VD: <img src={avatar} />
+
+3. Sử dụng double dấu ngoặc nhọn:
+- Ta có thể truyền 1 đối tượng trong JSX 
+- Đối tượng do cũng được biểu diễn bởi cặp dấu ngoặc nhọn {}
+==> Để truyền 1 đối tượng trong JSX, ta cần sử dụng 2 lần cặp dấu ngoặc nhọn 
+VD:
+person={{ name: "Hedy Lamarr", inventions: 5 }}
+
+- Ta cũng có thể sử dụng 2 lần dấu ngoặc nhọn này để inline CSS styleVD:
+export default function TodoList() {
+  return (
+    <ul style={{
+      backgroundColor: 'black',
+      color: 'pink'
+    }}>
+      <li>Improve the videophone</li>
+      <li>Prepare aeronautics lectures</li>
+      <li>Work on the alcohol-fuelled engine</li>
+    </ul>
+  );
+}
+
+4. Các cú pháp JS được sử dụng trong {}:
+(1) Biểu thức:
+VD: <div>{2 + 2}</div>
+
+(2) Biến:
+VD: 
+const name = "John"
+<div>{name}</div>
+
+(3) Phương thức/ Hàm:
+VD:
+function formatName(name) {
+  return `Hello, ${name}!`;
+}
+<div>{formatName('John')}</div>
+
+(4) Toán tử ternary:
+const isLoggedIn = true;
+<div>{isLoggedIn ? 'Welcome back' : 'Please log in'}</div>
+
+(5) Điều kiện &&:
+const data = null;
+<div>{data && data.name}</div>
+
+(6) Mảng và map():
+const items = ['Item 1', 'Item 2', 'Item 3'];
+<ul>
+  {items.map((item, index) => (
+    <li key={index}>{item}</li>
+  ))}
+</ul>
+
+(7) Chỉ số truy cập thuộc tính:
+VD:
+const user = { name: 'John', age: 30 };
+<div>Name: {user.name}</div>
+
+(8) Biều thức lambda:
+VD:
+<button onClick={() => console.log('Button clicked')}>Click me</button>

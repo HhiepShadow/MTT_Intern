@@ -1,0 +1,5 @@
+UPDATING OBJECTS IN STATE:
+
+- State có thể lưu trữ bất kỳ giá trị nào của JS, bao gồm cả đối tượng
+- Nhưng ta không nên thay đổi trực tiếp đối tượng mà ta lưu trong React state 
+- Thay vì đó, khi ta muốn cập nhật 1 đối tượng, ta cần tạo 1 đối tượng mới (hoặc tạo bản sao chép từ đối tượng có sẵn), và set cho state để sử dụng bản sao chép
