@@ -3,3 +3,182 @@ UPDATING OBJECTS IN STATE:
 - State có thể lưu trữ bất kỳ giá trị nào của JS, bao gồm cả đối tượng
 - Nhưng ta không nên thay đổi trực tiếp đối tượng mà ta lưu trong React state 
 - Thay vì đó, khi ta muốn cập nhật 1 đối tượng, ta cần tạo 1 đối tượng mới (hoặc tạo bản sao chép từ đối tượng có sẵn), và set cho state để sử dụng bản sao chép
+
+1. Mutation - Sự thay đổi:
+- Ta có thể lưu trữ bất kỳ kiểu dữ liệu nào của JS bên trong state 
+- Ta đã từng làm việc với kiểu number, string và boolean
+==> Đây là các kiểu dữ liệu bất biến (immutable) có nghĩa là không thể thay đổi và read-only
+==> Ta cần kích hoạt 1 re-render để thay đổi 1 giá trị 
+VD: 
+const [x, setX] = useState(0);
+setX(5);
+
+- Giả sử, ta có đối tượng sau:
+const [position, setPosition] = useState({ x: 0, y: 0 });
+==> Về mặt kỹ thuật, ta có thể thay đổi cho giá trị của đối tượng position
+==> Gọi là mutation (sự thay đổi):
+    position.x = 5;
+
+Tuy nhiên, mặc dù đối tượng trong React state là có thể thay đổi giá trị, nhưng ta vẫn nên coi chúng là không thể thay đổi như number, string và boolean 
+==> Thay vì thay đổi giá trị trực tiếp của chúng, ta sẽ cần phải thay thế chúng
+
+2. Coi state luôn là read-only:
+- Giả sử, ta có đoạn code sau để hiển thị vị trí hiện tại của con trỏ chuột:
+Dấu chấm đỏ sẽ di chuyển khi bạn chạm hoặc di chuyển con trỏ trong khu vực của trang 
+import {useState} from 'react';
+
+export default function MovingDot() {
+    const [position, setPosition] = useState({
+        x: 0,
+        y: 0
+    });
+
+    return (
+        <div
+            onPointerMove={e => {
+                position.x = e.clientX;
+                position.y = e.clientY;
+            }}
+            style={{
+                position: 'relative',
+                width: '100vw',
+                height: '100vh'
+            }}
+        >
+            <div
+                style={{
+                    position: 'absolute',
+                    backgroundColor: 'red',
+                    borderRadius: '50%',
+                    transform: `translate(${position.x}px, ${position.y}px)`,
+                    left: -10,
+                    top: -10,
+                    width 20,
+                    height: 20
+                }}>
+            </div>
+        </div>
+    )
+}
+
+==> Đoạn code trên có vấn đề với:
+onPointerMove={e => {
+    position.x = e.clientX;
+    position.y = e.clientY;
+}}
+
+==> Đoạn code đã thay đổi giá trị gán vào position trong lần render trước
+Nhưng do không không có hàm set state, nên React không thể hiểu rằng đối tượng state đã được thay đổi
+==> React sẽ không phản hồi lại bất kỳ điều gì 
+==> Vì vậy, ta cần coi state luôn là read-only:
+onPointerMove={e => {
+    setPosition({
+        x: e.clientX,
+        y: e.clientY
+    });
+}}
+
+3. Sao chép đối tượng với cú pháp spread:
+VD:
+import {useState} from 'react';
+
+export default function Form(){
+    const [person, setPerson] = useState({
+        firstName: 'Barbara',
+        lastName: 'Hepworth',
+        email: 'bhepworth@sculpture.com'
+    });
+
+    function handleFirstNameChange(e) {
+        person.firstName = e.target.value;
+    }
+
+    function handleLastNameChange(e) {
+        person.lastName = e.target.value;
+    }
+
+    function handleEmailChange(e) {
+        person.email = e.target.value;
+    }
+
+    return (
+        <>
+            <label>
+                First name:
+                <input 
+                    value={person.firstName}
+                    onChange={handleFirstNameChange}
+                />
+            </label>
+            <label>
+                Last name:
+                <input 
+                    value={person.lastName}
+                    onChange={handleLastNameChange}
+                />
+            </label>
+            <label>
+                Email:
+                <input 
+                    value={person.email}
+                    onChange={handleEmailChange}
+                />
+            </label>
+            <p>
+                {person.firstName}{' '}
+                {person.lastName}{' '}
+                ({person.email})
+            </p>
+        </>
+    )
+}
+
+==> Theo ví dụ trên, đã có sự thay đổi mutation state:
+person.firstName = e.target.value;
+
+==> Ta cần sử dụng setPerson():
+setPerson({
+    firstName: e.target.value,
+    lastName: person.lastName,
+    email: person.email
+});
+
+==> Ta cũng có thể sử dụng toán tử spread ... để làm ngắn đoạn code:
+setPerson({
+    ...person,
+    firstName: e.target.value
+});
+
+4. Cập nhật giá trị 1 đối tượng lồng nhau:
+VD:
+const [person, setPerson] = useState({
+    name: 'Niki de Saint Phalle',
+    artwork: {
+        title: 'Blue Nana',
+        city: 'Hamburg',
+        image: 'https://i.imgur.com/Sd1AgUOm.jpg',
+    }
+});
+
+==> Để cập nhật:
+C1:
+const nextArtwork = {
+    ...person.artwork,
+    city: 'New Delhi'
+};
+
+const nextPerson = {
+    ...person,
+    artwork: nextArtwork
+};
+
+setPerson(nextPerson);
+
+C2: Rút gọn:
+setPerson({
+    ...person,
+    artwork: {
+        ...person.artwork,
+        city: 'New Delhi'
+    }
+})

@@ -1,0 +1,5 @@
+HOOK USEREF:
+
+- useRef là 1 hook trong React dùng để tạo ra 1 tham chiếu ref (reference) đến 1 phần tử DOM hoặc 1 giá trị không liên kết với chu kỳ render 
+- Cú pháp:
+const refVariable = useRef<T>(initialValue);

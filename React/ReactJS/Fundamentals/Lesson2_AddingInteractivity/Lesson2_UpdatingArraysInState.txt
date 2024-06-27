@@ -1,0 +1,225 @@
+UPDATING ARRAYS IN STATE:
+
+________________________________________________________________________________
+|               |   avoid (mutates the array)  |    prefer (returns a new array)|
+|_______________|______________________________|________________________________|              
+|   adding      |   push, unshift              |    concat, [...arr]            |
+|               |                              |                                |
+|   removing    |   pop, shift, splice         |    filter, slice               |
+|               |                              |                                |
+|   replacing   |   splice, arr[i] = ...       |    map                         |         
+|               |                              |                                |
+|   sorting     |   reverse, sort              |    copy the array first        |
+|_______________|______________________________|________________________________|
+
+
+Chú ý: slice() và splice() là 2 phương thức cùng 1 chức năng nhưng khác nhau về cách thức thực hiện 
++ slice() sẽ tạo ra 1 mảng mới hoặc 1 phần của mảng đó
++ splice() sẽ thay đổi trực tiếp mảng đó 
+==> Ta sẽ sử dụng slice chứ không sử dụng splice()
+
+I. Thêm phần tử vào mảng:
+VD:
+import {useState} from 'react';
+
+let nextId = 0;
+
+export default function List() {
+    const [name, setName] = useState('');
+    const [artists, setArtists] = useState([]);
+
+    return (
+        <>
+            <h1>Inspiring sculptors:</h1>
+            <input 
+                value={name}
+                onChange={e => setName(e.target.value)}
+            />
+            <button onClick={() => {
+                setArtists([
+                    ...artists,
+                    {
+                        id: nextId++,
+                        name: name
+                    }
+                ])
+            }}>
+                Add 
+            </button>
+            <ul>
+                {artists.map(artist => (
+                    <li key={artist.id}>{artist.name}</li>
+                ))}
+            </ul>
+        </>
+    )
+}
+
+II. Xóa phần tử khỏi mảng:
+- Cách dễ dàng nhất để xóa 1 phần tử trong mảng đó là filter
+VD:
+import {useState} from 'react';
+
+let initialArtists = [
+    {
+        id: 0,
+        name: 'Marta Colvin Andrade'
+    },
+    {
+        id: 1,
+        name: 'Lamidi Olonade Fakeye'
+    },
+    {
+        id: 2,
+        name: 'Louise Nevelson'
+    }
+];
+
+export default function List() {
+    const [artists, setArtists] = useState(initialArtists);
+
+    return (
+        <>
+            <h1>Inspiring sculptors:</h1>
+            <ul>
+                {artists.map(artist => (
+                    <li key={artist.id}>
+                        {artist.name}{' '}
+                        <button onClick={() => {
+                            setArtists(
+                                artists.filter(a => 
+                                    a.id !== artist.id
+                                )
+                            );
+                        }}>
+                            Delete
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </>
+    )
+}
+
+III. Thay thế phần tử trong mảng:
+- Sử dụng phương thức map():
+import {useState} from 'react';
+
+let initialCounters = [0, 0, 0];
+
+export default function CounterList() {
+    const [counters, setCounters] = useState(initialCounters);
+
+    function handleIncrementClick(index) {
+        const nextCounters = counters.map((counter, i) => {
+            if(i === index){
+                return counter + 1;
+            }else {
+                return counter;
+            }
+        })
+    }
+
+    return (
+        <ul>
+        {counters.map((counter, i) => (
+            <li key={i}>
+            {counter}
+            <button onClick={() => {
+                handleIncrementClick(i);
+            }}>+1</button>
+            </li>
+        ))}
+        </ul>
+    );
+}
+
+IV. Thêm phần tử vào vị trí bất kỳ trong mảng:
+- Sử dụng phương thức slice()
+VD:
+import {useState} from 'react';
+
+let nextId = 3;
+const initialArtists = [
+    {
+        id: 0,
+        name: 'Marta Colvin Andrade'
+    },
+    {
+        id: 1,
+        name: 'Lamidi Olonade Fakeye'
+    },
+    {
+        id: 2,
+        name: 'Louise Nevelson'
+    }
+];
+
+export default function List(){
+    const [name, setName] = useState('');
+    const [artists, setArtists] = useState(initialArtists);
+
+    function handleClick() {
+        const insertAt = 1;
+        const nextArtists = [
+            ...artists.slice(0, insertAt),
+            {
+                id: nextId++,
+                name: name
+            },
+            ...artists.slice(insertAt)
+        ];
+    }
+
+    return (
+        <>
+        <h1>Inspiring sculptors:</h1>
+        <input
+            value={name}
+            onChange={e => setName(e.target.value)}
+        />
+        <button onClick={handleClick}>
+            Insert
+        </button>
+        <ul>
+            {artists.map(artist => (
+            <li key={artist.id}>{artist.name}</li>
+            ))}
+        </ul>
+        </>
+    );
+}
+
+V. Sắp xếp mảng state:
+- Sử dụng kết hợp spread ... và reverse() hoặc sort()
+VD:
+import { useState } from 'react';
+
+const initialList = [
+  { id: 0, title: 'Big Bellies' },
+  { id: 1, title: 'Lunar Landscape' },
+  { id: 2, title: 'Terracotta Army' },
+];
+
+export default function List() {
+  const [list, setList] = useState(initialList);
+
+  function handleClick() {
+    const nextList = [...list];
+    nextList.reverse();
+    setList(nextList);
+  }
+
+  return (
+    <>
+      <button onClick={handleClick}>
+        Reverse
+      </button>
+      <ul>
+        {list.map(artwork => (
+          <li key={artwork.id}>{artwork.title}</li>
+        ))}
+      </ul>
+    </>
+  );
+}
