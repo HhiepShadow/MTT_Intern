@@ -7,3 +7,8 @@ npm i -D json-server
 ```cmd
 npx json-server -p <port> -w data/db.json
 ```
+
+## GET request:
+``` postman
+GET http://localhost:<port>/items
+```
