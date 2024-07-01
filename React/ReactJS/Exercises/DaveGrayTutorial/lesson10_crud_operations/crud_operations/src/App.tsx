@@ -7,6 +7,7 @@ import AddItem from "./AddItem";
 import SearchItem from "./Search/SearchItem";
 import Content from "./Content";
 import { URL } from "./data";
+import apiRequest from "./api/apiRequest";
 
 function App() {
   const [items, setItems] = useState<Item[]>([]);
@@ -45,7 +46,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(URL);
+        const response: Response = await fetch(URL);
         if (!response.ok) {
           throw Error("Did not received expected data");
         }
@@ -69,7 +70,7 @@ function App() {
     }, 2000);
   }, []);
 
-  const handleCheck = (id: number) => {
+  const handleCheck = async (id: number) => {
     const newItemList: Item[] = items.map((item) => {
       if (id === item.id) {
         return {
@@ -82,12 +83,41 @@ function App() {
     });
     setAndSaveItems(newItemList);
     //localStorage.setItem('listItems', JSON.stringify(newItemList));
+
+    // PUT REQUEST:
+    const updatedItem: Item[] = newItemList.filter((item) => item.id === id);
+    const updateOptions: object = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        checked: updatedItem[0].checked,
+      }),
+    };
+
+    const reqUrl: string = `${URL}/${id}`;
+    const result = await apiRequest(reqUrl, updateOptions);
+    if (result) {
+      setError(result);
+    } 
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     const newItemList: Item[] | null = items.filter((item) => item.id !== id);
     setAndSaveItems(newItemList);
     //localStorage.setItem('listItems', JSON.stringify(newItemList));
+
+    // DELETE REQUEST:
+    const deleteOptions: object = {
+      method: 'DELETE'
+    };
+
+    const reqUrl: string = `${URL}/${id}`;
+    const result = await apiRequest(reqUrl, deleteOptions);
+    if (result) {
+      setError(result);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -100,8 +130,8 @@ function App() {
     setNewItem("");
   };
 
-  const addItem = (item: string) => {
-    const id = items.length ? items[items.length - 1].id + 1 : 1;
+  const addItem = async (item: string) => {
+    const id = items.length ? Number(items[items.length - 1].id) + 1 : 1;
     const myNewItem: Item = {
       id: id,
       checked: false,
@@ -109,6 +139,20 @@ function App() {
     };
     const newListItem: Item[] = [...items, myNewItem];
     setItems(newListItem);
+
+    // POST REQUEST:
+    const postOptions: object = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(myNewItem),
+    };
+
+    const result = await apiRequest(URL, postOptions);
+    if (result) {
+      setError(result);
+    }
   };
 
   const setAndSaveItems = (newItems: Item[]): void => {
