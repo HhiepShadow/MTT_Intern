@@ -1,24 +1,19 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { PostModel } from "./models/PostModel";
+import { DataContext } from "./context/DataContext";
 
-const EditPost = ({
-  posts,
-  handleUpdate,
-  postEditTitle,
-  setPostEditTitle,
-  postEditBody,
-  setPostEditBody,
-}: {
-  posts: PostModel[];
-  handleUpdate: (id: number) => void;
-  postEditTitle: string;
-  setPostEditTitle: Dispatch<SetStateAction<string>>;
-  postEditBody: string;
-  setPostEditBody: Dispatch<SetStateAction<string>>;
-}) => {
+const EditPost = () => {
+  const {
+    posts,
+    handleUpdate,
+    postEditTitle,
+    setPostEditTitle,
+    postEditBody,
+    setPostEditBody,
+  } = useContext(DataContext);
   const { id } = useParams();
-  const post: PostModel = posts.find(post => post.id.toString() === id);
+  const post: PostModel = posts.find((post) => post.id.toString() === id);
 
   useEffect(() => {
     if (post) {

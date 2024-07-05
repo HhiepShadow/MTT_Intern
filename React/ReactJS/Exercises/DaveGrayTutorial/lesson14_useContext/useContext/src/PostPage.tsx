@@ -1,14 +1,9 @@
-import React from "react";
-import { PostModel } from "./models/PostModel";
+import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
+import { DataContext } from "./context/DataContext";
 
-const PostPage = ({
-  posts,
-  handleDelete,
-}: {
-  posts: PostModel[];
-  handleDelete: (id: number) => void;
-}) => {
+const PostPage = () => {
+  const { posts, handleDelete } = useContext(DataContext);
   const { id } = useParams();
   const post = posts.find((post) => post.id.toString() === id);
 
@@ -23,7 +18,9 @@ const PostPage = ({
             <Link to={`/edit/${post.id}`}>
               <button className="editBtn">Edit Post</button>
             </Link>
-            <button className="deleteBtn" onClick={() => handleDelete(post.id)}>Delete Post</button>
+            <button className="deleteBtn" onClick={() => handleDelete(post.id)}>
+              Delete Post
+            </button>
           </>
         )}
         {!post && (

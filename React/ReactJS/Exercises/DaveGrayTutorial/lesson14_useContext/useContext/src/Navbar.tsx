@@ -1,13 +1,9 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { DataContext } from "./context/DataContext";
 
-const Navbar = ({
-  search,
-  setSearch,
-}: {
-  search: string;
-  setSearch: Dispatch<SetStateAction<string>>;
-}) => {
+const Navbar = () => {
+  const { search, setSearch } = useContext(DataContext);
   return (
     <div className="Nav">
       <form
