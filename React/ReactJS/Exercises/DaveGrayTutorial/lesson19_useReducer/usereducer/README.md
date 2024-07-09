@@ -44,3 +44,49 @@ const reducer = (state, action) => {
 dispatch({ type: 'ACTION_TYPE_1' });
 dispatch({ type: 'ACTION_TYPE_2', payload: 'new value'});
 ```
+
+Example:
+```
+import React, { useReducer } from 'react';
+
+type CountState = {
+  count: number;
+}
+
+type CountAction = {
+  type: 'INCREMENT' | 'DECREMENT';
+  payload?: number; 
+}
+
+const counterReducer = (state: CountState, action: CountAction): CountState => {
+  switch(action.type) {
+    case 'INCREMENT':
+      return {
+        count: state.count + (action.payload || 1)
+      };
+    case 'DECREMENT':
+      return {
+        count: state.count - (action.payload || 1)
+      };
+    default:
+      return state;
+  }
+};
+
+const Counter = () => {
+  const initialState: CountObject = {
+    count: 0
+  };
+  const [state, dispatch] = useReducer(counterReducer, initialState);
+
+  return (
+    <div>
+      <p>Count: {state.count}</p>
+      <button onClick={() => dispatch({ type: 'INCREMENT' })}>Increment</button>
+      <button onClick={() => dispatch({ type: 'DECREMENT' })}>Decrement</button>
+    </div>
+  )
+}
+
+export default Counter;
+```
