@@ -1,35 +1,77 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useReducer, ChangeEvent } from "react";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+type State = {
+  userInput: string;
+  count: number;
+  color: boolean;
+};
+
+type Action = {
+  type: "increment" | "decrement" | "change" | "color" | "reset";
+  payload?: number | string | boolean;
+};
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "increment":
+      return {
+        ...state,
+        count: state.count + 1,
+      };
+    case "decrement":
+      return {
+        ...state,
+        count: (state.count > 0 && state.count - 1) || 0,
+      };
+    case "change":
+      return {
+        ...state,
+        userInput: (typeof action.payload === "string" && action.payload) || "",
+      };
+    case "color":
+      return {
+        ...state,
+        color: !state.color,
+      };
+    case "reset":
+      return {
+        ...state,
+        count: 0,
+      };
+    default:
+      return state;
+  }
+};
+
+const App = () => {
+  const initialState: State = {
+    userInput: "",
+    count: 0,
+    color: false,
+  };
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="App">
+      <input
+        type="text"
+        value={state.userInput}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          dispatch({ type: "change", payload: e.target.value })
+        }
+      />
+      <br />
+      <br />
+      <p>{state.userInput}</p>
+      <p>{state.count}</p>
+      <section>
+        <button onClick={() => dispatch({ type: "increment" })}>+</button>
+        <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+        <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
+      </section>
+    </div>
+  );
+};
 
-export default App
+export default App;
