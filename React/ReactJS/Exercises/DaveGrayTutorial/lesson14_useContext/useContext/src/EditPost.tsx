@@ -13,7 +13,7 @@ const EditPost = () => {
     setPostEditBody,
   } = useContext(DataContext);
   const { id } = useParams();
-  const post: PostModel = posts.find((post) => post.id.toString() === id);
+  const post: PostModel | undefined = posts.find((post) => post.id.toString() === id);
 
   useEffect(() => {
     if (post) {
@@ -43,7 +43,7 @@ const EditPost = () => {
               value={postEditBody}
               onChange={(e) => setPostEditBody(e.target.value)}
             />
-            <button type="submit" onClick={() => handleUpdate(post.id)}>
+            <button type="submit" onClick={() => post && handleUpdate(post.id)}>
               Edit
             </button>
           </form>
