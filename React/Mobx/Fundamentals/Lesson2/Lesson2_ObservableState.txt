@@ -1,0 +1,204 @@
+OBSERVABLE STATE:
+- Các thuộc tính bao gồm cả đối tượng, mảng, Map(ánh xạ) và Set đều có thể trở thành observable 
+- Để tạo các đối tượng observable là chỉ định annotation cho mỗi thuộc tính sử dụng makeObservable
+- Các annotation:
+    + observable: định nghĩa 1 trường có thể được theo dõi để lưu trữ state 
+    + action: đánh dấu 1 phương thức như 1 action để thay đổi và cập nhật state 
+    + computed: đánh dấu hàm getter sẽ lấy ra giá trị mới của state và cache giá trị đầu ra 
+
+1. makeObservable:
+- Cú pháp:
+makeObservable(target, annotations?, options?)
+- makeObservable có thể được sử dụng để tạo các thuộc tính có sẵn trong đối tượng observable
+- Bất kể đối tượng nào (kể cả class instance) đều có thể truyền vào target
+- Thông thường, makeObservable được sử dụng trong hàm tạo của 1 lớp 
+Và tham số đầu tiên là this
+- Tham số annotations ánh xạ annotations tới từng thành viên
+Và chỉ những thành viên được annotated mới được áp dụng
+- Ngoài ra, decorator như @observable có thể được sử dụng cho các thành viên của class thay vì gọi makeObservable trong hàm tạo
+
+Chú ý: flow là 1 phương thức đặc biệt để xử lý các tác vụ bất đồng bộ 1 cách an toàn và hiệu quả
+
+VD1: class + makeObservable:
+import { makeObservable, observable, computed, action, flow } from 'mobx';
+
+class Double {
+    value = 1
+
+    constructor(value) {
+        makeObservable(this, {
+            value: observable,
+            double: computed,
+            increment: action,
+            fetch: flow
+        });
+
+        this.value = value;
+    }
+
+    get double() {
+        return this.value * 2;
+    }
+
+    increment() {
+        this.value++;
+    }
+
+    *fetch() {
+        const repsonse = yield fetch("/api/value");
+        this.value = repsonse.json();
+    }
+}
+
+VD2: class + decorator:
+import { observable, computed, action, flow } from 'mobx';
+
+class Double {
+    @observable accessor value;
+
+    constructor(value) {
+        this.value = value;
+    }
+
+    @computed get double() {
+        return this.value * 2
+    }
+
+    @action increment() {
+        this.value++;
+    }
+
+    @flow *fetch() {
+        const response = yield fetch("/api/value");
+        this.value = repsonse.json();
+    }
+}
+
+VD3: factory function + makeAutoObservable:
+import { makeAutoObservable } from 'mobx';
+
+const createDoubler = (value) => {
+    return makeAutoObservable({
+        value, 
+        get double() {
+            return this.value * 2
+        }
+        increment() {
+            this.value++
+        }
+    })
+};
+
+VD4: observable:
+import { observable } from 'mobx';
+
+const todosById = observable({
+    "TODO-123": {
+        title: "find a decent task management system",
+        done: false
+    }
+})
+
+# Add new todo into observable object:
+todosById["TODO-456"] = {
+    title: "close all tickets older than 2 weeks",
+    done: true
+}
+
+const tags = observable(["high prio", "medium prio", "low prio"]);
+tags.push("prio: for fun");
+
+
+2. makeAutoObservable():
+- Cú pháp:
+makeAutoObservable(target, overrides?, options?)
+- makeAutoObservable giống makeObservable vì nó suy ra tất cả các thuộc tính theo mặc định
+- Tuy nhiên, ta có thể sử dụng tham số @override để ghi đè phương thức mặc định 
+
+- makeAutoObservable có thể gọn nhẹ hơn và dễ bảo trì hơn so với sử dụng makeObservable, vì các thành viên mới không cần phải được đề cập rõ ràng
+Tuy nhiên, makeAutoObservable không thể sử dụng trên các lớp có super hoặc lớp con
+
+* So sánh giữa makeAutoObservable và makeObservable:
+(1) Tự động - Thủ công:
++ makeAutoObservable tự động chuyển đổi tất cả các thuộc tish của đối tượng thành observable properties, không cần khai báo thủ công 
++ makeObservable yêu cầu ta phải khai báo thủ công các thuộc tính cần được chuyển đổi thành observable properties
+
+(2) Phạm vi:
++ makeAutoObservable chuyển đổi toàn bộ đối tượng, bao gồm cả thuộc tính được thêm sau đó
++ makeObservable chỉ chuyển đổi các thuộc tính được khai báo thủ công, không tự động theo dõi các thuộc tính mới được thêm vào
+
+(3) Tối ưu hóa:
++ makeAutoObservable hỗ trợ tất cả các thuộc tính, bao gồm cả các phương thức và các thuộc tính động
++ makeObservable chỉ hỗ trợ các thuộc tính đơn giản, không hỗ trợ các phương thức và thuộc tính động 
+
+* Quy tắc:
+- Tất cả các thuộc tính của lớp đó thành observable
+- Tất cả hàm getter thành computed
+- Tất cả hàm setter thành action
+- Tất cả các hàm đều thành autoAction
+- Tất cả các hàm generator đều có thể trở thành flow 
+- Khi sử dụng overrides, ta truyền vào 1 đối tượng , trong đó các thuộc tính của object được đánh dấu là true/false
+    + Các thuộc tính được đánh dấu là true sẽ trở thành observable
+    + Các thuộc tính được đánh dấu là false sẽ không trở thành observable
+VD:
+class Person {
+    id: true;
+    name: 'John Doe';
+    age = 30;
+}
+
+makeAutoObservable(new Person(), {
+    id: false
+})
+
+3. observable():
+- Cú pháp:
+    + observable(source, overrides?, options?)
+    + @observable ancessor (field decorator)
+- Annotation observable cũng có thể được coi là 1 function 
+- observable sẽ biến 1 đối tượng trở thành observable 
+trong đó:
++ source: giá trị cần trở thành observable
++ overrides: 1 object chứa các thuộc tính sẽ được sử dụng để:
+                . ghi đè lên các thuộc tính của source nếu đã tồn tại trong source
+                . thêm vào source và thành observable nếu không tồn tại trong source
++ options: 1 object chứa các tùy chọn cấu hình cho observable
+
+- observable() sẽ trả về 1 Proxy, có nghĩa là các thuộc tính được thêm vào object lúc sau cũng sẽ được theo dõi
+và trở thành observable
+VD:
+import { observable, autorun } from 'mobx';
+
+const todos = observable([
+    {
+        title: "Spoil tea",
+        completed: true,
+    },
+    {
+        title: "Make coffee",
+        completed: false,
+    }
+]);
+
+autorun(() => {
+    console.log(
+        "Remaining: ",
+        todos
+            .filter(todo => !todo.completed)
+            .map(todo => todo.title)
+            .join(", ")
+    )
+})
+// 'Remaining: Make coffee'
+
+todos[0].completed = false;
+// 'Remaining: Spoil tea, Make coffee'
+
+todos[2] = {
+    title: "Take a nap",
+    completed: false
+};
+// 'Remaining: Spoil tea, Make coffee, Take a nap'
+
+todos.shift();
+// 'Remaining: Make coffee, Take a nap'

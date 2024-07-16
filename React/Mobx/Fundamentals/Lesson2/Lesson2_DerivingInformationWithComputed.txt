@@ -1,0 +1,50 @@
+DERIVING INFORMATION WITH COMPUTED:
+
+- Các giá trị computed được sử dụng để lấy thông tin từ các observables khác 
+
+VD:
+import { makeObservable, observable, computed, autorun } from 'mobx';
+
+class OrderLine {
+    price = 0;
+    amount = 1;
+
+    constructor(price) {
+        makeObservable(this, {
+            price: observable,
+            amount: observable,
+            total: computed
+        });
+        this.price = price;
+    }
+
+    get total() {
+        console.log("Computing...");
+        return this.price * this.amount;
+    }
+}
+
+const order = new OrderLine(0);
+
+const stop = autorun(() => {
+    console.log("Total: " + order.total);
+});
+// Computing...
+// Total: 0
+
+console.log(order.total)
+// (No recomputing!)
+// 0
+
+order.amount = 5
+// Computing...
+// (No autorun)
+
+order.price = 2
+// Computing...
+// Total: 10
+
+stop()
+
+order.price = 3
+// Neither the computation nor autorun will be recomputed.

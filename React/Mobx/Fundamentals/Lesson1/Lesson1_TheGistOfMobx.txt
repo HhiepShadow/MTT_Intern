@@ -1,0 +1,137 @@
+- Mobx bao gồm 3 khái niệm:
++ State
++ Actions
++ Derivations
+
+1. Định nghĩa state và làm cho nó quan sát được (observable)
+- Các thuộc tính và giá trị của state được đánh dấu bằng observable để Mobx có thể theo dõi chúng
+VD:
+import {makeObservable, observable, action} from 'mobx';
+
+class Todo {
+    id = Math.random()
+    title = ""
+    finished = false
+
+    constructor(title){
+        makeObservable(this, {
+            title: observable,
+            finished: observable,
+            toggle: action
+        });
+        this.title = title;
+    }
+
+    toggle(){
+        this.finished = !this.finished;
+    }
+}
+
+==> observable đại diện cho các giá trị, đối tượng, hoặc mảng có thể theo dõi được 
+Mỗi khi observable thay đổi, các component của ứng được liên kết với sẽ được cập nhật tự động
+
+2. Cập nhật state bằng actions:
+- actions là các phương thức để thay đổi và cập nhật observable 
+- Đóng vai trò quan trọng trong việc quản lý trạng thái của ứng dụng
+- Các đặc điểm:
+    + Thay đổi trạng thái
+    + Gói gọn logic
+    + Theo dõi các thay đổi 
+- Cú pháp:
++ action_name: action 
++ @action action_name(params){}
+
+3. Mô hình các giá trị được lấy ra bằng cách sử dụng computed:
+- computed là những giá trị được tính toán dựa trên các observable khác
+- Đóng vai trò quan trọng trong việc đơn giản hóa và tối ưu hóa logic của ứng dụng
+- Đặc điểm:
+    + Tính toán dựa trên observables: 
+        . computed sẽ tự động tính toán kết quả dựa trên các observables khác, và chỉ được tính toán 
+        lại khi các observables đó thay đổi
+        . Caching và tối ưu hóa
+        . Đơn giản hóa logic: tách các phép tính toán phức tạp ra khỏi actions và component
+
+- Để tạo computed, ta cần xác định các hàm getter và đánh dấu cho nó là computed
+VD:
+import { makeObservable, observable, computed } from 'mobx';
+
+class TodoList {
+    todos: Todo[]
+    get unfinishedTodoCount() {
+        return todos.filter(todo => !todo.finished).length;
+    }
+
+    constructor(todos) {
+        makeObservable(this, {
+            todos: observable,
+            unfinishedTodoCount: computed
+        });
+        this.todos = todos;
+    }
+}
+
+4. Reactive React Component:
+- Để tạo ra 1 RRC, ta cần sử dụng 1 kỹ thuật trong Mobx gọi là observer
+- Observer là 1 higher-order component (HOC) hoặc decorator, giúp liên kết các React component
+với các observables
+- Đặc điểm của observer:
+    + Tự động subscribe và unsubscribe với các observable mà nó sử dụng
+    + Tự động re-render 
+    + Đơn giản hóa quản lý state 
+VD:
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+
+const TodoListView = observer(({ todoList }) => {
+    <div>
+        <ul>
+            {todoList.todos.map(todo => (
+                <TodoView todo={todo} key={todo.id} />
+            ))}
+        </ul>
+        Task left: {todoList.unfinishedTodoCount}
+    </div>
+})
+
+5. Các custom reaction:
+5.1. autorun():
+- autorun là 1 API core được sử dụng để tạo ra các reaction 
+- Khi sử dụng autorun(), ta cung cấp cho nó 1 effect function, và effect function này sẽ được gọi ngay
+lập tức và mỗi khi bất kỳ observable nào được truy cập trong effect function thay đổi 
+- Cú pháp:
+const disposer = autorun(effectFunction)
+
+5.2. reaction():
+- reaction là 1 API core được sử dụng để tạo các reaction, tức là các side effect được kích hoạt bởi sự thay đổi của các observable
+- Cú pháp:
+const disposer = reaction(
+    trackFunction,
+    reactionFunction
+    [, options]
+);
+
+trong đó:
++ trackFunction: 1 function trả về 1 hoặc nheieuf observable ta muốn theo dõi
+Mỗi khi bất kỳ observable nào trong đó thay đổi, reactionFunction sẽ được gọi
++ reactionFunction: 1 function chứa các side effect mà ta muốn thực hiện mỗi khi trackFunction phát hiện sự thay đổi
++ options: 1 object tùy chọn chứa các thiết lập bổ sung cho reaction
+
+- options:
++ delay: delay thời gian thực thi reactionFunction
++ name: tên mô tả cho reaction, giúp việc debug và theo dõi dễ dàng hơn
++ onError: hàm xử lý lỗi nếu có exception xảy ra trong reactionFunction
++ scheduler: hàm tùy chỉnh để lập lịch thực thi reactionFunction
+VD:
+const disposer = reaction(
+    () => store.unfinishedTodoCount,
+    (unfinishedTodoCount) => {
+        console.log(`Unfinished todos count: ${unfinishedTodoCount}`);
+    },
+    {
+        delay: 1000,
+        name: 'UnfinishedTodosCountLogger',
+        onError: (err: Error) => {
+            console.log(`Error: ${err}`);
+        }
+    }
+)

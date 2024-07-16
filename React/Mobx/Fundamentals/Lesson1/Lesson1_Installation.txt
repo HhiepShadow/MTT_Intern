@@ -1,0 +1,7 @@
+CÀI ĐẶT:
+- NPM:
+    npm install --save mobx 
+
+- YARN:
+    yarn add mobx 
+    

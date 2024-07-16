@@ -1,0 +1,56 @@
+SIDE EFFECT REACTIONS:
+
+1. autorun():
+- Cú pháp: 
+autorun(effect: (reaction) => void, options?)
+
+- Hàm autorun() nhận vào 1 hàm sẽ chạy mỗi khi giá trị mà nó theo dõi thay đổi
+- Nó cũng chạy mỗi khi ta bắt đầu tạo autorun()
+- Nó chỉ phản hồi những thay đổi trong trạng thái quan sát được, những giá trị ta đặt là observable hoặc computed
+
+VD:
+import { makeAutoObservable, autorun } from 'mobx';
+
+class Animal {
+    name 
+    energyLevel
+
+    constructor(name) {
+        this.name = name;
+        this.energyLevel = 100;
+        makeAutoObservable(this);
+    }
+
+    reduceEnergy() {
+        this.energyLevel -= 10;
+    }
+
+    get isHungry() {
+        return this.energyLevel < 50;
+    }
+}
+
+const giraffe = new Animal("Gary");
+
+autorun(() => {
+    console.log("Energy level: ", giraffe.energyLevel);
+});
+
+autorun(() => {
+    if(giraffe.isHungry) {
+        console.log("Now I'm hungry");
+    } else {
+        console.log("I'm not hungry");
+    }
+});
+
+console.log("Now let's change state!");
+
+2. reaction():
+- Cú pháp:
+reaction(
+    () => value, 
+    (value, previousValue, reaction) => { sideEffect }, 
+    options?
+)
+

@@ -1,0 +1,61 @@
+AVAILABLE ANNOTATIONS:
+
+(1) @observable
+    @observable.deep:
+- Theo dõi các thuộc tính 
+- Tự động tạo thành 1 đối tượng observable 
+trong đó: các giá trị sẽ được tự động biến đổi thành:
+    + observable
+    + autoAction
+    + flow 
+phụ thuộc vào kiểu dữ liệu của nó
+- Chỉ các kiểu dữ liệu:
+    + Đối tượng thuần (plain object)
+    + Mảng (array)
+    + Map
+    + Set
+    + Hàm
+    + Hàm generator 
+mới tự động chuyển đổi 
+
+* So sánh observable và observable.deep:
+- Mức độ theo dõi:
+@observable: Chỉ theo dõi giá trị trực tiếp của property, không theo dõi các thuộc tính lồng nhau.
+@observable.deep: Không chỉ theo dõi giá trị trực tiếp của property, mà còn theo dõi cả các thuộc tính lồng nhau bên trong object.
+- Tự động tạo observable:
+@observable: Khi bạn gán một object mới cho property, MobX sẽ không tự động đánh dấu các thuộc tính của object đó là observable.
+@observable.deep: Khi bạn gán một object mới cho property, MobX sẽ tự động đánh dấu các thuộc tính của object đó là observable.
+- Hiệu suất:
+@observable: Có hiệu suất tốt hơn, vì MobX chỉ theo dõi giá trị trực tiếp của property, không cần theo dõi các thuộc tính lồng nhau.
+@observable.deep: Có thể dẫn đến hiệu suất kém hơn, vì MobX phải theo dõi rất nhiều observable.
+
+VD:
+class User {
+  @observable name = 'John';
+  @observable.deep address = { city: 'New York', country: 'USA' };
+}
+
+const user = new User();
+user.name = 'Jane'; // Chỉ name được cập nhật, address không
+user.address.city = 'Los Angeles'; // Cả name và address.city được cập nhật
+
+(2) @observable.ref:
+- Theo dõi reference của object chứ không theo dõi các thuộc tính bên trong 
+- Không tự động tạo cho các thuộc tính bên trong object 
+- Phù hợp với dữ liệu bất biến (immutable)
+
+(3) @observable.shallow:
+- Giống với observable.ref là chỉ theo dõi sự thay đổi reference của giá trị được gán cho observable
+- Không tự động chuyển đổi giá trị thành observable, ngay cả khi đó là 1 object hay mảng 
+- Tự động chuyển đổi các thuộc tính bên trong object/mảng thành observable
+
+(4) @observable.struct:
+- Theo dõi sự thay đổi của observable, đặc biệt là đối với các đối tượng và mảng 
+
+(5) @action:
+
+(6) @action.bound:
+- Giống với @action, nhưng sẽ ràng buộc các action với 1 instance của đối tượng
+==> Giúp tránh các vấn đề với this trong JS
+- Ràng buộc this tự động: this context của action sẽ ràng buộc với instance của đối tượng chứa nó
+

@@ -1,0 +1,78 @@
+MOBX:
+
+I. Giới thiệu:
+- Mobx là 1 thư viện dựa trên tín hiệu, được thử nghiệm rộng rãi, giúp quản lý trạng thái trở nên đơn giản và có thể 
+mở rộng bằng cách áp dụng lập trình phản ứng theo hướng chức năng 1 cách minh bạch
+- Lập trình phản ứng (Reactive programming) là 1 phương pháp lập trình dựa trên luồng dữ liệu và truyền thông bất đồng bộ:
+    + Chương trình được thiết kế để phản ứng với các sự kiện (events) thay vì phải chủ động kiểm tra và cập nhật trạng thái
+    + Dữ liệu này là stream của các sự kiện
+    + Các thành phần sẽ đăng ký lắng nghe và phản ứng với những thay đổi trong stream này
+
+- Đặc điểm:
++ Dựa trên tín hiệu: 
+    . Mobx dựa trên khái niệm "tín hiệu"(signal) - những quan sát (observable) có thể được đăng ký theo dõi
+    . Khi trạng thái của 1 quan sát thay đổi, các thành phần đăng ký sẽ tự động được cập nhật, loại bỏ nhu cầu 
+    cập nhật trạng thái thủ công và mã nguồn thừa
+
++ Lập trình phản ứng theo hướng chức năng (FRP - Functional Reactive Programming):
+    . Mobx dựa trên các nguyên tắc của FRP, nhấn mạnh vào việc luồng dữ liệu xuyên suốt ứng dụng của ta 
+    . Giúp quản lý trạng thái trở nên dễ khai báo và dễ quản lý hơn, khi ta tập trung vào việc định nghĩa các mối quan hệ 
+    giữa những phần khác nhau của trạng thái
+
++ Đã được thử nghiệm rộng rãi 
+
++ Đơn giản và có thể mở rộng
+
++ Áp dụng FRP 1 cách minh bạch
+
+II. Ví dụ:
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { makeAutoObservable } from 'mobx';
+import { observer } from 'mobx-react-lite';
+
+interface Time {
+    secondPassed: number;
+    increase: () => void;
+    decrease: () => void;
+}
+
+const createTimer = () => {
+    return makeAutoObservable({
+        secondPassed: 0,
+        increase() {
+            this.secondPassed += 1
+        },
+        reset() {
+            this.secondPassed = 0
+        }
+    })
+}
+
+const myTimer = createTimer();
+
+const TimerView = observer(({timer}: {timer: Time}) => (
+    <button onClick={() => timer.reset()}>Seconds passed: {timer.secondPassed}</button>
+));
+
+ReactDOM.render(<TimerView timer={myTimer}/>, document.body);
+
+setInterval(() => {
+    myTimer.increase()
+}, 1000);
+
+==> Khi này:
++ observer bao bọc toàn bộ component TimerView sẽ tự động phát hiện ra rằng việc render phụ thuộc vào observable timer.secondPassed, 
+kể cả mối quan hệ này không được định nghĩa rõ ràng
++ Hệ thống reactive sẽ quan tâm đến việc re-render lại component khi chính xác trường đó được cập nhật trong tương lai
++ Mỗi sự kiện (onClick / setInterval) sẽ kích hoạt 1 hành động (myTimer.increase / myTimer.reset) cập nhật trạng thái quan sát 
+được (myTimer.secondPassed)
++ Những thay đổi trong trạng thái thái quan sát được truyền chính xác đến tất cả các phép tính và side effect (TimerView) phụ thuộc vào 
+những thay đổi đang được thực hiện
+
+    event                   update                      notify                    trigger
+============>  Actions ===============> Observable ================> Computed ===============> Side-effects (like renders)
+                 ||                        State                      Values                                ||
+                 ||                                                                                         ||
+                  ============================================================================================
+

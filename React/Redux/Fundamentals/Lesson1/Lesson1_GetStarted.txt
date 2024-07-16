@@ -1,0 +1,5 @@
+LESSON 1 - REDUX
+
+- Redux là 1 thư viện để quản lý các state cho các ứng dụng JS
+- Redux cung cấp 1 cách tiếp cận có cấu trúc và nhất quán để quản lý trạn thái của ứng dụng
+

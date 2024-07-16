@@ -1,0 +1,16 @@
+{
+  "name": "lesson2_reactions_side_effect",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lesson2.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mobx": "^6.13.0",
+    "typescript": "^5.5.3"
+  }
+}

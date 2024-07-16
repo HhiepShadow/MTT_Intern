@@ -1,0 +1,246 @@
+UPDATING STATE USING ACTIONS 
+
+- Mobx yêu cầu ta phải khai báo các actions, mặc dù makeAutoObservable có thể tự động hóa phần lớn công việc này
+- Actions giúp ta tổ chức mã nguồn tốt hơn và cung cấp rất nhiều lợi ích về hiệu suất:
+    + Chúng chạy bên trọng các transaction:
+        . Sẽ không có bất kỳ phản ứng nào được chạy cho đến khi action ngoài cùng hoàn thành 
+        ==> Đảm bảo rằng các giá trị trung gian hoặc không hoàn chỉnh được tạo ra trong quá trình thực hiện action sẽ 
+        không thực hiện action sẽ không được hiển thị cho phần còn lại của ứng dụng cho đến khi action hoàn thành 
+        . Theo mặc định, ta sẽ không thể thay đổi state ở ngoài actions 
+        ==> Giúp xác định rõ ràng mã cơ sở là nơi nào đã cập nhật state 
+
+* Cú pháp của các cách sử dụng actions:
+(1) action (annotation)
+(2) action(fn)
+(3) action(name, fn)
+(4) @action (method / field decorator)
+
+
+- Annotation action chỉ nên được sử dụn cho các hàm được sử dụng để thay đổi state 
+- Các hàm truy cập vào các thuộc tính để tra cứu và lọc dữ liệu không nên được annotated là action
+
+VD1: Sử dụng makeObservable:
+import { makeObservable, observable, action } from 'mobx';
+
+class Doubler {
+    value = 0;
+    constructor() {
+        makeObservable(this, {
+            value: observable,
+            increment: action
+        });
+    }
+
+    increment() {
+        // Giá trị trung gian (intermediate states) sẽ không được hiển thị cho các observer 
+        this.value++;
+    }
+}
+
+VD2: Sử dụng @action
+import { observable, action } from 'mobx';
+
+class Doubler {
+    @observable ancessor value = 0;
+
+    @action increment() {
+        // Giá trị trung gian (intermediate states) sẽ không được hiển thị cho các observer 
+        this.value++;
+    }
+}
+
+VD3: Sử dụng makeAutoObservable
+import { makeAutoObservable } from 'mobx';
+
+class Doubler {
+    value = 0;
+
+    constructor() {
+        makeAutoObservable(this);
+    }
+
+    increment() {
+        this.value++;
+    }
+}
+
+VD4: Sử dụng action.bound
+import { makeObservable, observable, action } from 'mobx';
+
+class Doubler {
+    value = 0;
+
+    constructor() {
+        makeObservable(this, {
+            value: observable,
+            increment: action.bound
+        })
+    }
+
+    increment() {
+        this.value++;
+    }
+}
+
+const doubler = new Doubler();
+
+setInterval(double.increment, 1000);
+
+VD5: Sử dụng action(fn):
+import { observable, action } from 'mobx';
+
+const state = observable({ value: 0 })
+
+const increment = action(state => {
+    state.value++;
+})
+
+increment(state);
+
+* Bao bọc các hàm bằng action:
+- Để tạo 1 action dựa trên event handler, action không chỉ là 1 annotation, mà còn là 1 hàm bậc cao hơn
+==> Nó có thể được gọi với tham số là 1 hàm khác 
+VD:
+const ResetButton = ({ formState }) => {
+    <button 
+        onClick={action(e => {
+            formState.resetPendingUploads();
+            formState.resetValues();
+            e.preventDefault();
+        })}
+    >
+        Reset form 
+    </button>
+}
+
+* Action và sự kế thừa:
+- Chỉ các actions được định nghĩa trong prototype có thể được ghi đè bởi lớp con 
+VD:
+class Parent {
+    // on instance
+    arrowFunction = () => {}
+
+    // on prototype
+    action() {}
+    boundAction() {}
+
+    constructor() {
+        makeObservable(this, {
+            arrowFunction: action,
+            action: action,
+            boundAction: action.bound
+        })
+    }
+}
+
+class Child extends Parent {
+    // TypeError
+    arrowFunction = () => {}
+
+    // OK:
+    action() {}
+    boundAction() {}
+
+    constructor() {
+        super();
+        makeObservable(this, {
+            arrowFunction: override,
+            action: override,
+            boundAction: override
+        })
+    }
+}
+
+* Action bất đồng bộ:
+VD1: Sử dụng action bọc toàn bộ handlers:
+import { action, makeAutoObservable } from 'mobx';
+
+class Store {
+    githubProjects = [];
+    state = "pending"; // "pending", "done", "error"
+
+    constructor() {
+        makeAutoObservable(this);
+    }
+
+    fetchProjects() {
+        this.githubProjects = [];
+        this.state = "pending";
+        fetchGithubProjectsSomehow().then(
+            action("fetchSuccess", projects => {
+                const filteredProjects = somePreprocessing(projects);
+                this.githubProjects = filteredProjects
+                this.state = "done";
+            }),
+            actions("fetchError", error => {
+                this.state = "error";
+            })
+        )
+    }
+}
+
+VD2: Xử lý các hàm cập nhật bằng nhiều actions:
+import { makeAutoObservable } from 'mobx';
+
+class Store {
+    githubProjects = [];
+    state = "pending";
+
+    constructor() {
+        makeAutoObservable(this);
+    }
+
+    fetchProjects() {
+        this.githubProjects = [];
+        this.state = "pending";
+        fetchGithubProjectsSomehow()
+            .then(
+                this.projectsFetchSuccess,
+                this.projectsFetchFailed
+            )
+    }
+
+    projectsFetchSuccess = projects => {
+        const filteredProjects = somePreprocessing(projects);
+        this.githubProjects = filteredProjects;
+        this.state = "done";
+    }
+
+    projectsFetchFailed = error => {
+        this.state = "error";
+    }
+}
+
+* Sử dụng flow thay vì async/await:
+- Bộ bọc flow được sử dụng thay thế async/await, giúp làm việc với các action trở nên dễ dàng. 
+- Flow nhận 1 hàm generator làm đầu vào duy nhất
+- Hàm generator bên trong có thể liên kết các promise bằng cách sử dụng yield
+VD: await somePromise sẽ thành yield somePromise
+
+- Cơ chế flow sẽ đảm bảo rằng bộ phát sinh hoặc tiếp tục hoặc ném ra lỗi khi 1 promise được yield 
+đã được giải quyết
+- Cú pháp:
+(1) flow (annotation)
+(2) flow(function* (args) {})
+(3) @flow (method decorator)
+
+VD:
+import { observable, action, flow } from 'mobx';
+
+class TodoStore {
+    @observable todos = [];
+    @observable isLoading = false;
+
+    @action
+    fetchTodo = flow(function* () {
+        this.isLoading = true;
+        try {
+            const response = yield fetch('/api/todos');
+            this.todos = yield response.json();
+        } catch(err) {
+            console.error(err);
+        } finally {
+            this.isLoading = false;
+        }
+    });
+}
