@@ -48,3 +48,92 @@ stop()
 
 order.price = 3
 // Neither the computation nor autorun will be recomputed.
+
+* Cú pháp:
+(1) computed (annotation):
+VD:
+import { makeObservable, observable, computed } from 'mobx';
+
+class OrderLine {
+    amount = 1;
+    price = 0;
+
+    constructor(price) {
+        makeObservable(this, {
+            price: observable,
+            amount: observable,
+            total: computed
+        });
+        this.price = price;
+    }
+
+    get total() {
+        return this.price * this.amount;
+    }
+}
+
+(2) computed(fn, options?):
+VD:
+import { makeObservable, observable, computed } from 'mobx';
+
+class OrderLine {
+    amount = 1;
+    price = 0;
+
+    constructor(price) {
+        makeObservable(this, {
+            price: observable,
+            amount: observable,
+            total: this.getTotal
+        });
+        this.price = price;
+    }
+
+    getTotal = computed(() => {
+        return this.price * this.amount;
+    }, {
+        name: 'total',
+        context: this,
+        equals: (a, b) => a === b,
+        requiresReaction: false,
+        keepAlive: false
+    });
+}
+
+(3) @computed:
+import { makeObservable, observable, computed } from 'mobx';
+
+class OrderLine {
+    amount = 1;
+    price = 0;
+
+    constructor(price) {
+        makeObservable(this, {
+            amount: observable,
+            price: observable,
+            total: computed
+        });
+        this.price = price;
+    }
+
+    @computed
+    get total() {
+        return this.price * this.amount;
+    }
+}
+
+Quy tắc chạy:
+
+                                        changed?             changed?
+assignments  ======>  price / amount =============> total ==============> autorun
+
+* Các options:
+(1) name: string: đặt tên cho computed property
+(2) context: object: xác định ngữ cảnh (this) cho computed property
+(3) equals: function: cung cấp 1 hàm so sánh để xác định khi nào computed property cần được tính lại
+(4) requiresReaction: boolean: xác định xem computed property có cần được tính toán lại khi 1 observable khác thay đổi hay không
+(5) keepAlive: boolean: xác định xem computed property có được giữ lại trong bộ nhớ cache không
+(6) setter: function: cung cấp 1 setter tùy chỉnh cho computed property
+(7) onError: function: cung cấp 1 hàm xử lý lỗi khi tính toán computed property gặp lỗi
+
+

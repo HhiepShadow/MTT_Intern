@@ -1,0 +1,331 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif, "Roboto";
+}
+
+.container {
+  max-width: 1170px;
+  width: 100%;
+  margin: auto;
+}
+
+@media only screen and (min-width: 961px) and (max-width: 1170px) {
+  .container {
+    padding: 0 40px;
+  }
+
+  #btn-toggle {
+    display: none;
+  }
+}
+
+/* Tablet */
+@media only screen and (min-width: 767px) and (max-width: 960px) {
+  #btn-toggle {
+    display: block;
+    margin-top: 40px;
+    margin-right: 10px;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
+  .navbar {
+    height: 100%;
+    display: none;
+  }
+
+  .show {
+    display: block;
+  }
+
+  .main-content .content {
+    display: block;
+  }
+
+  .main-content .content .left-side {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .main-content .content .right-side {
+    width: 100%;
+  }
+
+  .main-content .content .right-side .ads-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-content .content .right-side .intro-box h3::after,
+  .main-content .content .right-side .faq-box h3::after,
+  .main-content .content .right-side .faq-weekly h3::after,
+  .main-content .content .right-side .hot-topics .hot-topics-header::after {
+    width: 8%;
+  }
+
+  .footer .footer-logo {
+    width: 100%;
+  }
+
+  .footer .footer-logo img {
+    width: 80%;
+  }
+}
+
+/* Mobile */
+@media only screen and (min-width: 320px) and (max-width: 766px) {
+  #btn-toggle {
+    display: block;
+    margin-top: 40px;
+    margin-right: 10px;
+  }
+
+  .container {
+    padding: 0 15px;
+    width: 100%;
+  }
+
+  .img-2 {
+    display: none;
+  }
+
+  .navbar {
+    height: 100%;
+    display: none;
+  }
+
+  .show {
+    display: block;
+  }
+
+  .navbar .container .navigation li {
+    margin-right: 10px;
+  }
+
+  .navbar .container .navigation li .sub-nav {
+    z-index: 99;
+  }
+
+  .navbar .container .navigation li:hover .sub-nav {
+    display: block;
+    background-color: #c73324;
+  }
+
+  .top-nav .main-topnav .social-links {
+    display: flex;
+    margin-left: -10px;
+  }
+
+  .top-nav .main-topnav .right-side-nav {
+    margin-top: -2px;
+  }
+
+  .top-nav .main-topnav .right-side-nav li a{
+    font-size: 12px;
+  }
+
+  .main-content .content {
+    display: block;
+  }
+
+  .main-content .content .left-side {
+    width: 100%;
+  }
+
+  .main-content .content .left-side .info {
+    margin-top: 10px;
+  }
+
+  .main-content .content .left-side .info .info-left {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .main-content .content .left-side .info .info-right {
+    display: flex;
+    margin-top: -5px;
+  }
+
+  .main-content .content .left-side .info .info-right .icon-print {
+    padding-top: 5px;
+  }
+
+  .main-content .content .left-side .datdai .datdai-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .main-content .content .left-side .datdai .datdai-header h3{
+    font-size: 27px;
+  } 
+  
+  .main-content .content .left-side .datdai .datdai-header .right-header {
+    display: flex;
+    margin-top: -8px;
+  }
+
+  .main-content .content .left-side .datdai .datdai-header .right-header a {
+    font-size: 14px;
+  }
+
+  .main-content .content .left-side .datdai .datdai-header .right-header button {
+    height: 26px;
+    margin-left: 2px;
+  }
+
+  .main-content .content .left-side .datdai .datdai-content {
+    display: block;
+  }
+
+  .main-content
+    .content
+    .left-side
+    .datdai
+    .datdai-content
+    .datdai-left-content {
+    width: 100%;
+  }
+
+  .main-content
+    .content
+    .left-side
+    .datdai
+    .datdai-content
+    .datdai-right-content {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .main-content .content .right-side {
+    width: 100%;
+  }
+
+  .main-content .content .right-side .ads-img .img-ads {
+    width: 100%;
+  }
+
+  .main-content .content .right-side .intro-box h3::after,
+  .main-content .content .right-side .faq-box h3::after,
+  .main-content .content .right-side .faq-weekly h3::after,
+  .main-content .content .right-side .hot-topics .hot-topics-header::after {
+    width: 15%;
+  }
+
+  .main-content .content .list-topics {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .main-content .content .list-topics .btn-topic{
+    flex-basis: 43%;
+    margin: 0 10px 10px 0;
+    text-align: center;
+  }
+
+  .main-content .content .list-topics .btn-topic:nth-child(2n){
+    margin: 0 0 10px 25px;
+  }
+
+  .main-content .content .left-side .comments .header-cmts {
+    height: 40px;
+    font-size: 12px;
+  }
+
+  .box-video .box-video-header h3{
+    font-size: 27px;
+  }
+
+  .box-video .box-video-content {
+    display: block;
+    width: 100%;
+  }
+
+  .box-video .box-video-content .left-box-video-content {
+    width: 100%;
+  }
+
+  .box-video .box-video-content .right-box-video-content {
+    width: 100%;
+    margin-top: -70px;
+  }
+
+  .box-video .box-video-content .right-box-video-content .right-content-item {
+    height: 250px;
+  }
+
+  .topic-news .list-topic-news {
+    flex-wrap: wrap;
+  }
+
+  .topic-news .list-topic-news .topic-news-item {
+    flex-basis: 100%;
+    margin: 0;
+  }
+
+  .topic-news .list-topic-news .topic-news-item img {
+    width: 100%;
+    height: 200px;
+  }
+
+  .social-bar .social-main {
+    display: block;
+  }
+
+  .social-bar .social-main .back-home {
+    margin-bottom: 10px;
+  }
+
+  .social-bar .social-icons {
+    display: flex;
+    margin-top: 20px;
+  }
+
+  .social-bar .social-icons span {
+    font-size: 12px;
+    padding-top: 7px;
+  }
+
+  .social-bar .social-icons a {
+    margin-right: 3px;
+  }
+
+  .footer .footer-main {
+    margin-top: -30px;
+    display: block;
+  }
+
+  .footer .footer-main .footer-left {
+    width: 100%;
+  }
+
+  .footer .footer-main .footer-left .footer-logo img {
+    padding-top: 20px;
+  }
+
+  .footer .footer-main .footer-left .contact {
+    padding: 20px 0;
+    width: 100%;
+  }
+
+  .footer .footer-main .footer-left .contact span {
+    display: inline;
+    width: 100%;
+  }
+
+  .footer .footer-main .footer-right {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 412px) {
+  .top-nav .main-topnav .right-side-nav {
+    font-size: 8px;
+    padding-top: 11px;
+    margin-bottom: 5px;
+  }
+}

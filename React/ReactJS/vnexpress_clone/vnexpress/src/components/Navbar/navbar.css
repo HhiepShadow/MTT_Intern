@@ -1,0 +1,47 @@
+/* Navigation bar */
+.navbar {
+  background-color: #c73324;
+  width: 100%;
+}
+
+.show {
+  display: block;
+}
+
+.navbar .container .navigation {
+  display: flex;
+  list-style: none;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.navbar .container .navigation li {
+  padding: 10px;
+  position: relative;
+}
+
+.navbar .container .navigation li:hover {
+  display: block;
+  background-color: #a32b1d;
+}
+
+.navbar .container .navigation li a {
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+}
+
+.navbar .container .navigation li .sub-nav {
+  list-style: none;
+  display: none;
+  position: absolute;
+  width: 300px;
+  min-height: 250px;
+  top: 40px;
+  left: 0;
+}
+
+.navbar .container .navigation li:hover .sub-nav {
+  display: block;
+  background-color: #c73324;
+}

@@ -1,0 +1,58 @@
+SUBCLASSING:
+
+- Khi subclass sẽ có các hạn chế
+- Ta có thể ghi đè các action/flow/computed trên prototype
+- Nhưng ta không thể ghi đè các trường đã được khai báo
+
+VD:
+import { makeObservable, observable, computed, action, override } from 'mobx';
+
+class Parent {
+    observable = 0;
+    arrowAction = () => {};
+
+    overridableArrowAction = action(() => {});
+
+    action() {}
+    actionBound() {}
+    get computed() {}
+
+    constructor(value) {
+        makeObservable(this, {
+            observable: observable,
+            arrowAction: action,
+            action: action,
+            actionBound: action.bound,
+            computed: computed
+        });
+    }
+}
+
+class Child extends Parent {
+    overridableArrowAction = action(() => {});
+
+    action() {}
+    actionBound() {}
+    get computed() {}
+
+    childObservable = 0;
+    childArrowAction = () => {}
+    childAction() {}
+    childActionBound() {}
+    get childComputed() {}
+
+    constructor(value) {
+        super();
+        makeObservable(this, {
+            action: override,
+            actionBound: override,
+            computed: override,
+            // new
+            childObservable: observable,
+            childArrowAction: action
+            childAction: action,
+            childActionBound: action.bound,
+            childComputed: computed,
+        })
+    }
+}

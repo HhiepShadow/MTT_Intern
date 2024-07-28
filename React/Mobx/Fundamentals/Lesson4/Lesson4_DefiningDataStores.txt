@@ -1,0 +1,139 @@
+STORES:
+
+- Store là 1 khái niệm được sử dụng để lưu trữ và quản lý dữ liệu, trạng thái(state) và các thông tin cần thiết 
+- Store có thể tìm thấy trong bất kỳ cấu trúc Flux nào và có thể được so sánh với các Controller trong MVC pattern
+- Nhiệm vụ chính của store là di chuyển các logic và state ra khỏi các component vào 1 đơn vị có thể kiểm tra độc lập 
+có thể được sử trong cả frontend và backend
+- Store bao gồm các nhiệm vụ:
++ Lưu trữ dữ liệu: 
+    . Store được sử dụng để lưu trữ dữ liệu cần thiết cho ứng dụng như dữ liệu người dùng, cài đặt và thông tin sản phẩm,...
+    ==> Giúp dữ liệu được quản lý tập trung và dễ dàng truy cập từ các phần khác nhau của ứng dụng
++ Quản lý trạng thái: 
+    . Store giữ các trạng thái (state) của ứng dụng như UI, vị trí cuộn, dữ liệu đã tải,...
+    ==> Giúp đồng bộ hóa trạng thái giữa các component và đảm bảo tính nhất quán của ứng dụng
++ Chia sẻ dữ liệu: 
+    . Store cho phép các component khác nhau chia sẻ dữ liệu và state với nhau
+    ==> Giúp tránh việc truyền dữ liệu qua nhiều cấp component
++ Cập nhật và lắng nghe các sự kiện thay đổi
+
+1. Domain Store:
+- 1 ứng dụng có thể có 1 hoặc nhiều domain store 
+- Các store này lưu trữ dữ liệu trong ứng dụng của ta như todos, sách, phim, đơn hàng,...
+- 1 domain store thường có nhiệm vụ về 1 vấn đề nào đó trong ứng dụng
+- 1 single store được tổ chức như 1 cấu trúc cây với các domain object bên trong 
+
+VD: + 1 domain store cho các sản phẩm
+    + 1 domain store cho các đơn đặt hàng và các chi tiết đơn hàng
+    ==> Theo nguyên tắc: Nếu giữa 2 đối tượng này có mối quan hệ chứa đựng (containment) thì thường sẽ đặt trong cùng 1 store
+
+VD:
+import { makeAutoObservable, runInAction, reaction } from 'mobx';
+import { uuid } from 'node-uuid';
+
+export class TodoStore {
+    authorStore
+    transportLayer 
+    todos = []
+    isLoading = true
+
+    constructor(transportLayer, authorStore) {
+        makeAutoObservable(this);
+        this.authorStore = authorStore;
+        this.transportLayer = transportLayer;
+        this.transportLayer.onReceiveTodoUpdate(updatedTodo => 
+            this.updateTodoFromServer(updatedTodo)
+        );
+        this.loadTodos();
+    }
+
+    loadTodos() {
+        this.isLoading = true;
+        this.transportLayer.fetchTodos().then(fetchedTodos => {
+            runInAction(() => {
+                fetchedTodos.forEach(json => this.updateTodoFromServer(json));
+                this.isLoading = false;
+            })
+        });
+    }
+
+    updateTodoFromServer(json) {
+        let todo = this.todos.find(todo => todo.id === json.id);
+        if (!todo) {
+            todo = new Todo(this, json.id);
+            this.todos.push(todo);
+        }
+        if(json.isDeleted) {
+            this.removeTodo(todo);
+        } else {
+            todo.updateFromJson(json);
+        }
+    }
+
+    createTodo() {
+        const todo = new Todo(this);
+        this.todos.push(todo);
+        return todo;
+    }
+
+    removeTodo(todo) {
+        this.todos.splice(this.todos.indexOf(todo), 1);
+        todo.dispose();
+    }
+}
+
+export class Todo {
+    id = null;
+    completed = false;
+    task = "";
+    author = null;
+    store = null;
+    autoSave = true;
+    saveHandler = null;
+
+    constructor(store, id = uuid.v4()) {
+        makeAutoObservable(this, {
+            id: false,
+            store: false,
+            autoSave: false,
+            saveHandler: false,
+            dispose: false
+        });
+        this.store = store;
+        this.id = id;
+
+        this.saveHandler = reaction(
+            () => this.asJson,
+            json => {
+                if (this.autoSave) {
+                    this.store.transportLayer.saveTodo(json);
+                }
+            }
+        );
+    }
+
+    delete() {
+        this.store.transportLayer.deleteTodo(this.id);
+        this.store.removeTodo(this);
+    }
+
+    get asJson() {
+        return {
+            id: this.id,
+            completed: this.completed,
+            task: this.task,
+            authorId: this.author ? this.author.id : null
+        }
+    }
+
+    updateFromJson(json) {
+        this.autoSave = false;
+        this.completed = json.completed;
+        this.task = json.task;
+        this.author = this.store.authorStore.resolveAuthor(json.authorId);
+        this.autoSave = true;
+    }
+
+    dispose() {
+        this.saveHandler();
+    }
+}

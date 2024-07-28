@@ -1,0 +1,50 @@
+/* Social */
+.social-bar {
+  background-color: rgb(75, 75, 75);
+}
+
+.social-bar .social-main {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+
+.social-bar .back-home {
+  padding-top: 5px;
+}
+
+.social-bar .back-home a {
+  text-decoration: none;
+  color: lightgrey;
+  font-size: 14px;
+}
+
+.social-bar .back-home a:hover {
+  color: #ff4800;
+}
+
+.social-bar .social-icons span {
+  color: lightgrey;
+  font-size: 14px;
+  padding-right: 10px;
+}
+
+.social-bar .social-icons a {
+  font-size: 25px;
+}
+
+.social-bar .social-icons .icon-facebook-circled {
+  color: rgb(10, 10, 252);
+}
+
+.social-bar .social-icons .icon-twitter-circled {
+  color: skyblue;
+}
+
+.social-bar .social-icons .icon-google-plus-circle {
+  color: red;
+}
+
+.social-bar .social-icons .icon-youtube-play {
+  color: red;
+}

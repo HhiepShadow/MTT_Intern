@@ -7,6 +7,7 @@ autorun(effect: (reaction) => void, options?)
 - Hàm autorun() nhận vào 1 hàm sẽ chạy mỗi khi giá trị mà nó theo dõi thay đổi
 - Nó cũng chạy mỗi khi ta bắt đầu tạo autorun()
 - Nó chỉ phản hồi những thay đổi trong trạng thái quan sát được, những giá trị ta đặt là observable hoặc computed
+- autorun() sẽ theo dõi những giá trị được truyền vào hàm effect 
 
 VD:
 import { makeAutoObservable, autorun } from 'mobx';
@@ -54,3 +55,94 @@ reaction(
     options?
 )
 
+- Hàm reaction() cũng giống như autorun(), tuy có 1 số điểm khác biệt
+- reaction() bao gồm 2 tham số chính:
+    + expression: 1 hàm trả về 1 observable mà ta muốn theo dõi
+    + effect: 1 hàm sẽ được gọi mỗi khi observable trong expression thay đổi
+
+* So sánh:
+(1) Mục đích:
+- reaction() được thiết kế để phản ứng với sự thay đổi của các observable cụ thể
+- autorun() được thiết kế để thực hiện các tác vụ phụ (side effects) khi các observable thay đổi
+
+(2) Kiểm soát:
+- reaction() cho phép ta có nhiều kiểm soát hơn về việc kích hoạt phản ứng được thực hiện
+- autorun() tự động theo dõi tất cả các observable được truy cập trong hàm "auto-run", sẽ tự động 
+chạy lại khi bất kỳ observable nào thay đổi
+
+(3) Hiệu suất:
+- reaction() thường hiệu quả hơn autorun() vì nó chỉ theo dõi các observable được chỉ định, thay vì tất cả 
+các observable được truy cập
+- autorun() sẽ theo dõi và chạy lại toàn bộ hàm mỗi khi bất kỳ observable nào thay đổi, do đó có thể kém hiệu 
+quả hơn trong 1 số trường hợp
+
+(4) Sử dụng:
+- reaction() thường được sử dụng để thực hiện các tác vụ phụ như cập nhật giao diện người dùng, gửi yêu cầu API
+hoặc lưu trữ dữ liệu
+- autorun() thường được sử dụng để thiết lập các observable và quan sát các thay đổi của chúng, mà không cần thực 
+hiện bất kỳ tác vụ phụ cụ thể nào
+
+VD:
+import { makeAutoObservable, autorun, reaction } from 'mobx'
+
+class Animal {
+    name
+    energyLevel
+
+    constructor(name) {
+        this.name = name;
+        this.energyLevel = 100;
+        makeAutoObservable(this);
+    }
+
+    reduceEnergy() {
+        this.energyLevel -= 10;
+    }
+
+    get isHungry() {
+        return this.energyLevel < 50;
+    }
+}
+
+const giraffe = new Animal("Gary");
+
+reaction(
+    () => giraffe.isHungry,
+    isHungry => {
+        if (isHungry) {
+            console.log("Now I'm hungry!");
+        } else {
+            console.log("I'm not hungry");
+        }
+        console.log("Energy level: ", giraffe.energyLevel);
+    }
+)
+
+console.log("Now let's change state");
+
+for (let i = 0; i < 10; i++){
+    giraffe.reduceEnergy();
+}
+
+3. when():
+- when() được sử dụng để thực hiện 1 hành động khi 1 điều kiện được đáp ứng
+- Không tự động thực hiện hành động khi các observable thay đổi
+==> Thay vào đó, nó kiểm tra 1 điều kiện và chỉ thực hiện hành động khi điều kiện đó
+thành true
+
+- Cú pháp:
+(1) when(
+    predicate: () => boolean, 
+    effect?: () => void,
+    options?
+);
+
+(2) when(
+    predicate: () => boolean,
+    options?
+): Promise
+
+trong đó:
++ predicate: hàm trả về boolean, xác định điều kiện để thực hiện hành động
++ effect: hàm thực hiện hành động khi trở thành true
++ options: đối tượng tùy chọn để cấu hình các hành vi khác

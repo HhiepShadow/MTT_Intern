@@ -16,7 +16,7 @@ UPDATING STATE USING ACTIONS
 (4) @action (method / field decorator)
 
 
-- Annotation action chỉ nên được sử dụn cho các hàm được sử dụng để thay đổi state 
+- Annotation action chỉ nên được sử dụng cho các hàm được sử dụng để thay đổi state 
 - Các hàm truy cập vào các thuộc tính để tra cứu và lọc dữ liệu không nên được annotated là action
 
 VD1: Sử dụng makeObservable:

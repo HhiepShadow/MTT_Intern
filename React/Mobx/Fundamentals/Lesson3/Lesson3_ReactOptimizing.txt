@@ -1,0 +1,92 @@
+REACT OPTIMIZATION:
+
+1. Sử dụng nhiều component nhỏ:
+- Các component observer sẽ theo dõi tất cả các giá trị chúng sử dụng và re-render mỗi khi một trong 
+số giá trị đó thay đổi
+==> Nếu các component của ta càng tách nhỏ, thì số lượng thay đổi mà chúng cần re-render lại cũng nhỏ theo
+
+2. Render list ở 1 component khác:
+- Ví dụ cho 2 trường hợp:
+VD1: Bad:
+const MyComponent = observer(({todos, user}: {todos: Todos, user: User}) => (
+    <div>
+        {user.name}
+        <ul>
+            {todos.map(todo => (
+                <TodoView todo={todo} key={todo.id} />
+            ))}
+        </ul>
+    </div>
+))
+
+VD2: Good:
+const MyComponent = observer(({todos, user}: {todos: Todos, user: User}) => (
+    <div>
+        {user.name}
+        <TodosView todos={todos} />
+    </div>
+));
+
+const TodosView = observer(({todos}: {todos: Todos}) => (
+    <ul>
+        {todos.map(todo => (
+            <TodoView todo={todo} key={todo.id} />
+        ))}
+    </ul>
+))
+
+3. Không sử dụng chỉ số của mảng làm key 
+
+4. Truy cập vào giá trị muộn nhất có thể (Dereference values late):
+- Do Mobx sẽ render lại các component mà lấy ra các giá trị observable 1 cách tự động
+- Có 1 số lý do chính:
++ Hiệu suất tốt hơn: Khi các component chỉ truy cập các giá trị cần thiết thay vì toàn bộ observable, 
+thì chỉ có các component sử dụng các giá trị đó mới cần phải render lại
+==> Giảm số lượng component cần render lại ==> Cải thiện hiệu suất của ứng dụng
+
++ Tách biệt giao diện và state: Bằng cách trì hoãn việc lấy giá trị, ta có thể tách biệt được giao diện 
+khỏi state. Các component sẽ không cần phải biết rằng dữ liệu đến từ observable mà chúng chỉ cần nhận và
+hiển thị các giá trị cần thiết
+
++ Tính đóng gói tốt: Khi các component chỉ truy cập các giá trị cần thiết, chúng trở nên độc lập hơn và dễ
+tái sử dụng hơn
+==> Cải thiện tính đóng gói 
+
++ Khả năng bảo trì tốt hơn: Ứng dụng sẽ dễ hiểu và bảo trì hơn khi các component không phụ thuộc trực tiếp 
+vào các observable
+
+VD:
++ Slower:
+<DisplayName name={person.name} />
+
++ Faster:
+<DisplayName name={person} />
+
+==> Giải thích:
+    + <DisplayName name={person.name} /> do ta dereference sớm vào person ngay lập tức để lấy ra name 
+    ==> DisplayName component sẽ bị render lại mỗi khi person thay đổi, ngay cả khi chỉ name thay đổi
+    + <DisplayName name={person} /> dereference muộn, chỉ lấy ra giá trị name khi cần thiết thay vì truyền props
+    
+5. Function props:
+- Ta có thể nhận ra rằng khi ta lấy ra giá trị muộn, thì ta phải tạo ra rất nhiều các observer component nhỏ, trong 
+đó mỗi component sẽ được tùy chỉnh để render 1 phần khác nhau của dữ liệu
+VD:
+const PersonNameDisplayer = observer(({ person }) => <DisplayName name={person.name} />)
+
+const CarNameDisplayer = observer(({ car }) => <DisplayName name={car.model} />)
+
+const ManufacturerNameDisplayer = observer(({ car }) =>  <DisplayName name={car.manufacturer.name} />)
+
+==> Nếu ta có rất nhiều displayer khác nhau để display các loại name thì rất dài
+==> Sử dụng 1 hàm để truyền vào props:
+
+const GenericNameDisplayer = observer(({ getName }) => <DisplayName name={getName()} />)
+
+==> Khi này, ta có thể sử dụng component khác như sau:
+const MyDisplayer = ({ person, car }) => (
+    <>
+        <GenericNameDisplayer getName={() => person.name} />
+        <GenericNameDisplayer getName={() => car.model} />
+        <GenericNameDisplayer getName={() => car.manufacturer.name} />
+    </>
+)

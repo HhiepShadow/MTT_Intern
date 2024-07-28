@@ -1,0 +1,84 @@
+ATOMIC DESIGN PATTERN:
+
+Trong quá trình phát triển dự án React, có 1 số vấn đề sau đây:
+- Thiếu bố cục thiết kế cho các Component
+- Dự kiến thời gian phát triển chưa chính xác 
+- Mất nhiều thời gian cho quá trình cài đặt và tìm hiểu cho developer
+- Thiếu thống nhất giữa các Component và View 
+- Code bị lặp, khi giả sử có quá nhiều Component (khoảng 100 đến 200) thì sẽ rất khó để biết có 
+bị trùng với Component có sẵn
+- Có rất nhiều Component chi tiết cho mỗi trang, thiếu tính tổng quát của Component
+
+==> Sử dụng phương pháp để giải quyết: Atomic Design:
+    + Atomic Design cho phép tạo nhiều khối Component, với độ phức tạp và sự phụ thuộc của cấu trúc 
+    khác nhau
+    --> Tạo ra hệ thống được thiết kế hoàn hảo từ những phần rất nhỏ, giúp tăng cường tư duy thiết kế 
+    cho developer, dựa theo các khái niệm Component hóa, cấp bậc hóa và tái sử dụng
+
+** Atomic Design là gì?
+- Atomic Design giúp tạo nên các hệ thống thống nhất, bền vững và có tính tái sử dụng cao
+- Atomic Design là 1 phương pháp thiết kế UI dựa trên việc chia nhỏ UI thành các Component nhỏ có thể tái sử dụng
+Và các Component này được xếp theo thứ tự đơn giản đến phức tạp
+- Ý tưởng: 
+    + Chia nhỏ các Component thành các:
+        . Atom (nguyên tử)
+        . Molecule (phần tử)
+        . Organism (sinh vật)
+        . Template (khuôn mẫu)
+        . Page (trang)
+
+(1) Atom (Nguyên tử):
+- Atom là các Component nhỏ nhất có thể
+VD: Button, Title, Input, Font, Animation, ...
+- Chúng có thể được đặt vào bất kỳ bối cảnh (context) nào, toàn cục hay bên trong các Component khác, Template khác
+- Có chứa nhiều state 
+- Đặc điểm:
+    + Tính tái sử dụng: Có thể được đặt trong bất kỳ bối cảnh nào, không chỉ trong 1 Component, mà có thể sử dụng lại
+                        ở nhiều nơi khác trong ứng dụng
+    + Tính linh hoạt: Có thể có nhiều state khác nhau, có thể thay đổi và tương tác với người dùng
+    + Tính đóng gói: Là 1 Component độc lập, có thể được quản lý và kiểm soát riêng biệt 
+    + Tính tổng quát: Là các Component cơ bản, có thể được kết hợp với nhau để tạo thành các Component lớn hơn
+VD: <Button /> có thể có những state như disabled, hover, các size khác nhau 
+
+(2) Molecule (Phần tử):
+- Molecule là các nhóm các Atoms được kết hợp lại với nhau để tạo thành các thành phần giao diện có chức năng cụ thể
+- Tập hợp các Component phức tạp và tái sử dụng 1 trong số chúng 
+- Có thể có các thuộc tính của chính nó và tạo ra các hàm mà được dùng bởi Atom, trong khi Atom sẽ không có bất kỳ hàm
+hay action nào
+- Đặc điểm:
+    + Tái sử dụng: Có thể được tái sử dụng ở nhiều nơi khác nhau trong ứng dụng
+    + Chức năng cụ thể: Molecule đại diện cho các thành phần giao diện với chức năng xác định, như form, menu, card, ...
+    + Tính lồng ghép: Molecule có thể được kết hợp lại với nhau hoặc với các Atom để tạo thành các Component lớn
+    + Quản lý state: Molecule có thể quản lý state riêng
+
+(3) Organism:
+- Organism là các nhóm các Molecules được kết hợp với nhau để tạo thành các section hoặc Component lớn hơn của giao diện
+- Organism cũng có thể là tập hợp của các Molecule và Atom để tạo nên các giao diện chi tiết hơn 
+- Ở mức độ này, các Component bắt đầu có hình dáng cụ thể, nhưng vẫn đảm bảo phải được độc lập, dễ dàng di chuyển và tái 
+sử dụng với bất kỳ nội dung nào
+- Đặc điểm:
+    + Tái sử dụng
+    + Chức năng cụ thể
+    + Tính lồng ghép
+    + Quản lý state 
+VD:
+<Header /> bao gồm các Molecule như <nav>, <logo>, <searchbar />, <button>
+<Hero /> bao gồm <heading>, <subheading>, <image>
+<ProductList /> bao gồm các <product-card>
+<Form /> bao gồm <form-input>, <checkbox>, <textarea>, <submit-button>
+
+(4) Template:
+- Template là các bố cụ lớn, bao gồm các Organism và có thể kết hợp với 1 số Atoms/Molecules để tạo thành UI hoàn chỉnh 
+của 1 trang web hay ứng dụng
+- Ở giai đoạn này, ta sẽ không đề cập đến xây dựng Component mà chú ý đến cài đặt bối cảnh cho nó 
+- Template sẽ xây dựng mối quan hệ giữa các Organism và các Component khác bằng cách chỉ định các vị trí, sắp xếp và xây dựng 
+khuôn mẫu cho page, nhưng không có style, color, hay Component được render
+- Template có thể được coi như 1 wireframe
+
+(5) Page: 
+- Page là mức độ cao nhất, đại diện cho giao diện hoàn chỉnh của 1 trang web hoặc ứng dụng
+- Page là những thành phần có hướng của ứng dụng (navigate part) và là nơi các Component được sử dụng dựa trên 1 Template khác
+- Các Component này sẽ nhận nội dung thật và được kết nối với toàn bộ ứng dụng
+- Ở giai đoạn này, ta có thể kiểm tra mức độ hiệu quả của hệ thống design và phân tích xem các Component có đủ độc lập hay không hay
+chúng cần được tách nhỏ hơn 
+

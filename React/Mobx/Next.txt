@@ -1,2 +1,2 @@
 - Mobx
-- Call API các tỉnh thành: API Provider Vietnam
+- Call API các tỉnh thành

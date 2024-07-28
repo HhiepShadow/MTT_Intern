@@ -1,0 +1,106 @@
+/* Box video */
+.box-video {
+  width: 100%;
+  background-color: #f4f4f4;
+}
+
+.box-video .box-video-content {
+  display: flex;
+  width: 100%;
+}
+
+.box-video .box-video-content .left-box-video-content {
+  width: 80%;
+  margin-right: 30px;
+  height: 100vh;
+}
+
+.box-video .box-video-content .left-box-video-content img {
+  width: 100%;
+}
+
+.box-video .box-video-content .left-box-video-content h4 {
+  padding: 20px 0 10px 0;
+  min-width: 90%;
+}
+
+.box-video .box-video-content .left-box-video-content .time {
+  font-size: 13px;
+  color: #999999;
+  padding-bottom: 10px;
+}
+
+.box-video .box-video-content .left-box-video-content .summary-content {
+  font-size: 15px;
+}
+
+.box-video .box-video-content .left-box-video-content h4 a {
+  text-decoration: none;
+  color: black;
+  font-size: 23px;
+}
+
+.box-video .box-video-content .left-box-video-content h4 a:hover {
+  color: #ff4800;
+}
+
+.box-video .box-video-content .right-box-video-content {
+  width: 20%;
+}
+
+.box-video .box-video-content .right-box-video-content img {
+  width: 100%;
+}
+
+.box-video .box-video-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 20px;
+}
+
+.box-video .box-video-header h3 {
+  position: relative;
+  font-size: 30px;
+  padding-bottom: 5px;
+  padding-top: 30px;
+}
+
+.box-video .box-video-header h3::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30%;
+  height: 3px;
+  background-color: #d40700;
+}
+
+.box-video .box-video-header .right-box-video-header {
+  padding-top: 40px;
+}
+
+.box-video .box-video-header .right-box-video-header button {
+  background-color: #f4f4f4;
+  color: grey;
+  border: 1px solid lightgray;
+  padding: 2px;
+}
+
+.box-video .right-box-video-content .right-content-item {
+  margin-bottom: 40px;
+}
+
+.box-video .right-box-video-content .right-content-item h3 {
+  line-height: 20px;
+}
+
+.box-video .right-box-video-content .right-content-item h3 a {
+  text-decoration: none;
+  color: black;
+  font-size: 15px;
+}
+
+.box-video .right-box-video-content .right-content-item h3 a:hover {
+  color: #ff4800;
+}

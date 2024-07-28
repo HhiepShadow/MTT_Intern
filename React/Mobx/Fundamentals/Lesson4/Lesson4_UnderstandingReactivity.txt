@@ -1,0 +1,22 @@
+UNDERSTANDING REACTIVITY:
+
+1. MobX theo dõi việc truy cập các thuộc tính chứ không phải giá trị:
+VD:
+class Message {
+    title
+    author
+    likes
+    constructor(title, author, likes) {
+        makeAutoObservable(this);
+        this.title = title;
+        this.author = author;
+        this.likes = likes;
+    }
+
+    updateTitle(title) {
+        this.title = title;
+    }
+}
+
+let message = new Message("Foo", { name: "Michel" }, ["Joe", "Sara"]);
+

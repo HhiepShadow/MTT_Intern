@@ -1,0 +1,168 @@
+REACT INTEGRATION:
+
+- MobX làm việc hoàn toàn độc lập với React, chúng ta có thể kết hợp với nhau
+- Mobx sử dụng HoC (Higher order Component) là observer để ta có thể bọc toàn bộ 1 React Component
+- observer là 1 đối tượng hoặc component phản ứng với sự thay đổi của 1 hoặc nhiều observable
+- Khi 1 observable thay đổi, các observer kết nối với nó sẽ tự động được thông báo và có thể cập nhật lại trạng thái của chính mình
+
+- Cài đặt:
+    npm install --save mobx-react-lite
+
+VD:
++ Todo.js:
+import { makeObservable, observable, action } from 'mobx';
+
+class Todo {
+    id = Math.random();
+    title = "";
+    finished = false;
+
+    constructor(title) {
+        makeObservable(this, {
+            title: observable,
+            finished: observable,
+            toggle: action
+        });
+        this.title = title;
+    }
+
+    toggle() {
+        this.finished = !this.finished;
+    }
+}
+
++ TodoList.js:
+import { makeObservable, observable, computed } from 'mobx';
+
+class TodoList {
+    todos = [];
+
+    constructor(todos) {
+        makeObservable(this, {
+            todos: observable,
+            unfinishedTodoCount: computed
+        });
+        this.todos = todos;
+    }
+
+    get unfinishedTodoCount() {
+        return this.todos.filter(todo => !todo.finished).length;
+    }
+}
+
++ TodoListView.js:
+import React from 'react';
+import { render } from 'react-dom';
+import { observer } from 'mobx-react-lite';
+
+const TodoListView = observer(({ todoList }) => (
+    <div>
+        <ul>
+            {todoList.todos.map(todo => (
+                <TodoView todo={todo} key={todo.id} />
+            ))}
+        </ul>
+        Tasks left: {todoList.unfinishedTodoCount}
+    </div>
+));
+
+const TodoView = observer(({ todo }) => (
+    <li>
+        <input 
+            type="checkbox"
+            checked={todo.finished}
+            onClick={() => todo.toggle()}
+        />
+        {todo.title}
+    </li>
+))
+
+const store = new TodoList([
+    new Todo("Get Coffee"),
+    new Todo("Write Code")
+])
+
+render(<TodoListView todoList={store} />, document.getElementById("root"));
+
+** Local state - External state:
+(1) Sử dụng props (Local state):
+import { observer } from 'mobx-react-lite';
+
+const myTimer = new Timer();
+
+const TimerView = observer(({ timer }) => (
+    <span>Seconds passed: {timer.secondsPassed}</span>
+));
+
+(2) Sử dụng biến toàn cục:
+const myTimer = new Timer();
+
+const TimerView = observer(() => (
+    <span>Seconds passed: {myTimer.secondsPassed}</span>
+));
+
+(3) Sử dụng React Context:
+import { createContext, useContext } from 'react';
+
+const TimerContext = createContext<Timer>();
+
+const TimerView = observer(() => {
+    const timer = useContext(TimerContext);
+    return (
+        <span>Seconds passed: {timer.secondsPassed}</span>
+    )
+})
+
+ReactDOM.render(
+    <TimerContext.Provider value={new Timer()}>
+        <TimerView />
+    </TimerContext.Provider>,
+    document.body
+)
+
+** Sử dụng local observable state trong observer:
+- Vì các observable được sử dụng bởi observer có thể đến từ bất kỳ đâu, chúng cũng có thể là
+local state
+
+(1) Sử dụng useState với observer class:
+import { observer } from "mobx-react-lite"
+import { useState } from "react"
+
+const TimerView = observer(() => {
+    const [timer] = useState(() => new Timer()) // See the Timer definition above.
+    return <span>Seconds passed: {timer.secondsPassed}</span>
+})
+
+(2) useState với local observable object:
+import { observer } from 'mobx-react-lite';
+import { observable } from 'mobx';
+import { useState } from 'react';
+
+const TimerView = observer(() => {
+    const [timer] = useState(() => 
+        observable({
+            secondsPassed: 0,
+            increaseTimer() {
+                this.secondsPassed++
+            }
+        })
+    );
+    return <span>Seconds passed: {timer.secondsPassed}</span>
+})
+
+(3) useLocalObservable():
+- useLocalObservable() là 1 hook được sử dụng giống như useState hay useReducer nhưng được sử dụng
+để quản lý trạng thái của các đối tượng observable cục bộ trong 1 component 
+VD:
+import { observer, useLocalObservable } from 'mobx-react-lite';
+
+const TimerView = observer(() => {
+    const timer = useLocalObservable(() => ({
+        secondsPassed: 0,
+        increaseTimer() {
+            this.secondsPassed++
+        }
+    }));
+
+    return <span>Seconds passed: {timer.secondsPassed}</span>
+});
