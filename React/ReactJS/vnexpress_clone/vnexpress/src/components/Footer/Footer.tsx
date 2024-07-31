@@ -1,6 +1,12 @@
+import { useContext } from "react";
 import "./footer.css";
+import { FooterContext } from "../../context/FooterContext";
+import FooterRowItem from "./FooterRowItem";
+import { observer } from "mobx-react-lite";
 
-const Footer = () => {
+const Footer = observer(() => {
+  const useFooterStore = useContext(FooterContext);
+
   return (
     <div className="footer">
       <div className="container">
@@ -19,80 +25,24 @@ const Footer = () => {
 
           <div className="footer-right">
             <div className="row">
-              <div className="item">
-                <a href="#">Thời sự</a>
-                <a href="#">Việt Nam</a>
-                <a href="#">Thế giới</a>
-              </div>
-              <div className="item">
-                <a href="#">Dân sự</a>
-                <a href="#">Ngân hàng</a>
-                <a href="#">Tiền tệ</a>
-                <a href="#">Bảo hiểm</a>
-                <a href="#">Thuế, ngân hàng</a>
-              </div>
-              <div className="item">
-                <a href="#">Đất đai</a>
-                <a href="#">Tin tức</a>
-                <a href="#">Dự án</a>
-                <a href="#">Toàn cảnh</a>
-                <a href="#">Tiện ích</a>
-              </div>
-              <div className="item">
-                <a href="#">Hôn nhân</a>
-                <a href="#">24h</a>
-                <a href="#">Cổ phiếu</a>
-                <a href="#">Giao dịch</a>
-                <a href="#">Góc nhìn</a>
-              </div>
-              <div className="item">
-                <a href="#">Hành chính</a>
-                <a href="#">Thị trường</a>
-                <a href="#">Tiêu dùng</a>
-                <a href="#">Giao thương</a>
-                <a href="#">Quản trị</a>
-              </div>
+              {useFooterStore.footerItems.footerItems
+                .slice(0, 5)
+                .map((item) => (
+                  <FooterRowItem item={item} />
+                ))}
             </div>
             <div className="row second-child">
-              <div className="item">
-                <a href="#">Thời sự</a>
-                <a href="#">Việt Nam</a>
-                <a href="#">Thế giới</a>
-              </div>
-              <div className="item">
-                <a href="#">Dân sự</a>
-                <a href="#">Ngân hàng</a>
-                <a href="#">Tiền tệ</a>
-                <a href="#">Bảo hiểm</a>
-                <a href="#">Thuế, ngân hàng</a>
-              </div>
-              <div className="item">
-                <a href="#">Đất đai</a>
-                <a href="#">Tin tức</a>
-                <a href="#">Dự án</a>
-                <a href="#">Toàn cảnh</a>
-                <a href="#">Tiện ích</a>
-              </div>
-              <div className="item">
-                <a href="#">Hôn nhân</a>
-                <a href="#">24h</a>
-                <a href="#">Cổ phiếu</a>
-                <a href="#">Giao dịch</a>
-                <a href="#">Góc nhìn</a>
-              </div>
-              <div className="item">
-                <a href="#">Hành chính</a>
-                <a href="#">Thị trường</a>
-                <a href="#">Tiêu dùng</a>
-                <a href="#">Giao thương</a>
-                <a href="#">Quản trị</a>
-              </div>
+              {useFooterStore.footerItems.footerItems
+                .slice(5, 10)
+                .map((item) => (
+                  <FooterRowItem item={item} />
+                ))}
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default Footer;

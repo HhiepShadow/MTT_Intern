@@ -1,0 +1,31 @@
+.breadcrumb {
+  width: 100%;
+  background-color: rgb(240, 238, 238);
+  height: 50px;
+  padding-top: 15px;
+}
+
+.breadcrumb-container {
+    max-width: 1170px;
+    margin: 0 auto;
+    
+}
+
+.breadcrumb a {
+  padding-left: 15px;
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+  font-weight: bolder;
+}
+
+.breadcrumb a:hover {
+  color: #ff6600;
+}
+
+.breadcrumb span {
+  color: black;
+  font-size: 14px;
+  font-weight: bolder;
+  padding-left: 10px;
+}

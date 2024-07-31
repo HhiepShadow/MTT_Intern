@@ -7,13 +7,13 @@ const LeftTopNav = () => {
   ];
   return (
     <div className="social-links">
-      {social_links.map((sl) =>
+      {social_links.map((sl, id) =>
         sl === "icon-gplus" ? (
-          <a href="#" className="active">
+          <a href="/" className="active" key={id}>
             <i className={sl}></i>
           </a>
         ) : (
-          <a href="#">
+          <a href="/" key={id}>
             <i className={sl}></i>
           </a>
         )

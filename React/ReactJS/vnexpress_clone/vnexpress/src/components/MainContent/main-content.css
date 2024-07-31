@@ -44,6 +44,10 @@
   padding-bottom: 7px;
 }
 
+.main-content .content .left-side h3:hover {
+  color:#ff4800;
+}
+
 .main-content .content .left-side .info {
   display: flex;
   justify-content: space-between;
@@ -712,4 +716,170 @@
 
 .main-content .content .right-side .hot-topics .hot-topic-item h3 a:hover {
   color: #d40700;
+}
+
+@media only screen and (min-width: 767px) and (max-width: 960px) {
+  #btn-toggle {
+    display: block;
+    margin-top: 40px;
+    margin-right: 10px;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
+    .main-content .content {
+    display: block;
+  }
+
+  .main-content .content .left-side {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .main-content .content .right-side {
+    width: 100%;
+  }
+
+  .main-content .content .right-side .ads-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .main-content .content .right-side .intro-box h3::after,
+  .main-content .content .right-side .faq-box h3::after,
+  .main-content .content .right-side .faq-weekly h3::after,
+  .main-content .content .right-side .hot-topics .hot-topics-header::after {
+    width: 8%;
+  }
+
+  .main-content .content .right-side .intro-box {
+    margin-top: 10px;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 766px) {
+  #btn-toggle {
+    display: block;
+    margin-top: 40px;
+    margin-right: 10px;
+  }
+
+  .container {
+    padding: 0 15px;
+    width: 100%;
+  }
+
+    .main-content .content {
+    display: block;
+  }
+
+  .main-content .content .left-side {
+    width: 100%;
+  }
+
+  .main-content .content .left-side .info {
+    margin-top: 10px;
+  }
+
+  .main-content .content .left-side .info .info-left {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .main-content .content .left-side .info .info-right {
+    display: flex;
+    margin-top: -5px;
+  }
+
+  .main-content .content .left-side .info .info-right .icon-print {
+    padding-top: 5px;
+  }
+
+  .main-content .content .left-side .datdai .datdai-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .main-content .content .left-side .datdai .datdai-header h3{
+    font-size: 27px;
+  } 
+  
+  .main-content .content .left-side .datdai .datdai-header .right-header {
+    display: flex;
+    margin-top: -8px;
+  }
+
+  .main-content .content .left-side .datdai .datdai-header .right-header a {
+    font-size: 14px;
+  }
+
+  .main-content .content .left-side .datdai .datdai-header .right-header button {
+    height: 26px;
+    margin-left: 2px;
+  }
+
+  .main-content .content .left-side .datdai .datdai-content {
+    display: block;
+  }
+
+  .main-content
+    .content
+    .left-side
+    .datdai
+    .datdai-content
+    .datdai-left-content {
+    width: 100%;
+  }
+
+  .main-content
+    .content
+    .left-side
+    .datdai
+    .datdai-content
+    .datdai-right-content {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .main-content .content .right-side {
+    width: 100%;
+  }
+
+  .main-content .content .right-side .ads-img .img-ads {
+    width: 100%;
+  }
+
+  .main-content .content .right-side .intro-box h3::after,
+  .main-content .content .right-side .faq-box h3::after,
+  .main-content .content .right-side .faq-weekly h3::after,
+  .main-content .content .right-side .hot-topics .hot-topics-header::after {
+    width: 15%;
+  }
+
+  .main-content .content .right-side .intro-box {
+    margin-top: 10px;
+  }
+
+  .main-content .content .list-topics {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .main-content .content .list-topics .btn-topic{
+    flex-basis: 43%;
+    margin: 0 10px 10px 0;
+    text-align: center;
+  }
+
+  .main-content .content .list-topics .btn-topic:nth-child(2n){
+    margin: 0 0 10px 25px;
+  }
+
+  .main-content .content .left-side .comments .header-cmts {
+    height: 40px;
+    font-size: 12px;
+  }
 }

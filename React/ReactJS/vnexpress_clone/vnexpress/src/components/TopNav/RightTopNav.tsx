@@ -1,18 +1,19 @@
 const RightTopNav = () => {
+  const topNavLinks = ["Trang chủ ", "Giới thiệu ", "Liên hệ "];
+
   return (
     <ul className="right-side-nav">
-      <li className="nav-first-item">
-        <a href="">Trang chủ </a>
-      </li>
-      |
-      <li>
-        <a href="">Giới thiệu </a>
-      </li>
-      |
-      <li>
-        <a href="">Liên hệ </a>
-      </li>
-      |
+      {topNavLinks.map((link, id) =>
+        id === 0 ? (
+          <li className="nav-first-item">
+            <a href="/">{link}{" | "}</a>
+          </li>
+        ) : (
+          <li>
+              <a href="/">{link}{" | "}</a>
+          </li>
+        )
+      )}
       <li className="nav-last-item">
         <a href="">
           <i className="icon-search"></i>
@@ -20,6 +21,6 @@ const RightTopNav = () => {
       </li>
     </ul>
   );
-}
+};
 
-export default RightTopNav
+export default RightTopNav;
